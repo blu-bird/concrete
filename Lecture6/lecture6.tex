@@ -1,0 +1,243 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+%\usepackage{blubase}
+
+%%%%% Define your custom functions and macros here, if any
+\newcommand{\stirlingone}[2]{\genfrac[]{0pt}{1}{#1}{#2}}
+\newcommand{\stiri}[2]{\stirlingone{#1}{#2}}
+\newcommand{\dstirlingone}[2]{\genfrac[]{0pt}{0}{#1}{#2}}
+\newcommand{\dstiri}[2]{\dstirlingone{#1}{#2}}
+\newcommand{\stirlingtwo}[2]{\genfrac\{\}{0pt}{1}{#1}{#2}}
+\newcommand{\stirii}[2]{\stirlingtwo{#1}{#2}}
+\newcommand{\dstirlingtwo}[2]{\genfrac\{\}{0pt}{0}{#1}{#2}}
+\newcommand{\dstirii}[2]{\dstirlingtwo{#1}{#2}}
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Properties of the Stirling Numbers}
+\def\scribestring{Bryan Lu}
+\def\datestring{Thursday, February 14, 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Stirling Numbers of the Second Kind}
+Recall one of the problems from the first day involving putting labeled balls into labeled urns, with the condition that there is at least one ball in each urn (but for consistency, we will use $n$ nuggets and $k$ kettles). For $n$ nuggets and $k$ kettles, we partitioned the $n$ nuggets into $k$ sets in $S(n, k)$ ways, and then labeling the sets in $k!$ ways, giving a total of $k! \cdot S(n, k)$, where $S(n, k)$ is a \textit{Stirling number of the second kind}. 
+
+We can actually solve this problem in an alternative method is by using the Principle of Inclusion-Exclusion. We can first count the total number of ways we can place the nuggets into the kettles with no restrictions, and then remove the possibilities that have various numbers of empty kettles. Specifically, we subtract off the possibilities of placing $n$ nuggets into (at most) $k-1$ kettles, and then adding back possibilities of placing $n$ nuggets into $k-2$ kettles, as they have been subtracted off one extra time, etc. We can continue in this manner until we have added/subtracted back the possibility of $n$ nuggets into zero kettles, which concludes all the possible cases. 
+
+Let's construct a specific expression for each of these cases. Notice that if we limit ourselves to $j$ kettles to put the nuggets into, we only have $j$ options for each nugget, so we only have $j^n$ possibilities. We also have to account for the number of ways we can choose these kettles, which can be done in $\binom{k}{j}$ ways. \\
+This argument leads to the following equivalent expression for the number of ways we can place these nuggets in the kettles:  
+\[
+	k^n - \binom{k}{k-1}(k-1)^n + \binom{k}{k-2}(k-2)^n - \ldots + (-1)^k \binom{k}{0} 0^n = k! S(n, k)
+\]
+or more compactly, 
+\[
+	\sum_{j=0}^k (-1)^{k-j} \binom{k}{j} j^n = k! S(n, k). 
+\]
+This gives us the following closed form for the Stirling numbers of the second kind: 
+\[
+	S(n, k) = \frac{1}{k!} \sum_{j=0}^k (-1)^{k-j} \binom{k}{j} j^n 
+\]
+\section{Stirling Numbers of the First Kind}
+With this (or the recurrence relation from last class) we can fill in the following table of Stirling numbers of the second kind (with blank entries taken to be 0). Notice how we can run the recurrence relation backwards to get the entries in the top left: 
+\begin{center}
+\begin{tabular}{c | c c c c c c c c c c c c c c c }
+$n$, $k$& -7 & -6 & -5 & -4 & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+-7 & 1 & & & & & & & & & & & & &  & \\ 
+-6 & 21 & 1 & & & & & & & & & & & &  & \\
+-5 & 175 & 15 & 1 & & & & & & & & & &  & & \\
+-4 & 735 & 85 & 10 & 1 & & & & & & & & & & &  \\
+-3 & 1624 & 225 & 35 & 6 & 1 & & & & & & & & & & \\
+-2 & 1764 & 274 & 50 & 11 & 3 & 1 & & & & & & & & &  \\
+-1 & 720 & 120 & 24 & 6 & 2 & 1 & 1 & & & & & & & &  \\
+0 & & & & & & & & 1 & & & & & & &  \\ 
+1 & & & & & & & & & 1 & & & & & &  \\
+2 & & & & & & & & & 1 & 1 & & & & &  \\
+3 & & & & & & & & & 1 & 3 & 1 & & & &  \\
+4 & & & & & & & & & 1 & 7 & 6 & 1 & & & \\
+5 & & & & & & & & & 1 & 15 & 25 & 10 & 1 & &\\
+6 & & & & & & & & & 1 & 31 & 90 & 65 & 15 & 1 & \\
+7 & & & & & & & & & 1 & 63 & 301 & 350 & 140 & 21 & 1 \\
+\end{tabular}
+\end{center}
+
+The numbers in the upper triangle are the \textbf{unsigned Stirling numbers of the first kind}, denoted $\stiri{n}{k}$. Some authors may or may not multiply these numbers in the top left triangle by $(-1)^{n+k}$, giving the \textbf{signed Stirling numbers of the first kind} $s(n, k)$. We will use the following theorem (that we will prove later) as a "definition" for the unsigned Stirling numbers of the first kind:
+\begin{theorem}[Stirling Numbers of the First Kind]
+For $n, k \in \Z$, we have:
+$$\dstiri{n}{k} = \dstirii{-k}{-n} $$
+\end{theorem}
+This follows straight from the table that we developed, but we will develop these numbers more rigorously from a recursion relation and then prove this identity later. For now, we will investigate some interesting properties relating the Stirling numbers of the first and second kinds. 
+
+To begin, consider the expansions of the falling factorials: 
+\begin{align*}
+	\ff{x}{1} &= 1x \\
+	\ff{x}{2} &= x(x-1) = 1x^2 - 1x\\
+	\ff{x}{3} &= x(x-1)(x-2) = 1x^3 - 3x^2 + 2x \\
+	\ff{x}{4} &= x(x-1)(x-2)(x-3) = 1x^4 - 6x^3 + 11x^2 - 6x \\
+	\vdots 
+\end{align*}
+Notice that the coefficients of the polynomials are the (signed) Stirling numbers of the first kind! To be explicit, $(-1)^{n+k}\stirlingone{n}{k}$ or $s(n, k)$ is the coefficient of the $x^{k}$ term in the expansion of the falling factorial. 
+We can also express polynomial terms $x^n$ in terms of the falling factorials:
+\begin{align*}
+	x &= 1 \ff{x}{1} \\
+	x^2 &= 1 \ff{x}{2} + 1 \ff{x}{1} \\
+	x^3 &= 1 \ff{x}{3} + 3 \ff{x}{2} + 1 \ff{x}{1} \\
+	x^4 &= 1 \ff{x}{4} + 6 \ff{x}{3} + 7 \ff{x}{2} + 1 \ff{x}{1} \\
+	\vdots
+\end{align*}
+From this we see that the coefficient of $\ff{x}{k}$ in the falling-factorial expansion of $x^n$ is $S(n, k)$.
+
+On a seemingly unrelated note, we can consider lower triangular $n\times n$ matrices built from these numbers, $S_1(n)$ and $S_2(n)$, such that for each entry in these matrices, $S_1(n)_{ij} = s(i, j)$ and $S_2(n)_{ij} = S(i, j)$. Below are $S_1(4)$ and $S_2(4)$: 
+\[
+	S_1(4) = \begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		-1 & 1 & 0 & 0 \\
+		2 & -3 & 1 & 0 \\
+		-6 & 11 & -6 & 1
+	\end{bmatrix}	\quad 
+	S_2(4) = \begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		1 & 1 & 0 & 0 \\
+		1 & 3 & 1 & 0 \\
+		1 & 7 & 6 & 1
+	\end{bmatrix}	
+\]
+Consider what happens when we take $S_1(4)S_2(4)$: 
+\[
+\begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		-1 & 1 & 0 & 0 \\
+		2 & -3 & 1 & 0 \\
+		-6 & 11 & -6 & 1
+	\end{bmatrix}	
+	\begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		1 & 1 & 0 & 0 \\
+		1 & 3 & 1 & 0 \\
+		1 & 7 & 6 & 1
+	\end{bmatrix}	=
+	\begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 \\
+		0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} = I_4
+\]
+In general, the matrices $S_1(n)$ and $S_2(n)$ multiply to $I_n$, meaning that $S_1(n)$ and $S_2(n)$ are inverses of each other. 
+
+What do these two facts have to do with each other? At a deeper level, the Stirling numbers are the coefficients of the coordinate transformations between the basis of polynomial terms and basis of falling factorials. That is, we can use the Stirling numbers of the first kind to transform "polynomials" expressed in terms of the falling factorials into polynomials in the normal sense, and similarly we can use the Stirling numbers of the second kind to transform polynomials into corresponding "polynomials" in terms of falling factorials. The matrix discussion above reflects this property of the Stirling numbers - the triangular matrices $S_1(n)$ and $S_2(n)$ being inverses is no coincidence, as it shows how these transformations are inverses of each other. 
+
+This discussion gives us three identities involving $S$ and $s$: 
+\begin{enumerate}
+	\item \[ x^n = \sum_{k=1}^{n} \stirii{n}{k} \ff{x}{k} \] %binom not.
+	\item \[ \ff{x}{n} = \sum_{k=1}^{n} (-1)^{n+k} \stiri{n}{k} x^k \] %binom not
+	\item \[ \sum_{k=1}^{\max(n, m)} S(n, k) s(k, m) = \delta_{mn} \].
+\end{enumerate}
+where $\delta_{mn}$ is the \textit{Kronecker delta}, defined as follows: 
+\[
+	\delta_{mn} = \begin{cases}
+		0 & m \neq n \\
+		1 & m = n
+	\end{cases}
+\]
+
+
+\section{Combinatorics of the Stirling Numbers}
+Let's look back at our recurrence relation for the Stirling numbers of the second kind: 
+\[
+	\dstirii{n}{k} = \dstirii{n-1}{k-1} + k \dstirii{n-1}{k}
+\]
+Note the similarity between this and the other two recurrence relations we have seen thus far for permutations and combinations: 
+\begin{align*}
+	\text{Permutations: } P(n, k) &= k P(n-1, k-1) + P(n-1, k) \\
+	\text{Combinations: } \binom{n}{k} &= \binom{n-1}{k-1} + \binom{n-1}{k} 
+\end{align*}
+Let us construct another recurrence relation in a similar form to $f(n, k) = af(n-1, k-1) + b(n-1, k)$, and see what the function counts. Consider the recurrence relation 
+\[
+	f(n, k) = f(n-1, k-1) + (n-1) f(n-1, k).
+\]
+\begin{proposition}{1}
+The number of ways $f(n, k)$ that a set of $n$ elements be arranged into $k$ cyclic permutations follows the above recurrence relation. 
+\end{proposition}
+
+\begin{proof}
+	Suppose we attempt to add an $n$th element to some set of cyclic permutations of $n-1$ elements. If this element forms its own cyclic permutation, this can be accomplished if the other elements are divided in $f(n-1, k-1)$ ways into these cyclic permutations. Otherwise, the $n$th element must go into an already-existing cyclic permutation, and we can arrange the $n-1$ elements into $k$ cyclic permutations in $f(n-1, k)$ ways. We can insert the $n$th element directly after any of the existing $n-1$ elements in their cyclic permutations, for a total of $(n-1)f(n-1, k-1)$ ways. Since we are counting the same quantity, we must have $f(n-1, k-1) + (n-1)f(n-1, k) = f(n, k)$. 
+\end{proof}
+
+\begin{remark}[]
+We can write a permutation $\pi$ in the following way (for 7 elements, for example) 
+\[
+	(14) (256) (37)
+\]
+where $(256)$ denotes a cyclic permutation that sends $2$ to $5$, $5$ to $6$, and $6$ to $2$. Similarly, we can see this permutation swaps $1$ and $4$, etc. In general, the following is true regarding \textbf{any} permutation: 
+\begin{theorem}
+	Any permutation can be written as a product of cyclic permutations. 
+\end{theorem}
+We will not prove this rigorously, but we can sketch out a constructive proof by considering a permutation $\pi$ of the set $\{ 1, 2, 3, \ldots n \}$ as a one-to-one mapping of this set of $n$ elements to itself. We can construct the cyclic permutations that comprise this permutation by "following the mapping for each element." To be clear, we can begin by considering $\pi(1) = c$, and then look for $\pi(c)$, etc. and at every step, we find the element that the previous element we found maps to. If this ever maps back to $1$, we have a cyclic permutation - and if there are elements in the permutation that we haven't visited, we can repeat the process on the remaining elements starting at the lowest unvisited element. This is by no means a rigorous proof of the result, but it should give you an intuitive feel for why this is true. 
+\end{remark}
+We can now construct a few easy base cases for the function $f$: 
+\begin{align*}
+f(1, 1) &= 1 \\
+f(n, 1) &= (n-1)!
+\end{align*}
+The last is a problem that we've already encountered before, and the first is pretty easy to see. Here is a table of small values of $f(n, k)$: 
+\begin{center}
+\begin{tabular}{c | c c c c c}
+$n, k$ & 1 & 2 & 3 & 4 & 5 \\ \hline 
+1 & 1 & & & & \\
+2 & 1 & 1 & & &  \\
+3 & 2 & 3 & 1 & &  \\
+4 & 6 & 11 & 6 & 1 & \\
+5 & 24 & 50 & 35 & 10 & 1 \\
+\end{tabular}
+\end{center}
+Notice that $f(n, k)$ are the Stirling numbers of the first kind! In particular, this means that the Stirling numbers of the first kind count the number of ways a set of $n$ elements can be arranged into $k$ cyclic permutations. 
+
+Armed with this recursive definition (and the ability to run it backwards in a similar fashion), we can now show the theorem that we took to be as a definition, that is, $\stiri{n}{k} = \stirii{-k}{-n}$: 
+\begin{proof}
+The statement is true whenever $k = 0$ or $n = 0$ - it can be easily shown that these are all $0$, except when both are, in which case $\stiri{0}{0} = \stirii{0}{0} = 1$. Note that if we assume the statement is true for all $\stiri{x}{y}$ such that $0 \leq x < n$ (employing the principle of strong induction), we have:
+\begin{align*}
+\dstiri{n}{k} &= \dstiri{n-1}{k-1} + (n-1) \dstiri{n-1}{k} \\
+&= \dstirii{1-k}{1-n} + (n-1) \dstirii{-k}{1-n} \\
+&= \dstirii{-k}{-n} + (1-n) \dstirii{-k}{1-n} + (n-1) \dstirii{-k}{1-n} = \dstirii{-k}{-n}
+\end{align*}
+where the last step follows from the recurrence relation for the Stirling numbers of the second kind. With a similar argument for the negative integers, by induction, the statement is therefore true for all $n, k \in \Z$. 
+\end{proof} 
+
+With the remark above, we can also show the identity: 
+\[
+	\sum_{k=0}^n \dstiri{n}{k} = n! 
+\]	
+
+\begin{proof}
+	The left hand side is adding up all the possible ways we can split a set of $n$ elements into $k$ cyclic permutations. From the remark, since every permutation can be written as one and only one product of some number of cyclic permutations from $0$ to $n$, we have that this sum must be equal to the total number of permutations of $n$ elements, or $n!$. 
+\end{proof}
+
+
+
+\end{document}

@@ -1,0 +1,74 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{A Small Theorem}
+\begin{theorem}
+Any permutation can be written as a product of transpositions.
+\end{theorem}
+
+Here are some examples: 
+\begin{center}
+\begin{tabular}{c | c}
+$\pi$ & Product of Transpositions \\ \hline 
+(123)(45) & (12)(13)(45) \\
+(1234) & (12)(13)(14) \\
+(13)(425)(67) & (13)(42)(45)(67) \\
+(12345) & (12)(13)(14)(15) \\
+\end{tabular}
+\end{center}
+
+From here, we can obtain the \textit{sign} of a permutation by the parity of the number of transpositions - if there are an even number of transpositions required, they are considered even and positive, and vice versa. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

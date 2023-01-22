@@ -1,0 +1,83 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Triangulation}
+\begin{problem}{1}
+How many triangulations are there of a labeled hexagon? 
+\end{problem}
+Note for a square, there are two  (one that is just rotated):  
+% insert diagram
+And for a pentagon, there are five - just one possible configuration that can be rotated: 
+% insert diagram
+\begin{proof}[Solution]
+% insert diagrams
+This gives a total of $\boxed{14}$ total triangulations. 
+\end{proof}
+\begin{proof}
+We can solve the more general case first. Let $T_n$ be the number of ways to triangulate an $n$-gon. Notice that if we draw a diagonal of the $n$-gon 
+
+\end{proof}
+
+\section{Laser Grid}
+\begin{problem}
+	Consider walking on the coordinate plane, but you are constrained to either walk over by one 
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}{2}
+	Consider walking on the coordinate plane, but you are constrained to either walk 
+\end{problem}
+
+\begin{solution}
+We will employ complementary counting by counting how many paths cross the line. The total number of paths (from the first problem) is known to be $\binom{2n}{n}$. 
+
+Now, define a \textit{bad path} to be one that crosses the axis. Note that any bad path must touch the line $y = -1$. We will reflect the part of the path from $(0, 0)$ to the first intersection with $y = -1$ over the line $y = -1$. Doing so yields a path from $(0, -2)$ to $(2n, 0)$ with no restrictions. 
+
+We now claim that all bad paths from $(0, -2)$, when flipped in this manner, will yield a bad path in the original problem. This path must cross the line $y = -1$ at least once. Notice that when we undo this reflection, the path will now start at $(0, 0)$, and is forced to touch the line $y = -1$, and this uniquely determines exactly one bad path. Therefore, it suffices to count the number of paths from $(0, -2)$ to 
+
+Finally, the number of good paths is $\binom{2n}{n} - \binom{2n}{n-1}$. This can be simplified to yield $\frac{1}{n+1} \binom{2n}{n}$, which is the $n$th Catalan number. 
+\end{solution}
+
+Remember also that we encountered these before in the binomial expansion of $(1-x)^\frac{1}{2}$! 
+
+
+
+\end{document}

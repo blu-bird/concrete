@@ -1,0 +1,122 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{amsfonts, amssymb, amsmath, enumitem}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Basic Operations on Generating Functions}
+\def\scribestring{Jongwan Kim and Jun Chong}
+\def\datestring{Tuesday, March 12, 2019}
+\def\multiset#1#2{\left(\!\!\left({#1\atopwithdelims..#2}\right)\!\!\right)}
+
+\newcommand{\stirlingii}[2]{\genfrac{\{}{\}}{0pt}{}{#1}{#2}}
+\newcommand{\stirlingi}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+\begin{section}{Practice with Generating Functions}
+Here's some practice turning sequences to generating functions:
+\begin{enumerate}[a]
+\item $\langle 1, 1, 1, 1 \ldots \rangle = \frac{1}{1-x}$
+\item $\langle 2, 2, 2, 2 \ldots \rangle = \frac{2}{1-x}$ by doubling above equation
+\item $\langle 1, -1, 1, -1 \ldots \rangle = \frac{1}{1+x}$ by noticing the alternation of signs, so we can substitute $-x$ for $x$
+\item $\langle 1, 0, 1, 0 \ldots \rangle = \frac{1}{1-x^2}$ by noticing we only want the even powers, so we can substitute $x^2$ for $x$
+\item $\langle 0, 1, 0, 1 \ldots \rangle = \frac{x}{1-x^2}$ by noticing we can multiply the solution the last problem by $x$ to shift the start of the sum.
+\item $\langle 1, 2, 4, 8 \ldots \rangle = \frac{1}{1-2x}$ by noticing we can get powers of $2$ by replacing $x$ with $2x$
+\item $\langle 1, \frac12, \frac16, \frac{1}{24}, \ldots \rangle = \frac{e^x - 1}{x}$ by noticing the similarity to the expansion of the exponential, but we have to shift it down by killing the first term and lowering the powers.
+\item $\langle 1, 2, 3, 4, \ldots \rangle = \frac{d}{dx}\frac{1}{1-x} = \frac{1}{(1-x)^2}$ because taking a derivative multiplies each term by its index.
+\item $\langle 2, 6, 12, 20, 30, \ldots \rangle = \frac{d^2}{dx^2}\frac{1}{1-x} = \frac{2}{(1-x)^3}$ by applying the above trick twice.
+\item $\langle 0, 1, 4, 9, 16, \ldots \rangle = ?$ \\
+Recall that 
+$$k^2 = 1(k+2)(k+1) - 3(k+1) + 1$$ where the coefficients are Stirling numbers of the second kind. However, we already have expressions for the generating functions for the falling factorials: 
+\begin{align*}
+    (k+2)(k+1) &\rightarrow \frac{d^2}{dx^2}\frac{1}{1-x} = \frac{2}{(1-x)^3} \\
+    (k+1) &\rightarrow \frac{d}{dx}\frac{1}{1-x} = \frac{1}{(1-x)^2} \\
+    1 &\rightarrow \frac{1}{1-x}
+\end{align*}
+This gives us our answer $\frac{2}{(1-x)^3} - \frac{3}{(1-x)^2} + \frac{1}{1-x} = \frac{x + x^2}{(1-x)^3}$
+\end{enumerate}
+\end{section}
+\begin{section}{Multiplication of Generating Functions}
+Let
+\begin{align*}
+    A(x) &= a_0 x^0 + a_1 x^1 + a_2 x^2 + \ldots = \sum_{i\geq 0} a_i x_i \\
+    B(x) &= b_0 x^0 + b_1 x^1 + b_2 x^2 + \ldots = \sum_{i\geq 0} b_i x_i
+\end{align*}
+Let $C(x) = A(x)\cdot B(x)$. What is it's corresponding sequence?\\
+We have to take the \emph{Cauchy product}.
+\begin{align*}
+    C(x) &= a_0b_0 + (a_0 b_1 + a_1 b_0)x + (a_0 b_2 + a_1 b_1 + a_2 b_0)x^2 \ldots \\
+    C_n &= \sum_{k=0}^n a_k b_{n-k}
+\end{align*}
+Consider the two functions
+\begin{align*}
+    A(x) &= \text{anything} \\
+    B(x) &= 1 + x + x^2 + x^3 + \ldots \\
+    C(x) = A(x) B(x) &= a_0 + (a_0 + a_1) x + \ldots = \sum_{i=0}^k a_i x^k
+\end{align*}
+Thus we arrive at the following identity:
+\begin{theorem}
+If $A(x)$ be the ordinary generating function for $\langle a_0, a_1, a_2 \ldots \rangle$. Then, $A(x)/(1-x)$ for $\langle a_0, a_0+a_1, a_0+a_1+a_2, \ldots \rangle$
+\end{theorem}
+Let us now consider $A(x) = B(x) = \frac{1}{1-x}$ Recall the following theorem:
+$$\sum \frac{1}{(1-x)^n} = \sum_{k=0}^\infty \multiset{n}{k}x^k$$
+\begin{align*}
+    C(x) &= \langle 1, 2, 3, 4, 5, \ldots \rangle \\
+    \frac{1}{(1-x)^2} &= \sum_{k=0}^\infty \multiset{2}{k} x^k \\
+    &= \sum {{k+1}\choose k} x^k \\
+    &= \sum (k+1) x^k
+\end{align*}
+Now let us consider $B(x)\cdot C(x)$
+\begin{align*}
+    \langle 1, 3, 6, \ldots \rangle &= \frac{1}{(1-x)^3} \\
+    &= \sum_{k=0}^\infty \multiset{3}{k}x^k \\
+    &= \sum_{k=0}^\infty {k + 2 \choose 2} x^k \\
+    &= \sum_{k=1}^\infty \frac{k(k+1)}{2} x^{k-1}
+\end{align*}
+This gives us the formula for the triangular numbers. We can go further and get the formula for the tetrahedral numbers.
+\begin{align*}
+    D(x) &= \frac{x}{(1-x)^3} = 0 + x + 3x^2 + 6x^3 + 10x^4 + \ldots = \sum_{k = 0}^{n}\frac{k(k+1)}{2}x^k \\
+    E(x) &= D(x)\cdot B(x) = \frac{x}{(1-x)^4} + x\cdot \sum_{k=0}^\infty \multiset{4}{k}x^k \\
+    &= \sum_{k=0}^\infty {{k+3}\choose 3} x^{k+1} = \sum_{k=1}^\infty \frac{k(k+1)(k+2)}{6}x^k
+\end{align*}
+Now it seems that, by extending this process of computing generating functions for hypertetrahedral numbers and equation coefficients. 
+$$\sum_{k=1}^n k^{\overline{m}} = \frac{n^{\overline{m+1}}}{m+1}$$
+This is the power rule for $k^{\overline{m}}$ (finite integrals).
+For instance, $1^{\overline{4}} + 2^{\overline{4}} + 3^{\overline{4}} + 4^{\overline{4}} + 5^{\overline{4}} + 6^{\overline{4}} = \frac{6^{\overline{5}}}{5}$.
+\begin{problem}{1}
+Find $\sum_{i=1}^n i^2$
+\end{problem}
+\begin{solution}
+We can write $i^2 = i^{\overline{2}} - i^{\overline{1}}$, and we also know
+$\sum_{i=1}^n i^{\overline{1}} = \frac{n(n+1)}{2}$ and $\sum_{i=1}^n i^{\overline{2}} = \frac{n(n+1)(n+2)}{3}$, so we can subtract and simplify, getting $\frac{n(n+1)(2n+1)}{6}$.
+\end{solution} \\
+\\
+\begin{solution}
+Start by expanding the rising factorial in terms of power.
+$$\sum i^3 = \sum i^{\overline{3}} - 3\sum i^2 - 2\sum i = \frac{n^{\overline{4}}}{4} - \frac{n(n+1)(2n+1)}{2} - n(n+1)$$
+\end{solution}
+
+\end{section}
+\end{document}

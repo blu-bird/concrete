@@ -1,0 +1,155 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Properties of $n!$}
+\def\scribestring{Your Name}
+\def\datestring{February 21, 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Stirling's Approximation to $n$!}
+\begin{theorem}[Stirling's Approximation]
+\[
+\lim_{n\to \infty} \frac{n!}{\left(\frac{n}{e} \right)^n \sqrt{2\pi n}} = 1
+\]
+\end{theorem}
+This denominator, $\left(\frac{n}{e} \right)^n \sqrt{2\pi n}$, is \textbf{Stirling's approximation} for $n$! - we can write this as $n! \sim \left(\frac{n}{e} \right)^n \sqrt{2\pi n}$.  
+
+We will show something similar - we will show that $n! = \left( \frac{n}{e} \right)^n \delta \sqrt{n}$, where $\delta \cong \sqrt{2\pi}$. In order to do this, we will instead use $\log(n!) = \sum_{k=1}^n \log k$ to handle the factorial. 
+
+\begin{proof}[Proof (sort of):]
+Consider the function $y = \ln x$, and we will find 2 Riemann-style approximations to $\int_1^n \ln x \, dx$. We will do this by looking at the graph of $y = \ln x$: 
+% insert graph 
+
+Our first approximation is using the Trapezoid Rule, with bases at the integers from $1$ to $n$. The area of the trapezoids is 
+\[
+\frac{1}{2} \sum_{k=1}^{n-1} (\ln i + \ln i+1)
+\]
+which can be expressed as 
+\[
+\frac{1}{2} \ln 1 + \sum_{k=2}^{n-1} (\ln k + \ln (k+1)) + \frac{1}{2} \ln n = \ln n! - \frac{1}{2} \ln n. 
+\] 
+This is an underestimate of the area, as all of these trapezoids lie beneath the curve. 
+
+Our second approximation is also using the Trapezoid rule, but we will construct the bases at the half-integers, so the midpoint of the line connecting the ends of the bases are tangent to the curve. (This is with the exception of a rectangle with height $\ln n$ at the end.) This can be evaluated by the sum 
+\[
+	\sum_{k=2}^{n-1} \ln k + \frac{1}{2} \ln n = \ln n! - \frac{1}{2} \ln n
+\]
+which is exactly the same approximation. Note that this area is the same as before, but it's an overapproximation for the integral from $\frac{3}{2}$ to $n$, instead of $1$ to $n$. This actually gives us: 
+\[
+	\int_1^n \ln x \, dx > \ln n! - \frac{1}{2} \ln n > \int_{\frac{3}{2}}^n \ln x \, dx 
+\]
+This gives us the bounds on $\ln n!$: 
+\[
+\int_1^n \ln x \, dx + \frac{1}{2} \ln n > \ln n! > \int_{\frac{3}{2}}^n \ln x \, dx + \frac{1}{2} \ln n
+\]
+Now we compute the integrals (by computing $\int \ln x \, dx$): 
+\[
+n \ln n - n - (1 \ln 1 - 1) + \frac{1}{2} \ln n > \ln n! > n \ln n - n - \left(\frac{3}{2} \ln \frac{3}{2} - \frac{3}{2} \right) + \frac{1}{2} \ln n
+\]
+If we simplify both sides: 
+\[
+\left(n + \frac{1}{2} \right)\ln n - n + 1 > \ln n! > \left( n + \frac{1}{2} \right) \ln n - n - \frac{3}{2} \left( \ln \frac{3}{2} - 1 \right) 
+\]
+Notice these expressions are almost the same thing, except for the constant term. We can therefore write 
+\[
+	\ln n! = \left(n + \frac{1}{2} \right)\ln n - n + \delta_n
+\]
+where $\frac{3}{2} \left( 1 - \ln \frac{3}{2} \right) < \delta_n < 1$. These numerical values give $0.891802 < \delta < 1$. With this, we can now find bounds on $n!$: 
+\[
+	n! = n^n \sqrt{n} e^{-n} e^\delta = \left( \frac{n}{e} \right)^n \sqrt{n} e^{\delta}
+\]
+where $e^\delta \in [2.439, 2.718]$. The actual value we are missing, $\sqrt{2\pi}$, has a value of $2.50663$, which is a pretty good approximation. 
+\end{proof}
+\begin{problem}{1}
+	With Stirling's Approximation, approximate $C_n$. 
+\end{problem}
+\begin{proof}[Solution:]
+\[
+	C_n = \frac{1}{n+1} \frac{(2n)!}{(n!)^2} = \frac{1}{n+1} \frac{\left(\frac{2n}{e} \right)^{2n} \sqrt{2n} \sqrt{2\pi}}{\left(\frac{n}{e} \right)^{2n} 2\pi n} = \frac{4^{n}}{\sqrt{\pi n}(n+1)}
+\]
+\end{proof}
+As a general rule for asymptotic expansions, we will stick to 
+\[
+	\ln! = n \ln n - n
+\]
+which is good enough for our purposes. 
+
+\section{Gamma Function}
+\begin{definition} We define the \textbf{Gamma function} $\Gamma(z)$ such that
+\[\Gamma(z+1) = \int_0^\infty x^z e^{-x} \, dx \]
+\end{definition}
+Let's just integrate this by parts: 
+\begin{align*}
+\int_0^\infty x^z e^{-x} \, dx &= -x^ze^{-x}\Big|_0^\infty + \int_0^\infty ze^{-x}x^{z-1} \, dx \\
+&= z \int_0^\infty e^{-x}x^{z-1} \, dx = z \Gamma(z)
+\end{align*}
+Therefore, we have the multiplicative recursive property 
+\[
+	Gamma(z+1) = z Gamma(z)
+\]
+We have to establish a base case first - let's compute $\Gamma(1)$: 
+\[
+	\Gamma(1) = \int_0^\infty x^0 e^{-x} \, dx = \int_0^\infty e^{-x} \, dx = 1 
+\]
+This gives us the following: 
+\begin{align*}
+	\Gamma(1) &= 1 \\
+	\Gamma(2) &= 1 \\
+	\Gamma(3) &= 2 \\
+	\Gamma(4) &= 6 \\
+	\Gamma(5) &= 24 \\
+	\vdots
+\end{align*}
+From this we see that $\Gamma(n+1) = n!$ for $n \in \ZZ$. However, we can feasibly extend the definition of the factorial to all real numbers with this function 
+
+With this in mind, compute $\Gamma(\tfrac{1}{2})$. 
+\begin{align*}
+	\Gamma(\tfrac{1}{2}) &= \int_0^\infty x^{-\tfrac{1}{2}} e^{-x} \, dx \\
+	&= \int_0^\infty \frac{e^{-x}}{\sqrt{x}} \, dx \\
+	&= \int_0^\infty \frac{e^{-u^2}}{u} \, 2u \, du \\
+	&= 2 \int_0^\infty e^{-u^2} \, du
+\end{align*}
+This lass integral is called the \textit{Gaussian Integral}, which does not have an elementary antiderivative, but has nice definite integrals. Let's call this particular integral $K$.
+Then we consider $K^2$: 
+\begin{align*}
+K^2 &= \int_0^\infty e^{-u^2} \, du \int_0^\infty e^{-v^2} \, dv \\
+&= \int_0^\infty \int_0^\infty e^{-u^2} \, du  e^{-v^2} \, dv \\
+&= \int_0^{\frac{\pi}{2}} \, d\theta \int_0^\infty r\, dr \, e^{-r^2} \\
+&= \frac{\pi}{2} \left(-\frac{1}{2} e^{-r^2} \right)\Big|_0^\infty = \frac{\pi}{4}
+\end{align*}
+Therefore, we have $K = \frac{\sqrt{\pi}}{2}$ and therefore $\Gamma(\tfrac{1}{2}) = \sqrt{\pi}$. 
+	
+
+
+
+\end{document}

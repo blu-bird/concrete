@@ -1,0 +1,208 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Application of Generating Functions}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{From the Review: Stirling}
+\begin{problem}{1}
+	Prove 
+	\[
+		\sum_{j=0}^n \stirii{n}{k} \stiri{n}{k} = \delta_{nk}
+	\]
+\end{problem}
+\begin{proof}
+We will prove this using coordinate transformations from the polynomial basis to the falling factorials, and vice versa. Note that:
+\[
+	x^n = \sum_{j=0}^n \stirii{n}{k} \ffact{x}{j}
+\]
+and 
+\[
+	\ffact{x}{j} = \sum_{k=0}^j \stiri{j}{k} x^k 
+\]
+Note that we can allow this last sum to go from $0$ to $n$, which is fine because we are only adding zeros. This gives us: 
+\[
+	x^n = \sum_{j=0}^n \stirii{n}{k}\sum_{k=0}^n \stiri{j}{k} x^k 
+\]
+Interchanging the sums freely, we can see that: 
+\[
+	x^n = \sum_{k=0}^n \sum_{j=0}^n \stirii{n}{k} \stiri{j}{k} x^k 
+\]
+Notice that we \textbf{must} have that $x^k = x^n$ for the internal sum coefficient to be non-zero - otherwise, the sum is always zero. Therefore, we must have that: 
+\[
+	\sum_{j=0}^n \stirii{n}{k} \stiri{j}{k}  = \delta_{nk}
+\]
+\end{proof}
+
+\section{Applications of Generating Functions}
+\begin{problem}{2}
+A food-counting problem - what is the number of ways to fill a bag with $n$ pieces of fruit given:
+\begin{itemize}
+\item The number of apples is even. 
+\item The number of bananas is a multiple of 5.
+\item The number of oranges is $\leq$ 4. 
+\item The number of pears is $\leq$ 1. 
+\end{itemize}
+\end{problem}
+
+\begin{solution}
+We will solve this with a generating function. Notice that we can express each of these conditions into a generating function: 
+\[
+	(1 + x^2 + x^4 + \ldots ) (1 + x^5 + x^10 + \ldots ) (1+x+x^2+x^3+x^4)(1+x)
+\]
+Notice that we can manipulate these as follows: 
+\[
+	= \frac{1}{1-x^2} \frac{1}{1-x^5} \frac{1-x^5}{1-x} (1+x) = \frac{1}{(1-x)^2}
+\]
+\end{solution}
+
+\begin{problem}
+	Find the number of ways to make change for a dollar (in pennies, nickels, dimes, quarters, or half-dollars). 
+\end{problem}
+\begin{solution}
+This is the coefficient of $x^{100}$ in 
+\[
+	= \frac{1}{(1-x)(1-x^5)(1-x^{10})(1-x^{25})(1-x^{50})}
+\]
+which happens to be 293. 
+\end{solution}
+\begin{problem}
+	Find the number of ways to make change for a dollar if we have access to any denomination. 
+\end{problem}
+\begin{solution}
+This gives us the generating function for integer partitions: 
+\[
+	g(x) = \frac{1}{(1-x)}\frac{1}{(1-x^2)}\frac{1}{(1-x^3)} \ldots = \Pi_{k>0} \frac{1}{1-x^k} = \sum_{r>0} P(r) x^r
+\]
+where $P(r)$ is the number of integer partitions of $r$. This does not have a particularly pretty closed form. 
+\end{solution}
+
+\begin{theorem}
+The number of partitions of $n$ into distinct parts (using every number exactly once) is equal to the number of partitions of $n$ into odd parts (using only numbers that are odd). 
+\end{theorem}
+
+\begin{proof}
+We will do this using generating functions. The generating function to partition a number into odd numbers is: 
+\[
+	\frac{1}{1-x} \frac{1}{1-x^3} \frac{1}{1-x^5} \frac{1}{1-x^7} \cdots
+\]
+The generating function for the number of ways to partition a number into distinct numbers is: 
+\[
+	(1+x)(1+x^2)(1+x^3)(1+x^4) \cdots 
+\]
+If we manipulate the second generating function as follows: 
+\[
+ = \frac{1-x^2}{1-x} \frac{1-x^4}{1-x^2} \frac{1-x^6}{1-x^3} \frac{1-x^8}{1-x^4} \cdots 
+\] 
+we will see that all the terms of the form $(1-x^k)$ where $k$ is even will cancel with the similar terms in the denominator, yielding the desired. 
+
+\end{proof}
+
+\section{Solving Recurrence Relations}
+We will apply generating functions to find explicit formulae for recurrence relations. 
+\begin{problem}
+	Given the recurrence relation $a_n = a_{n-1} + 8a_{n-2} - 12a_{n-3}$, and the terms $a_0 = 2, a_1 = 3, a_2 = 19$, find an explicit formula for $a_n$ and a generating function for the sequence. 
+\end{problem}
+\begin{solution}
+We will first construct the generating function: 
+\[
+	g(x) = \sum_{n=0}^\infty  a_n x^n = 2 + 3x + 19x^2 + \sum_{n=3}^\infty a_n x^n 
+\]	
+Applying the recurrence relation: 
+\begin{align*}
+	g(x) &= 2 + 3x + 19x^2 + \sum_{n=3}^\infty (a_{n-1} + 8a_{n-2} - 12a_{n-3}) x^n \\
+	&= 2 + 3x + 19x^2 + x \sum_{n=3}^\infty a_{n-1}x^{n-1} + 8x^2 \sum_{n=3}^\infty a_{n-2}x^{n-2} - 12x^3\sum_{n=3}^\infty a_{n-3} x^{n-3} \\
+	&= 2 + 3x + 19x^2 + x \sum_{n=2}^\infty a_{n}x^{n} + 8x^2 \sum_{n=1}^\infty a_{n}x^{n} - 12x^3\sum_{n=0}^\infty a_{n} x^{n} \\
+	&= 2 + 3x + 19x^2 + x(g(x) - 2 - 3x) + 8x^2(g(x) - 2) + 12x^3 g(x) 
+\end{align*}
+This gives us, after some rearranging: 
+\[
+	g(x) = \frac{2+x}{1-x-8x+12x^3}
+\]
+We now have to do partial fractions to do this fully - breaking it down into \[
+	g(x) = \frac{A}{1+3x} + \frac{B}{1-2x} + \frac{C}{(1-2x)^2}
+\]
+Using cover-up, we obtain $A = \frac{3}{5}, B = \frac{2}{5}, C = 1$. When we plug this in and expand using series: 
+\begin{align*}
+	g(x) &= \frac{\frac{3}{5}}{1+3x} + \frac{\frac{2}{5}}{1-2x} + \frac{1}{(1-2x)^2}\\
+	&= \frac{3}{5} \sum_{n=0}^\infty (-3x)^n  + \frac{2}{5} \sum_{n=0}^\infty (2x)^n + \sum_{n=0}^\infty \snb{2}{n} (2x)^n\\
+	&= \frac{3}{5} \sum_{n=0}^\infty (-3x)^n  + \frac{2}{5} \sum_{n=0}^\infty (2x)^n + \sum_{n=0}^\infty (n+1) (2x)^n
+\end{align*}
+We can now just read out the explicit formula: 
+\[
+	a_n = \frac{3}{5}(-3)^n  + \frac{2}{5}(2)^n + (n+1)(2)^n\\
+\]	
+	
+\end{solution}
+
+
+\begin{problem}
+	Find a generating function and explicit formula for the sequence $a_0 = 1, a_1 = 9, a_n = 6a_{n-1} - 9a_{n-2}$. 
+\end{problem}
+
+\begin{solution}
+We find the generating function first: 
+\begin{align*}
+	g(x) &= \sum_{n=0}^\infty a_n x^n \\
+	&= 1 + 9x + \sum_{n=2}^\infty (6a_{n-1} - 9a_{n-2}) x^n \\
+	&= \frac{1+3x}{1-6x+9x^2} \\
+	&= \frac{-1}{1-3x} + \frac{2}{(1-3x)^2}
+\end{align*}
+This directly gives us the explicit formula \[
+	a_n = -3^n + 2(n+1) 3^n = (2n+1)3^n 
+\]
+\end{solution}
+
+\begin{problem}
+	Find a generating function and explicit formula for the sequence $a_0 = 0, a_1 = 6, a_n = -3a_{n-1} + 10a_{n-2} + 3\cdot 2^n $. 
+\end{problem}
+
+\begin{solution}
+Again, we find the generating function: 
+\begin{align*}
+	g(x) &= \sum_{n=0}^\infty a_n x^n \\
+	&= 0 + 6x + \sum_{n=2}^\infty (-3a_{n-1} + 10a_{n-2} + 3\cdot 2^n) x^n \\
+	&= 6x -3x g(x) + 10x^2 g(x) + \frac{3}{1-2x} - 3 - 6x \\
+	&= \frac{6x}{(1-2x)^2(1+5x)}\\
+	&= \frac{-\frac{12}{49}}{1-2x} + \frac{\frac{6}{7}}{(1-2x)^2} + \frac{-\frac{30}{49}}{1+5x}
+\end{align*}
+
+In the end, we have:
+\[
+	a_n = -\frac{12}{49} 2^n + \frac{6}{7}(n+1)2^n -\frac{30}{49} (-5)^n 
+\]
+
+\end{solution}
+\end{document}

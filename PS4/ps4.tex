@@ -1,0 +1,224 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[margin=1in]{geometry} 
+\usepackage{blubase}
+\usepackage[inline]{enumitem}
+\usepackage{fancyhdr}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{solution}
+    {\emph{Solution:}
+    }
+    {
+    \qedhere
+    }
+
+\lhead{Bryan Lu} 
+\rhead{Concrete Math - Spring 2019 \\ Problem Set 4} %replace XYZ with the homework course number, semester (e.g. ``Spring 2019"), and assignment number.
+\pagestyle{plain}
+
+\begin{document}
+\thispagestyle{fancy}
+
+\begin{problem}{1} 
+The six faces of a cube are to be painted with two colors, red and green, in such a way that exactly three of the faces are painted red. In how many ways may this be done? 
+
+\end{problem}
+
+\begin{solution}
+Without loss of generality, fix the top face as red. We now essentially have two options - we may either color in the remaining two faces on the four sides of the cube, or color the bottom face of the cube and a side of the cube. 
+
+\textbf{Case 1:} Suppose we color in the bottom face of the cube. The last face colored in must be on one of the four sides of the cube, and all of these different possibilities are rotationally equivalent to each other. This entire case thus gives exactly one unique coloring. 
+
+\textbf{Case 2:} Suppose we color in two faces on the sides of the cube. These faces may be opposite one another, in which case this is actually equivalent to Case 1 as we can rotate the cube in such a way so that the top face is now a side of the cube and the opposite faces are the top and bottom. The only unique case generated here is if we choose two consecutive faces on the cube, which contributes one other unique coloring. 
+
+This thus gives a total of $\boxed{2}$ unique colorings of the cube. 
+
+\end{solution}
+
+\begin{problem}{2} 
+The six faces of a cube are to be painted with four different colors, A, B, C, and D. In how many ways may the cube be painted with 2 faces colored A, 2 colored B, 1 colored C and 1 colored D? 
+
+\end{problem}
+
+\begin{solution}
+We first outline the rotation group of a cube of size 24 by the number of rotations that share the same geometry and similar cycle notation for the permutation. Denote the top, bottom, left, right, front, and back faces as $u, d, l, r, f, b$, respectively. 
+\begin{center}
+\begin{tabular}{m{5cm}| c | c}
+\centering Rotation Type & Cycle Notation & Number of Rotations \\ \hline 
+\centering Identity, $e$ & $(u)(d)(l)(r)(f)(b)$ & 1 \\ 
+\centering About Face (90$\dg$ CW or CCW), $x, \overline{x}$ & $(u)(lfrb)(d)$ & 6 \\
+\centering About Face (180$\dg$), $X$ & $(u)(lr)(fb)(d)$ & 3 \\
+\centering About Pair of Opposite Edges $s_i$ & $(ub)(lr)(fd)$ & 6 \\
+\centering About Space Diagonal $S_j$ & $(ufr)(lbd)$ & 8 \\
+\end{tabular}
+\end{center}
+
+Given this set of colors, the only types of rotations that could fix the coloring of the cube are the identity (that fixes all $\tbinom{6}{2, 2} = 180$ colorings) and the rotations about a face by $180\dg$, which only fix colorings that have $C$ and $D$ on the top and bottom and the $A$ and $B$ colored faces opposite each other - we can choose $C$ or $D$ on top and either $A$ or $B$ for the front-back faces, for a total of $3 \cdot 2 \cdot 2 = 12$ colorings. By Burnside's, we thus have
+\[
+	\frac{1}{24}(180 + 12) = \frac{192}{24} = \boxed{8}
+\]
+different colorings. 
+\end{solution}
+
+\begin{problem}{3} 
+A rod divided into six segments is to be colored with one or more of $n$ different colors. In how many ways may this be done? 
+
+\end{problem}
+
+\begin{solution}
+The permutation group of rotations of this rod contains two elements - the identity and the 180$\dg$ rotation of the rod. The identity fixes all $n^6$ possible colorings of the rod, and the $180\dg$ rotation fixes only $n^3$ colorings - after the leftmost three segments of the rod are colored, the remaining three are determined in order for the coloring to be fixed under this transformation. Thus, by Burnside's Lemma, the total number of colorings is $\boxed{\frac{n^6+n^3}{2}}$.
+\end{solution}
+
+\begin{problem}{4} 
+Find the number of $2 \times 4$ red and white patterns made up of three red squares and five white squares.  
+
+\end{problem}
+
+\begin{solution}
+The group of transformations acting on this grid is the same as the symmetry group of a non-square rectangle - that is, the identity, a 180$\dg$ rotation, a reflection about a vertical axis, and a reflection about a horizontal axis. In total, there are $\tbinom{8}{3} = 56$ colorings, all of which are fixed by the identity. No other colorings are fixed by any other elements of the permutation group, as there is an odd number of red squares. Thus, by Burnside's Lemma, there are $\frac{56}{4} = \boxed{14}$ distinct patterns up to these symmetries. 
+
+\end{solution}
+
+\begin{problem}{5} 
+A circle is divided into 8 identical sectors. In how many ways may the sectors be painted with three colors? 
+
+\end{problem}
+
+\begin{solution}
+The dihedral group $D_8$ consists of all possible rotations/reflections that can act on this circle. Denote the identity of this group $e$, the rotations $r_1, r_2, \ldots r_6, r_7$ ($r_i$ denoting a rotation by $45i\dg$) and the various reflections as $R_1, R_2, \ldots R_7, R_8$. 
+
+We now consider the number of colorings each of these group elements fixes. Clearly, $e$ fixes all $3^8$ possible colorings of the circle. The rotations $r_i$ with $i$ odd only leave the coloring fixed if all sectors are the same color, which can be done in 3 ways. The colorings that the rotations $r_2, r_6$ will leave fixed are given by picking the colors of two consecutive sectors in $3^2 = 9$ ways. Finally, the colorings that the rotation $r_4$ will leave fixed are given by choosing the colors for half the circle, giving 81 distinct colorings.
+
+The reflections are simpler to account for - four of the rotations have axes that pass through sectors, and four have axes that pass between sectors. Reflections with axes passing through sectors have five degrees of freedom - the two sectors that the axis passes through, and one for each sector completely on one side of the line, for a total of 243 colorings. The other four reflections fix 81 colorings, given by an arbitrary choice of half of the circle's colors. 
+
+This can be summarized in the following table: 
+\begin{center}
+\begin{tabular}{c | c | c | c }
+Group Element $\pi$ & Colorings Fixed & Group Element $\pi$ & Colorings Fixed \\ \hline 
+$e$ & $3^8$ & $R_1$ & 243 \\ 
+$r_1$ & $3$ & $R_2$ & 81 \\ 
+$r_2$ & $9$ & $R_3$ & 243 \\ 
+$r_3$ & $3$ & $R_4$ & 81 \\ 
+$r_4$ & $81$ & $R_5$ & 243 \\ 
+$r_5$ & $3$ & $R_6$ & 81 \\ 
+$r_6$ & $9$ & $R_7$ & 243 \\ 
+$r_7$ & $3$ & $R_8$ & 81 \\ \hline 
+
+\end{tabular}
+\end{center}
+
+This gives a total of 
+\[
+	\frac{1}{16}(3^8 + 3 \cdot 4 + 9 \cdot 2 + 81 \cdot 5 + 243 \cdot 4) = \frac{1}{16}(6561 + 12 + 18 + 405 + 972) = \frac{7968}{16} = \boxed{498}
+\]
+different colorings. 
+\end{solution}
+
+\begin{problem}{6} 
+Determine the group of rotational symmetries of (the faces of) a regular tetrahedron. Write the permutations in cycle notation, organized by type/geometry. 
+
+\end{problem}
+
+\begin{solution}
+We categorize the rotational symmetries of a tetrahedron by considering about what axis the rotations are being done. Let the vertices be $A, B, C, D$, and the faces labeled $a, b, c, d$, such that $a$ is opposite vertex $A$, etc.  
+\begin{center}
+\begin{tabular}{m{5cm}| c | c}
+\centering Rotation Type & Cycle Notation & Number of Rotations \\ \hline 
+\centering Identity $e$ & $(a)(b)(c)(d)$ & 1 \\ 
+\centering About Vertex $X$, Clockwise/Counterclockwise $x, \overline{x}$ & $(a)(bcd)$ & 8 \\
+\centering About Pair of Opposing Skew Edges $s_i$ & $(ab)(cd)$ & 3 \\
+\end{tabular}
+\end{center}
+In total, this group has size 12.
+\end{solution}
+
+\begin{problem}{7} 
+Determine the number of unique ways to color the faces of a tetrahedron with $n$ colors. 
+
+\end{problem}
+
+\begin{solution}
+We apply Burnside's Lemma to the group in the previous problem, condensing the cases to only the different types of rotation: 
+\begin{center}
+\begin{tabular}{m{5cm}| c | c}
+\centering Rotation Type & Number of Rotations & Number of Colorings \\ \hline 
+\centering $e$ & 1 & $n^4$ \\ 
+\centering $x, \overline{x}$ & 8 & $n^2$ \\
+\centering $s_i$ & 3 & $n^2$ \\
+\end{tabular}
+\end{center} 
+
+By Burnside's, we have a total of $\boxed{\frac{1}{12}(n^4 + 11n^2)}$ different colorings of the tetrahedron with $n$ colors. 
+\end{solution}
+
+\begin{problem}{8} 
+Show that $n^8 + 17n^4 + 6n^2$ is divisible by 24. 
+
+\end{problem}
+
+\begin{solution}
+Consider coloring the vertices of a cube with $n$ different colors. Recall the symmetry group of a cube, except now acting on the vertices $A, B, C, D, E, F, G, H$: 
+\begin{center}
+\begin{tabular}{m{3cm}| c | c | c }
+\centering Rotation Type & Cycle Notation & Number of Rotations & Colorings \\ \hline 
+\centering $e$ & $(A)(B)(C)(D)(E)(F)(G)(H)$ & 1 & $n^8$\\ 
+\centering $x, \overline{x}$ & $(ABCD)(EFGH)$ & 6 & $n^2$\\
+\centering $X$ & $(AC)(BD)(EG)(FH)$ & 3 & $n^4$\\
+\centering $s_i$ & $(AB)(CDEF)(GH)$ & 6 & $n^4$\\
+\centering $S_j$ & $(A)(BDE)(CFH)(G)$ & 8 & $n^4$\\
+\end{tabular}
+\end{center}
+
+The number of ways to color the cube, therefore, is given by Burnside's Lemma as 
+\[
+	\frac{1}{24}(n^8 + 17n^4 + 6n^2)
+\]
+which must be an integer, as it represents a number of colorings. Therefore, $n^8 + 17n^4 + 6n^2$ is divisible by 24. $\blacksquare$
+
+
+
+\end{solution}
+
+\begin{problem}{9} 
+How many distinct bracelets of 5 beads can be made from beads of three different colors? 
+
+\end{problem}
+
+\begin{solution}
+Consider the dihedral group $D_5$, which is the permutation group for the bracelet (consisting of the identity $e$, 4 rotations $r_i, 1 \leq i \leq 4$, where $r_i$ represents rotation by $72i\dg$, and 5 reflections $R_j, 1 \leq j \leq 5$, each passing through an element on the circular bracelet). We compute the number of different colorings fixed by each of these rotations:  
+
+\begin{center}
+\begin{tabular}{m{5cm}| c | c}
+\centering Rotation Type & Number of Rotations & Number of Colorings Fixed \\ \hline 
+\centering $e$ & 1 & $3^5$ \\ 
+\centering $r_i$ & 4 & $3$ \\
+\centering $R_j$ & 5 & $3^3$ \\
+\end{tabular}
+\end{center} 
+We arrive at these numbers by noting that the identity fixes all possible colorings of the bracelet, the rotations are 5-cycles that must all have the same color, and the reflections have 3-degrees of freedom, one for a fixed element and one each for two pairs of elements that swap. By Burnside's Lemma, we thus have 
+\[
+	\frac{1}{10}(243 + 4 \cdot 3 + 5 \cdot 27) = \frac{390}{10} = \boxed{39}
+\]
+unique 3-colorings of the bracelet. 
+\end{solution}
+
+\begin{problem}{10} 
+We print all numbers with 5 digits or less (including leading zeroes) on distinct slips of paper. If the digits 0, 1, 6, 8, 9 become the digits 0, 1, 9, 8, 6 when read upside down, there are pairs of numbers that share the same slip. How many slips are required so that each 5-digit number can be found printed exactly once? 
+
+\end{problem}
+
+\begin{solution}
+It suffices to find the number of integers that map to other integers under rotating the slip of paper by $180\dg$. We can compute this number by first considering the total number of integers that may map to either themselves or other integers in the set ($5 \cdot 5 \cdot 5 \cdot 5 \cdot 5 = 5^5 = 3125$) and subtracting off the number of integers that map to themselves (given by ensuring the center number maps to itself, and choosing the leading two digits in any order for $5 \cdot 5 \cdot 3 = 75$ ways). This means that the remaining $3125 - 75 - 3050$ integers map to each other, creating $1525$ pairs of numbers of which we can eliminate one from each pair. Since the total number of integers present is $10^5$, we subtract off the desired amount to give $100000 - 1525 = \boxed{98475}$ different slips. 
+\end{solution}
+
+
+
+
+
+
+
+
+
+
+\end{document}

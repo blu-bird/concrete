@@ -1,0 +1,177 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Recursive Problems and Non-Homogeneous Difference Equations}
+\begin{problem}{1}
+Draw $n$ lines in a plane. What is the maximum number of subregions created?
+\end{problem}
+
+\begin{problem}{2}
+How many sequences of $\{ 0, 1, 2, 3 \}^n$ contain an even number of zeroes? 
+\end{problem}
+
+\begin{solution}{1}
+We can do this using recursion. Let $a_n$ be the maximum number of subregions created. Notice that for $n=1$, $a_n = 2$. In the general case, in order to maximize the number of regions, each new added line (the $n$th line) must intersect the other $n-1$ lines already present. This creates $n$ new regions, the same as the number of "spaces" between the lines.
+
+Altogether, this gives the recurrence 
+\[
+	a_n = a_{n-1} + n
+\]
+with our base case, can be solved to yield 
+\[
+	a_n = \frac{n(n+1)}{2} + 1
+\]
+\end{solution}
+
+\begin{solution}
+	Notice that if we truncate the last digit from a valid string, we can either have a string of length $n-1$ with an even number of zeroes or a string with an odd number of zeroes. Let $o_n$ be the number of strings of length $n$ with an odd number of zeroes, and 
+	
+
+\end{solution}
+
+
+How do we solve these recurrences explicitly (without silly tricks)? 
+
+Given $\sum_{i=0}^n c_i x_i = f$, a constant-coefficient linear recurrence equation that is non-homogeneous, because it has the "forcing function" $f$. We will solve this by looking at the particular and homogeneous equations. 
+The \textbf{particular} solution looks like the following: 
+\[
+	(p): \quad \sum_{i=0}^n c_i a_i^{(p)} = f
+\]
+and the \textbf{homogeneous} solution looks like the following: 
+\[
+	(h): \quad \sum_{i=0}^n c_i a_i^{(h)} = 0
+\]
+We will find both $a_i^{(p)}$ and $a_i^{(h)}$ and finally give the answer $a_i = a_i^{(h)} + a_i^{(p)}$ and solve for initial conditions. Notice that 
+$\sum c_i(a_i^{(h)} + a_i^{(p)}) = f$, as $\sum c_ia_i^{(h)} = 0$ - we just solve this with the initial conditions to yield the correct solution. 
+
+\begin{problem}{3}
+	Solve $a_n + 2a{n-1} = n+3$, $a_0 = 3$. 
+\end{problem}
+
+\begin{solution}
+	First, we solve the homogeneous equation: 
+\[
+	a_n + 2a_{n-1} = 0 \implies x + 2 = 0, \quad x = -2
+\]		
+This gives $a_n^{(h)} = c(-2)^n$. 
+
+We now solve the particular equation using undetermined coefficients
+\[
+	a_n + 2a_{n-1} = n + 3
+\]
+We will ansatz that $a_n = Bn + D$. If we do this, we then must have $a_{n-1} = Bn + D - B$. When plugging in we get: 
+\[
+	Bn + D + 2Bn + 2D - 2B = n+3
+\]
+Equating like coefficients, we have
+\[
+	3Bn = n \quad 3D - 2B = 3
+\]
+This implies that $B = \frac{1}{3}$, $D = \frac{11}{9}$, so $a_n^{(p)} = \frac{1}{3}n + \frac{11}{9}$. 
+Altogether, we must have $a_n = \frac{1}{3}n + \frac{11}{9} + C (-2)^n$. Notice that this \textbf{always} satisfies the total recurrence, as this both satisfies the homogeneous equation and the particular equation. When we plug in $n = 0$, we get $C = \frac{16}{9}$. Therefore, 
+\[
+	a_n = \frac{1}{3}n + \frac{11}{9} + \frac{16}{9} (-2)^n
+\]
+
+\end{solution}
+
+How do we know what to try? In general, choose something of the same type. 
+
+Solve these nonhomogeneous linear recurrences with this method: 
+
+\begin{solution}
+$a_n = 4^{n-1} + 2a_{n-1}$, $a_1 = 3$. 
+
+\textit{Homogeneous Solution: }
+\[
+	a_n - 2a_{n-1} = 0 \implies x - 2 = 0, x = 2
+\]
+\[
+	\implies a_n^{(h)} = C2^n 
+\]
+\textit{Particular Solution: }
+\[
+	a_n - 2a_{n-1} = 4^{n-1} 
+\]
+Ansatz $a_n = A4^{n}$. 
+\[
+	A4^n - 2A4^{n-1} = 4^{n-1} \rightarrow 2A = 1 \rightarrow A = \frac{1}{2}
+\]
+\[
+	a_n = C2^n + \frac{1}{2}4^n 
+\]
+\[
+	a_1 = 3 = 2C + 2 \implies C = \frac{1}{2}
+\]
+\[
+	a_n = \frac{1}{2}(4^n + 2^n)
+\]
+\end{solution}
+
+\begin{solution}
+$a_n = a_{n-1} + n$, $a_1 = 2$: 
+
+\textit{Homogeneous Solution: }
+\[
+	a_n - a_{n-1} = 0 \implies x - 1 = 0, x = 1
+\]
+\[
+	\implies a_n^{(h)} = C 
+\]
+\textit{Particular Solution: }
+\[
+	a_n = a_{n-1} + n 
+\]
+The ansatz $a_n = Cn + D$ does not work, but $a_n = Cn^2 + Dn + E$ works: 
+\[
+	Cn^2 + Dn + E = C(n-1)^2 + D(n-1) + E + n
+\]
+\[
+	0 = -2Cn + C - D + n \rightarrow C = \frac{1}{2}, D = \frac{1}{2}
+\]
+\[
+	a_n = \frac{1}{2}n^2 + \frac{1}{2}n + C
+\]
+\[
+	a_1 = \frac{1}{2} + \frac{1}{2} + C = 2 \rightarrow C = 1
+\]
+\[
+	a_n =  \frac{1}{2}n^2 + \frac{1}{2}n + 1 = \frac{n(n+1)}{2} + 1
+\]
+\end{solution}
+\end{document}

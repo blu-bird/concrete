@@ -1,0 +1,169 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Complex Roots and Bell Numbers}
+Consider writing $\frac{1}{1+x^2}$ as a series: 
+\[
+	\frac{1}{1+x^2} = \sum (-x^2)^n = \sum (-1)^n x^{2n}
+\]
+Notice that if $n$ is odd, the coefficient of $x^n$ is odd - otherwise, the coefficient is $(-1)^n$. 
+
+However, we could also decompose this into linear terms that are 
+
+Consider the recurrence relation $a_n = -a_{n-2}$, $a_0 = 0$, $a_1 = 1$. If we apply the technique we learned last class, we can consider the characteristic polynomial: 
+\[
+	x^2 + 1 = 0 \implies x = \pm i
+\]
+Therefore, $a_n = Ai^n + B(-i)^n$. Plugging in our initial conditions, we have 
+\[
+	A + B = 0 \quad Ai - Bi = 1 \rightarrow A = -\frac{i}{2} \quad B = \frac{i}{2}
+\]
+Altogether, this gives $a_n = -\frac{1}{2}i\cdot i^n + \frac{1}{2} \cdot i(-i)^n$. This is a really complex way to express a clearly periodic sequence of period 4 - why would we ever need to use complex numbers if we have functions (ie. $\sin$ and $\cos$) that can do this periodicity for us? 
+
+Let us backtrack and see if we can find a way to do this using trigonometric functions by applying DeMoivre's Theorem. Notice that the roots of the characteristic polynomial can be expressed as
+\[
+	r_1 = \cos \frac{\pi}{2} + i \sin \frac{\pi}{2} 	
+\]
+\[
+	r_2 = \cos \frac{\pi}{2} - i \sin \frac{\pi}{2} 	
+\]
+Notice that if we raise to the $n$th power, we have
+\[
+	a_n = Ar_1^n + Br_2^n = A\left( \cos \frac{\pi n}{2} + i \sin \frac{\pi n}{2} \right) + B\left( \cos \frac{\pi n}{2} - i \sin \frac{\pi n}{2} 	\right) 
+\]
+If we combine like terms, we have
+\[
+	a_n = (A+B) \cos \left(\frac{n \pi}{2} \right) + (A-B) \sin \left(\frac{n \pi}{2} \right)
+\]
+Since all of the terms of the sequence are real, we must force $A$ and $B$ to have the same real part. In general, we can always just solve instead for the coefficients of $\sin$ and $\cos$ instead. 
+\[
+	a_n = C \cos \left(\frac{n \pi}{2} \right) + D \sin \left(\frac{n \pi}{2} \right)
+\]
+When we plug in: 
+\[
+	a_0 = 0 = C \cos 0 \implies C = 0
+\]
+\[
+	a_1 = 1 = D \sin \frac{\pi}{2} \implies D = 1
+\]
+which gives 
+\[
+	a_n = \sin \frac{\pi n}{2} 
+\]
+We can use a similar method to find the roots of unity for $a_n = - a_{n-6}$. 
+
+Let's do this for $a_n = a_{n-1} - a_{n-2}, a_1 = 1, a_2 = 0$. Notice that the characteristic polynomial is
+\[
+	x^2 - x + 1 = 0 \implies x = \frac{1 \pm \sqrt{3}i}{2}
+\]	
+This is a 6th root of unity, so we can note that we can simply write this as a the linear combination: 
+\[
+	a_n = A \cos \frac{n \pi}{3} + B \sin \frac{n \pi}{3}
+\]
+We plug in our initial conditions: 
+\[
+	a_1 = \frac{1}{2} A + \frac{3}{2} B = 1
+\]
+\[
+	a_2 = -\frac{1}{2} A + \frac{3}{2} B = 0
+\]
+\[
+	\implies A = 1, B = \frac{1}{\sqrt{3}}
+\]
+This gives $a_n = \cos \frac{n \pi}{3} + \frac{1}{\sqrt{3}} \sin \frac{n \pi}{3}$
+
+\section{Bell Numbers}
+Recall the \textbf{Bell number} $B_n$ is the number of non-empty partitions of a set of $n$ elements. By definition of the Stirling numbers, we have this is equal to 
+\[
+	B_n = \sum_{k=0}^n \stirii{n}{k}
+\]
+Recall also that $x^n = \sum_{k=0}^n \stirii{n}{k} \ffact{x}{k}$. This is kind of close to the Bell numbers, but we can use this to get to an explicit formula for the Bell numbers. 
+
+Let $X$ be a random variable. Using linearity of expectation, we have that 
+\[
+	E[X] = \sum_{k=0}^n \stirii{n}{k} E[\ffact{X}{k}]
+\]	
+We are looking for a random variable $X$, then, such that $E[\ffact{X}{k}] = 1$ - this will give a computation for $B_n$.
+
+It turns out that one exists! Let $X \sim \text{Poisson}(\lambda)$. The \textbf{Poisson distribution} is the limiting case of the binomial distribution. A diagram of the Poisson distribution is included below. 
+
+
+The probability distribution function for a Poissson distribution - if $X \sim \text{Poisson}(\lambda)$, then $P(x = k) = \frac{\lambda^k}{k!}e^{-\lambda}$. To prove this is valid, we have to show that: 
+
+$P(x = k) = \sum_{k=0}^\infty P(x=k) = \sum_{k=0}^\infty \frac{\lambda^k}{k!}e^{-\lambda} = e^{-\lambda} \sum_{k=0}^\infty \frac{\lambda^k}{k!} = e^{-\lambda} e^{\lambda} = 1$
+
+We now compute $E[X]$ for the Poisson distribution: 
+\[
+E[X] = \sum_{k=0}^\infty k P(x=k) = e^{-\lambda} \sum_{k=1}^\infty \frac{\lambda^k}{(k-1)!} = \lambda e^{-\lambda} \sum_{k=1}^\infty \frac{\lambda^{k-1}}{(k-1)!} = \lambda 
+\]
+
+We can compute the expected values we want using a moment-generating function, but we can write these out explicitly: 
+\[
+E[X^n] = \sum_{k=0}^\infty k^n P(x=k) =  \sum_{k=0}^\infty k^n \frac{\lambda^k}{k!}e^{-\lambda}
+\]
+To find $E[\ffact{X}{k}]$, we can instead look start with $E[t^X]$ and take successive derivatives (this is the \textbf{factorial generating function}): 
+\[
+E[t^X] = \sum_{k=0}^\infty t^k P(x=k) =  \sum_{k=0}^\infty t^k \frac{\lambda^k}{k!}e^{-\lambda} = e^{-\lambda} \sum_{k=0}^\infty  \frac{(t\lambda)^k}{k!} = e^{-\lambda} (e^{t\lambda}) = e^{\lambda(t-1)}
+\]
+Notice that if we take successive derivatives with respect to $t$, we have: 
+\[
+	\dnv{}{t}{n} e^{\lambda(t-1)} = \lambda^n e^{\lambda(t-1)}
+\]
+Differentiating the sum, we have that this is also 
+\[
+	E[\ffact{X}{n} t^{X-n}] = e^{-\lambda} \sum_{k=0}^\infty  \frac{\ffact{k}{n} t^{k-n} \lambda^k}{k!} 
+\]
+When plugging in $t=1$ we obtain that 
+\[
+	E[\ffact{X}{n}] = \lambda^n
+\]
+If we let $X \sim \text{Poisson}(\lambda = 1)$, and thus $E[\ffact{X}{n}] = 1$, we can compute $B_n$: 
+\[
+	E[X^n] = \frac{1}{e}\sum_{k=0}^\infty \frac{k^n}{k!} =  \sum_{k=0}^n \dstirii{n}{k} = B_n
+\]
+
+We can also construct a recursive relation for the Bell numbers using a combinatorial argument. Notice that the element $n+1$ of the set $\{1, 2, \ldots n, n+1\}$ can be put in a subset of any choice of $k$ other elements, and then partitioning the remaining $B_{n-k}$ elements. This gives the recursiion relation
+\[
+	B_{n+1} = \sum_{k=0}^n \binom{n}{k} B_{n-k}
+\]
+
+
+
+
+
+\end{document}

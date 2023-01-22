@@ -1,0 +1,214 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Structures and Exponential GFs}
+\def\scribestring{Bryan Lu}
+\def\datestring{Tuesday, April 2, 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\section{Exponential Generating Functions and Structures}
+
+A \textbf{structure} is a particular organization of the elements of a set, or sets. Structures can include sets, non-empty sets, even-sized sets, permutations, an increasing permutation, a function from $A$ to $B$, etc. 
+
+An \textbf{exponential generating function} for a sequence $f_0, f_1, f_2, f_3, \ldots$ is 
+\[
+	F(x) = \sum_{n=0}^\infty f_n \frac{x^n}{n!}
+\]
+Define $[n] = \{1, 2, 3 \ldots n\} =$ "the" set with n elements. Note that if $f_n$ counts the number of $F$-structures on $[n]$, then $F(x) = \sum_{n=0}^\infty f_n \frac{x^n}{n!}$ is the exponential generating function for the structure $F$. 
+
+This is all fairly abstract: what are some explicit examples? Let's look at a few ordinary generating functions that we know: 
+\[
+	\frac{1}{1-x} = \sum_{n=0}^\infty x^n = \sum_{n=0}^\infty n! \frac{x^n}{n!}
+\]
+so $\frac{1}{1-x}$ is the EGF for the factorial sequence. Similarly, consider 
+\[
+	e^{ax} = \sum_{n=0}^\infty a^n \frac{x^n}{n!}
+\]
+so $e^{ax}$ is the EGF for the sequence $a^n$. 
+
+We can add EGFs easily - 
+\[
+	 \sum_{n=0}^\infty a_n \frac{x^n}{n!} +  \sum_{n=0}^\infty b_n \frac{x^n}{n!} =  \sum_{n=0}^\infty (a_n + b_n) \frac{x^n}{n!}
+\]
+Combinatorially, this corresponds to a disjoint union of the ways to count $A$-structures or $B$-structures. 
+
+We can multiply them as well, if we just take Cauchy products - letting $A(x) =  \sum_{p=0}^\infty a_p \frac{x^p}{p!}$ and $B(x) =  \sum_{q=0}^\infty b_q \frac{x^q}{q!}$, then 
+\[
+	A(x) B(x) = \sum_{p,q=0}^\infty a_p b_q \frac{x^{p+q}}{p!q!} =\sum_{n=0}^\infty \sum_{p=0}^n a_p b_{n-p} \binom{n}{p} \frac{x^n}{n!} 
+\]
+Therefore, if $C(x) = A(x) B(x)$, then the coefficients of $C(x)$ are
+\[
+	c_n = \sum_{p=0}^n \binom{n}{p} a_p b_{n-p}
+\]
+Combinatorially, we see that when we multiply these together, we see an extra $\binom{n}{p}$ that we did not see when multiplying OGFs, which implies that EGFs have an order to their coefficients that OGFs do not. 
+
+As an application, recall the recursion for the Bell numbers: 
+\[
+	B_{n+1} =  \sum_{k=0}^\infty \binom{n}{k} B_{n-k}
+\]
+If we let $b(x) = \sum_{n=0}^\infty B_n \frac{x^n}{n!}$, and let $a(x) = e^{x}$, or the EGF for the sequence $a_n = 1$, we have that
+\[
+	\sum_{n=0}^\infty B_{n+1} \frac{x^n}{n!} = \sum_{n=0}^\infty \sum_{k=0}^\infty \binom{n}{k}B_{n-k} \frac{x^n}{n!} 
+\]
+Notice the right hand side simplifies to $b(x) e^x$. For the left hand side, consider $\dv{}{x}b(x)$: 
+\[
+	b'(x) = \sum_{n=1}^\infty B_{n} \frac{x^{n-1}}{(n-1)!} = \sum_{n=0}^\infty B_{n+1} \frac{x^n}{n!}
+\]
+This gives us the separable differential equation
+\[
+	b'(x) = e^x b(x) 
+\]
+When we separate we have that 
+\[
+	\ln b(x) = e^x + C \implies b(x) = Ce^{e^x}
+\]
+We consider the initial condition $b(0) = 1$, which gives us 
+\[
+b(x) = \frac{1}{e} e^{e^x} = e^{e^x-1}
+\]
+Let's see if this \textit{actually} gives us the $n$th Bell number. Expanding: 
+\begin{align*}
+	b(x) &= \frac{1}{e} e^{e^x} = \frac{1}{e} \sum_{k=0}^\infty \frac{e^{kx}}{k!} \\
+	&= \frac{1}{e} \sum_{k=0}^\infty \sum_{n=0}^\infty \frac{1}{k!} \frac{(kx)^n}{n!} \\
+	&= \frac{1}{e} \sum_{n=0}^\infty \left[\sum_{k=0}^\infty \frac{k^n}{k!} \right] \frac{x^n}{n!}
+\end{align*}
+This gives that $B_n = \frac{1}{e} \sum_{k=0}^\infty \frac{k^n}{k!}$, as before. 
+
+Let us now turn to constructing EGFs for various structures.
+
+The simplest of these is a set. For all $n$, $f_n = 1$, as there's literally only one way to turn a set of size $n$ into... well... a set of size $n$. As seen before, we have the EGF 
+\[
+	F(x) = e^x
+\]
+
+For a non-empty set, $f_n = 1$, except when $n = 0$, since you can't turn an empty set into a non-empty set. This gives 
+\[
+	F(x) = e^x - 1
+\]
+
+For an empty set, the only way we can get to a set of size $0$ from a set of size $n$ is when the original set is empty - therefore, $f_n = \delta_{0n}$ and 
+\[
+	F(x) = 1
+\]
+
+For a set of size one or two, we see that these correspond to the sequences $f_n = \delta_{n1}$ and $f_n = \delta_{n2}$, so we have that these correspond to 
+\[
+	F(x) = x \quad F(x) = \frac{x^2}{2}
+\]
+
+For a set of even size, we can see that 
+\[
+	F(x) = 1 + \frac{x^2}{2!}  + \frac{x^4}{4!} + \frac{x^6}{6!} + \ldots = \frac{e^x + e^{-x}}{2} = \cosh(x)
+\]
+
+Similarly, for a set of odd size, we have that
+\[
+	F(x) = \frac{x}{1!}  + \frac{x^3}{3!} + \frac{x^5}{5!} + \ldots = \frac{e^x - e^{-x}}{2} = \sinh(x)
+\]
+
+Going back to the addition property - if $G$ and $H$ are EGFs of structures, then $F = G+H$ is the EGF of the disjoint union of the structures. As a basic example, the EGF for a set is the sum of the EGF of a non-empty set and an empty set, which gives $1+ e^x - 1 = e^x$, as expected.
+
+In the context of multiplication, if we have $g$ and $h$ that are structures on sets, and $f$ as a $g \times h$ structure on set $A$ - by which we mean that we partition $A$ into $A_1, A_2$ such that $A_1 \cup A_2 = A$, and then put $A_1$ into a $g$-structure and $A_2$ into a $h$-structure, we can get the EGF of $f$ is $f(x) = g(x) h(x)$. 
+
+Our first nontrivial example is the EGF for a subset of $A = [n]$. Consider partitioning $A$ into arbitrary $A_1$ and $A_2$, where $A_1$ is our desired subset and $A_2$ the complement and then impose the structure of a set onto both $A_1$ and $A_2$. Once we do this, we can find the EGF for this structure: 
+\[
+	f(x) = g(x) h(x) = e^x \cdot e^x = e^{2x} = \sum_{n=0}^\infty 2^n \frac{x^n}{n!}
+\]
+and so the number of subsets on a set of size $n$ is $2^n$.  
+
+Similarly, the EGF for the structure of a non-empty subset can be constructed by partitioning the set $A$ into $A_1$, $A_2$ such that $A_1$ is nonempty. This gives us the EGF
+\[
+	f(x) = e^x (e^x - 1) = e^{2x} - e^x = \sum_{n=0}^\infty (2^n-1)\frac{x^n}{n!}
+\]
+so the number of non-empty subsets on a set of size $n$ is $2^n - 1$. 
+
+What if we want to count the number of functions on $[n] \rightarrow [k]$. This can be done by partitioning $A$ into sets $A_1, A_2, \ldots A_k$ such that $A_i$ is the pre-image of $i$ on $[n]$. This gives the EGF
+\[
+	f(x) = e^{kx} = \sum_{n=0}^\infty k^n \frac{x^n}{n!}
+\]
+so this gives $k^n$ possible functions. 
+
+What if we want to count the number of \textit{surjective} functions on $[n]\rightarrow [k]$, such that every element in $k$ has an element in $[n]$ that maps to it? This means that if we partition $A$ into $k$ non-empty subsets, we will get the EGF
+\[
+	f(x) = (e^x - 1)^k 
+\]
+Recall that the coefficients should be $k! \stirii{n}{k}$, as the number of ways to count this is partition $n$ into $k$ non-empty subsets, and then labeling these $k$ subsets. This implies that 
+\[
+	\frac{(e^x - 1)^k}{k!} = \sum_{n=0}^\infty \dstirii{n}{k} \frac{x^n}{n!}
+\]
+If we expand the left hand side, we obtain
+\begin{align*}
+\sum_{n=0}^\infty \dstirii{n}{k} \frac{x^n}{n!} &= \frac{1}{k!} (e^x - 1)^k \\
+&= \frac{1}{k!} \sum_{t=0}^k \binom{k}{t} e^{tx} (-1)^{k-t} \\
+&= \frac{1}{k!} \sum_{t=0}^k \binom{k}{t} (-1)^{k-t} \sum_{n=0}^\infty \frac{t^n x^n}{n!} \\
+&= \sum_{n=0}^\infty\left[ \frac{1}{k!} \sum_{t=0}^k \binom{k}{t} (-1)^{k-t} t^n \right] \frac{x^n}{n!} \\
+\end{align*}
+Therefore, we have 
+\[
+	\dstirii{n}{k} = \frac{1}{k!} \sum_{t=0}^k \binom{k}{t} (-1)^{k-t} t^n 
+\]
+as we derived earlier with an inclusion/exclusion argument. 
+
+We will now do the composition operation that has a nice combinatorial equivalent for EGFs. If we have $g$ and $h$ that are structures on sets, and $f = g \circ h$ is the structure defined by partitioning a set $A$ into sets $A_1, A_2, \ldots A_k$, imposing an $h$ structure on the $A_i$, and then imposing a $g$ structure on the collection of sets, we have that 
+\[
+	f(x) = g \circ h = g(h(x))
+\]
+
+With this in mind, we can construct the partition structure and arrive at the EGF for the Bell numbers much more easily. If we partition a set $A$ into non-empty sets, and then impose the set structure on this collection of sets, we immediately arrive at the EGF 
+\[
+	f(x) = e^x \circ (e^x - 1) = e^{e^x - 1} = \sum B_n \frac{x^n}{n!}
+\]
+
+Similarly, if we want the structure of partitions on a set with the partitions all having greater than 1 elements, we get 
+\[
+	f(x) = e^x \circ (e^x - 1 - x) = e^{e^x - x - 1} 
+\]
+
+If we want the partitions into sets with an even number of elements, we have 
+\[
+	f(x) = e^x \circ \cosh(x) = e^{\cosh x}
+\]
+
+Similarly, if we want the partitions into sets with an odd number of elements, we have 
+\[
+	f(x) = e^x \circ \sinh(x) = e^{\sinh x}
+\]
+
+As a final example, we can arrive at the EGF for the Bell numbers from the EGF for Stirling numbers of the second kind by noting that $\sum_{k=0}^\infty \stirii{n}{k} = B_n$: 
+\[
+	\sum_{n=0}^\infty B_n \frac{x^n}{n!} = \sum_{n=0}^\infty \sum_{k=0}^\infty \dstirii{n}{k} \frac{x^n}{n!} = \sum_{k=0}^\infty \sum_{n=0}^\infty \dstirii{n}{k} \frac{x^n}{n!} = \sum_{k=0}^\infty \frac{1}{k!} (e^x-1)^k = e^{e^x-1}
+\]
+
+An interesting exercise for the reader: see if one can find the EGF for the Stirling numbers of the first kind, and by extension, an explicit formula, by finding the EGF for the structure of cyclic permutations, and try imposing this structure on sets that partition $n$. 
+
+
+\end{document}

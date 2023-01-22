@@ -1,0 +1,69 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+
+
+\section{Groups}
+Given an element $s \in S$ and $G$ a permutation group acting on $S$, we define the orbit of $s$ and the stabilizers of $s$: 
+
+\[
+	orbit(s) = \{ \pi s | \pi \in G \} 
+\]
+\[
+	stabilizer(s) = \{ \pi \in G | \pi s = s \}
+\]
+That is, the orbit of $s$ is all the elements that $s$ can turn into under a transformation, and the stabilizers are the set of permutations that fix $s$. 
+
+\begin{theorem}
+Orbit-Stabilizer Theorem. For all $s \in S$ and $G$ acting on $S$, 
+\[
+	|orbit(s)| |stabilizer(s)| = |G|
+\]
+\end{theorem}
+
+Notice that $stabilizer(s)$ is a subgroup of $G$ so by Lagrange, $|stabilizer(s)| \big| |G|$. Note also that if in the stabilizer, $\pi s = s$, then obviously $\pi^{-1} s = s$ by left multiplication. 
+
+Now, if we have the orbit of $S$ forms cosets of $stab(s)$, there will be a 1 to 1 correspondence between the elements in the distinct cosets and the original group. There will be one coset for every element in the orbit, and all will be achieved. 
+
+Thus by Lagrange, $|orbit(s)| |stabilizer(s)| = |G|$ and we are done. 
+
+
+
+\end{document}
+
+

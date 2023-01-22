@@ -1,0 +1,183 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[margin=1in]{geometry} 
+\usepackage{blubase}
+\usepackage[inline]{enumitem}
+\usepackage{fancyhdr}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{sol}
+    {\emph{Solution:}
+    }
+    {
+    \qedhere
+    }
+
+\lhead{Bryan Lu} 
+\rhead{Concrete Math - Spring 2019 \\ Problem Set 1} %replace XYZ with the homework course number, semester (e.g. ``Spring 2019"), and assignment number.
+\pagestyle{plain}
+
+\begin{document}
+\thispagestyle{fancy}
+\begin{problem}{1} 
+Find the number of ways to choose a pair $\{a, b\}$ of distinct numbers from the set $\{1, 2, \ldots, 50\}$ such that\\
+
+\begin{enumerate*}[label=(\roman*),itemjoin={\qquad \qquad}]
+	\item $\left| a - b \right| = 5$; 
+	\item $\left| a - b \right| \leq 5$. 
+\end{enumerate*}
+\end{problem}
+
+\begin{sol}
+\begin{enumerate}[label=(\roman*)]
+\item Note that each element of the set, when chosen as $a$, has a maximum of two options for $b$ - those being $a - 5$ or $a + 5$, if these elements are in the set. The only values of $a$ where both these elements are not in the set are $1, 2, 3, 4, 5, 46, 47, 48, 49, \text{ and } 50$. This gives a total of $50 \cdot 2 - 10 = \boxed{90}$ ordered pairs. 
+\item Using a similar line of reasoning, when an element of this set is chosen as $a$, there are $10$ options for $b$ (the integers in the interval $[a-5, a+5]$, excluding itself). Again, there are exceptions - if $0 < a \leq 5$, we must exclude $5-(a-1)$ options as the corresponding elements for these possibilities do not exist in this set, for a total of $15$ pairs excluded, and by symmetry we must also exclude $15$ pairs for $a$ in the range $45 < a \leq 50$. In total, we must exclude $15 \cdot 2$ possibilities, so in total we have $50 \cdot 10 - 2 \cdot 15 - \boxed{470}$ pairs. 
+\end{enumerate}
+
+\end{sol}
+
+\begin{problem}{2}
+There are $12$ students in a party. Five of them are girls. In how many ways can these $12$ students be arranged in a row if 
+\begin{enumerate}[label=(\roman*)]
+\item there are no restrictions?
+\item the $5$ girls must be together (forming a block)?
+\item no $2$ girls are adjacent? 
+\item between two particular boys $A$ and $B$, there are no boys but exactly $3$ girls? 
+\end{enumerate}
+\end{problem}
+
+\begin{sol}
+\begin{enumerate}[label=(\roman*)]
+\item With no restrictions, we can pick any of the $12$ students for the first seat, any of the $11$ remaining students for the second seat, etc. This gives $12 \cdot 11 \cdot \ldots \cdot 2 \cdot 1 = \boxed{12!}$ arrangements. 
+\item We can arrange the girls within the block in $5!$ different ways. Treating the block of girls as a unit, we can arrange the remaining $7$ boys and the block in $8!$ different ways, so in total we have $\boxed{8! \cdot 5!}$ arrangements. 
+\item If no two girls are adjacent, there must be at least one boy in between them. This requires at least four boys, which leaves three boys to be arranged among five "dividers" (the girls "divide up" the set of boys, so to speak). This arrangement can be done in $\binom{8}{3}$, and as the boys and girls can be ordered in $7!$ and $5!$ ways, respectively, we have a total of $\boxed{\binom{8}{3} \cdot 7! \cdot 5!}$ arrangements. 
+\item We can choose which three of the five girls are between the two boys in $\binom{5}{3}$ ways, order them in $3!$ ways, and then we can arrange the boys around them in $2$ ways. The remaining $7$ students and this block can be arranged in $8!$ ways, giving a total of $\boxed{2 \cdot \binom{5}{3} \cdot 3! \cdot 8!}$ arrangements. 
+\end{enumerate}
+\end{sol}
+
+\begin{problem}{3}
+$m$ boys and $n$ girls are to be arranged in a row, where $m, n \in \NN$. Find the number of ways this can be done in each of the following cases: 
+\begin{enumerate}[label=(\roman*)]
+\item There are no restrictions;
+\item No boys are adjacent ($m \leq n+1$); 
+\item The $n$ girls form a single block;
+\item A particular boy and a particular girl must be adjacent.  
+\end{enumerate}
+\end{problem}
+
+\begin{sol}
+\begin{enumerate}[label=(\roman*)]
+\item We can arrange the $m+n$ people in $\boxed{(m+n)!}$ ways, as we have $m+n$ choices for the first person in the row, $m+n-1$ choices for the second person, etc. until there is only one choice for the last person in the row. 
+\item Assuming the condition given, we know that $m - 1 \leq n$, so we have to put $m-1$ girls in between the $m$ boys. The $n - m + 1$ remaining girls have to be arranged among $m$ "dividers" (where a divider refers to either a boy and/or the girl to the right that separates him from the next boy). This arrangement can be done in $\binom{n+1}{m}$ ways. We then have to order each of the subsequences of boys and girls, which can be done in $m!$ and $n!$ ways, respectively. This gives us $\boxed{\binom{n+1}{m} \cdot m! \cdot n!}$ arrangements. \\
+\textit{Remark.} In some contexts, some define $\binom{n}{k} = 0$ if $k > n$ or $k < 0$. With this, the given condition is not necessary as it is impossible to accomplish such an arrangement, so there would be zero possible arrangements. 
+\item The girls can be arranged within the block in $n!$ possible ways, and the block and the $m$ boys can be arranged in $(m+1)!$ possible ways. This gives a total of $\boxed{n! \cdot (m+1)!}$ possible arrangements.
+\item The chosen boy and girl can be put in the row in $2$ possible ways. The rest of the $m + n - 2$ people, with the boy-girl pair, can be arranged in $(m+n-1)!$ ways, so there are $\boxed{2 \, (m+n-1)!}$ ways to arrange the boys and girls. 
+\end{enumerate}
+\end{sol}
+
+\begin{problem}{4}
+How many $5$-letter words can be formed using $A, B, C, D, E, F, G, H, I, J,$ 
+\begin{enumerate}[label=(\roman*)]
+\item if the letters in each word must be distinct? 
+\item if, in addition, $A, B, C, D, E, F$ can only occur as the first, third, or fifth letters while the rest as the second or fourth letters? 
+\end{enumerate}
+\end{problem}
+
+\begin{sol}
+\begin{enumerate}[label=(\roman*)]
+\item We can pick $5$ of the letters in this set in $\binom{10}{5}$ ways, and arrange them in $5!$ ways, giving a total of $\boxed{\binom{10}{5}\cdot 5!}$ words. 
+\item We can pick $3$ of the letters from the $6$-letter set and $2$ of the letters from the $4$-letter set, and then arrange them in the order in $3!$ and $2!$ ways, respectively, giving a total of $\boxed{\binom{6}{3} \cdot 3! \cdot \binom{4}{2} \cdot 2!}$ words. 
+\end{enumerate}
+\end{sol}
+
+%\begin{problem}{5}
+%Find the number of ways of arranging the 26 letters in the English alphabet in a row such that there are exactly 5 letters between $x$ and $y$. 
+%\end{problem}
+
+%\begin{sol}
+%Out of the remaining 24 letters, we can pick the 5 letters between $x$ and $y$ in $\binom{24}{5}$ ways. The $x$ and $y$ can be put in 2 orders and the letters in between can arranged in order in $5!$ ways. This block, along with the other 19 letters, can be arranged in $20!$ ways, giving a total of $\boxed{2 \cdot 5! \cdot \binom{24}{5} \cdot 20!}$ ways. 
+%\end{sol}
+
+%\begin{problem}{6}
+%Find the number of \textit{odd} integers between 3000 and 8000 in which no digit is repeated. 
+%\end{problem}
+
+%\begin{sol}
+%We do casework on the parity of the first digit. 
+%\begin{itemize}
+%\item If the first digit is odd (which can be done in three ways), there are 4 choices for the last digit, and the remaining two digits can be chosen in $8 \cdot 7$ ways. 
+%\item If the first digit is even (which can be done in two ways), there are 5 choices for the last digit, and the remaining two digits can be chosen in $8 \cdot 7$ ways. 
+%\end{itemize}
+%This gives a total of $3 \cdot 4 \cdot 8 \cdot 7 + 2 \cdot 5 \cdot 8 \cdot 7 = \boxed{22 \cdot 8 \cdot 7}$ integers. 
+%\end{sol}
+
+\begin{problem}{7}
+Evaluate
+\[
+	1 \cdot 1! + 2 \cdot 2! + 3 \cdot 3! + \ldots + n \cdot n!,
+\]
+where $n \in \NN$. 
+\end{problem}
+
+\begin{sol}
+We force the sum to telescope: 
+\[
+	\sum_{k=1}^n k \cdot k! = \sum_{k=1}^n (k+1 - 1) \cdot k! = \sum_{k=1}^n ((k+1)! - k!) = (n+1)! - 1 \qed
+\]
+\end{sol}
+
+\begin{problem}{8}
+Evaluate
+\[
+	\frac{1}{(1 + 1)!} + \frac{2}{(2 + 1)!} + \ldots + \frac{n}{(n + 1)!},
+\]
+where $n \in \NN$. 
+\end{problem}
+
+\begin{sol}
+We force the sum to telescope: 
+\[
+	\sum_{k=1}^n \frac{k}{(k+1)!} = \sum_{k=1}^n \frac{k + 1 - 1}{(k+1)!} = \sum_{k=1}^n \left(\frac{1}{k!} - \frac{1}{(k+1)!}\right) = 1 - \frac{1}{(n+1)!} \qed
+\]
+\end{sol}
+
+%\begin{problem}{9}
+%(Spanish Olympiad 1985) Prove that for each $n \in \NN$, 
+%\[
+%	(n+1)(n+2) \ldots (2n)
+%\]
+%is divisible by $2^n$.  
+%\end{problem}
+
+%\begin{sol}
+%We proceed by induction. For $n = 1$, notice that $2$ is clearly %divisible by $2^1$. Suppose now that the statement is true for some integer $k$, and consider the product
+%\[
+%	(k+2)(k+3)\ldots(2k)(2k+1)(2k+2) = 2(k+1)(k+2)(k+3)\ldots(2k)(2k+1)
+%\]
+%Notice that the first $k$ terms of the product after the coefficient of $2$ are divisible by $2^k$, so this product is divisible by $2^{k+1}$. This is sufficient to prove the statement is true for all $n \in \NN$. 
+%\end{sol}
+
+\begin{problem}{12}
+Show that for any $n \in \NN$, the number of positive divisors of $n$ is always odd. 
+\end{problem}
+
+\begin{sol}
+Represent $n$ as 
+\[
+	n = p_1^{\alpha_1} p_2^{\alpha_2} \ldots p_k^{\alpha_k}.
+\]
+where the $p_i$ are all the prime divisors of $n$ and the $\alpha_i$ are all positive integers. $n^2$ can therefore be written as
+\[
+	n^2 = p_1^{2\alpha_1} p_2^{2\alpha_2} \ldots p_k^{2\alpha_k}.
+\]
+Notice that any factor of $n^2$ can have a power of $p_i$ from $0$ to $2\alpha_i$, giving $2\alpha_i + 1$ possibilities for that prime power in the factor. Each choice of a prime power across all the primes gives a unique factor of $n^2$, so the number of divisors of $n^2$ is $(2\alpha_1 + 1)(2\alpha_2 + 1) \ldots (2\alpha_k + 1)$. This product is always odd, as it is a product of all odd integers. $\qed$
+\end{sol}
+
+\begin{problem}{13}
+Show that the number of positive divisors of "$\underbrace{111\ldots 1}_{1992}$" is even. 
+\end{problem}
+
+\begin{sol}
+We prove the stronger claim that for $n \in \NN$ and $n > 1$, the number of positive divisors of "$\underbrace{111\ldots 1}_{n}$" is even. We use the fact that for any integer $k$, $k^2$ is congruent to $0$ or $1$ mod $4$. This can be shown by considering the parity of $k$: if $k$ is even, $k^2$ clearly is divisible by $4$ and hence $k^2 \equiv 0 \mod 4$, otherwise $k$ is odd and can be written as $2m + 1$ for some integer $m$ and $(2m+1)^2 = 4m^2 + 4m + 1 \equiv 1 \mod 4$. However, the number "$\underbrace{111\ldots 1}_{n}$" $\equiv 3 \mod 4$ from the last two digits of the number, so clearly "$\underbrace{111\ldots 1}_{n}$" cannot be a square number and therefore cannot have an even number of positive divisors. $\qed$
+\end{sol}
+\end{document}

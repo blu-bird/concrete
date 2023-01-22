@@ -1,0 +1,106 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Permutation Groups and Burnside's Lemma}
+\textbf{Definition.} Let $S$ be a set and $G$ be a group of permutations $\pi$, acting on elements on $S$. Then $G$ is a \textbf{permutation group}. 
+
+What exactly do we mean by a permutation? A permutation refers essentially to the following mapping of elements: 
+\[
+\pi_1 = 
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5 \\
+3 & 2 & 1 & 5 & 4 \\
+\end{pmatrix}
+\]
+
+Notice that $\pi_1(1) = 3$ and $\pi_1(4) = 5$, etc. 
+We also showed in Unit 1 that every permutation can be written as a product of cycles. $\pi_1$ can thus be decomposed into cycles and written in the following way: 
+\[
+	\pi_1 = (13) (2) (45)
+\]
+This is unique up to rotations and reordering of the cycles - so the following is the same permutation: 
+\[
+	\pi_1 = (2) (1 3)(54)
+\]
+Permutations can be composed - notice that if we apply $\pi_1$ to itself we have
+\[
+	\pi_1 \pi_1 = \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 \\
+1 & 2 & 3 & 4 & 5 \\
+\end{pmatrix} = e
+\]	
+so $\pi_1 = \pi_1^{-1}$. Thus, $G = \{ e, \pi_1\}$ is a permutation group (if we check all four necessary properties). 
+
+Another example of a permutation group - the group of rotations of a square. First, define the \textbf{symmetric group} $S_n$ as all of the $n!$ permutations of $n$ elements, so $S_4$ is essentially all permutations of the elements $A, B, C, D$. 
+
+The group of rotations of a square can be pretty clearly to be every $90^\circ$ rotation of the square (which we will call the set $\{ e, \pi_1, \pi_2, \pi_3 \}$ where $e = \pi_0$ is the identity and a rotation of $90i$ degrees clockwise is $\pi_i$.
+
+What about the group of all rotations of a square? In addition to $e, r_{90}, r_{180}, r_{270}$ (or $ \pi_1, \pi_2, \pi_3$, whatever), we have the reflections $H, V, L, R$, where $H$ is a reflection about a horizontal axis, $V$ is a reflection about a vertical axis, $L$ is a reflection about a main diagonal emanating from the top-left corner, and similarly for $R$. Below is the Cauchy table for the group: 
+\begin{center}
+\begin{tabular}{c|c c c c c c c c}
+    & $e$ & $r_{90}$ & $r_{180}$ & $r_{270}$ & $V$ & $H$ & $L$ & $R$  \\ \hline 
+$e$ & $e$ & $r_{90}$ & $r_{180}$ & $r_{270}$ & $V$ & $H$ & $L$ & $R$ \\ 
+
+\end{tabular}
+\end{center}
+
+This group has a name - called $D_4$, or the dihedral group on four elements. It turns out that $|D_4| = 8$, and it turns out that $|D_n| = 2n$. 
+
+What is one $\pi \in S_4$ that is not in $D_4$? 
+
+Notice that we can write all the elements of $D_4$ as products of cycles: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

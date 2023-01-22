@@ -1,0 +1,112 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{More Permutations and Combinations}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\begin{problem}{1}
+Let $S$ be the set of all integers composed of digits in {1, 3, 5, 7} at most once. 
+Find a) $|S|$ and b) $\sum_{x \in S} x$. 
+\end{problem}
+
+
+Define a \textbf{partition} of a set $S$ is subsets $S_1, \ldots S_k$ such that a) the $union_i$ $S_i = S$ - the sets "cover" S, b) $Si \cap Sj = \emptyset$, "pairwise disjoint", and c) $S_i \neq \emptyset$. 
+
+We partition S into $S_1$ the set of 1-digit numbers in the set, $S_2$ the set of 2-digit numbers in the set, etc. Notice that $|S_1| = 4$, $|S_2| = 4 \cdot 3 = 12$, etc. 
+
+for the sum, let $\alpha = \alpha_1 + 10 \alpha_2 + 100 \alpha_3 + 1000 \alpha_4$, where $\alpha_1$ is the sum of all units digits in all numbers in $S$, $\alpha_2$ is the sum of all tens digits in all numbers in $S$, etc. 
+We compute $\alpha_1$ by looking at its contributions from each of the sets. 
+$\alpha_1$ from $S_1$: $16$, as it's just each of the units digits added together. 
+% similar computations for \alpha_2, \alpha_3, \alpha_4
+
+We can do it much more easily by considering the average of each of the sets $S_i$. Notice that we can pair each element $x$ in $S_i$ with another element $\overline{x} \in S_i$ such that $x + \overline{x} = 88\ldots 8$, where this number has $i$ 8s. Therefore, we can just find $\alpha = 8 \frac{|S_1|}{2} + 88 \frac{|S_2|}{2} + 888 \frac{|S_3|}{2} + 8888 \frac{|S_4|}{2} = 117,856$ as before. 
+
+\section{Recursive Definition of Permutations}
+Although we can easily define $P(n, r)$ as $\frac{n!}{(n-r)!}$, we will try to create a recursive definition for $P(n,r)$ in terms of $P(a, b)$ such that $a \leq n$ and $b \leq r$. 
+
+Consider a set $S$ of $n$ elements $\{s_1, s_2, \ldots s_n\}$ and let $r$ be given and $0 \leq r \leq n$ and let $T$ be the set of all $r$-permutations of $S$. For example, if $r = 3$, then $T - \{s_1s_2s_3, s_3s_2s_1, s_4s_2s_1, s_5s_6s_1, \ldots \}$.\\
+We wish to find $|T|$. We may partition $T$ into two sets, $T_1$ and $T_2$, where $t \in T_1 \implies S_1 \not\in T$, or in other words, the set of all permutations that do not contain $s_1$. Similarly, we define $T_2$ as the set of $t$ such that $S_1 \in t$. Notice that $|T_1|$ is simply $P(n-1, r)$, as we have to construct a permutation of $r$ elements from the $n-1$ remaining elements. Also, $|T_2| = r P(n-1, r-1)$, as we have to order $r-1$ elements from the $n-1$ elements aside from $s_1$, and then pick the position of $s_1$ within the ordering in $r$ ways. Therefore, we have the identity $P(n, r) = P(n-1, r) + r P(n-1, r-1).$ $\quad \blacksquare$
+
+\section{Cyclic Permutations}
+Consider the set $T$ of $3$-permutations of the set $S = \{1, 2, 3, 4\}$. Therefore, $T = \{123, 132, 234, 214, \ldots \}$. Recall that from defining an equivalence relation that ... combinations. 
+We define the equivalence relation $x \cong y$ if $x$ and $y$ are cyclically equivalent - for example, $123 = 231 = 312$. \\
+With this equivalence relation, consider the equation $123 \cong x$ where $x \in T$ - this has $3$ solutions. We see from this that any sequence of length $n$ is equivalent to $n$ sequences (including itself).\\
+Since these equivalence groups are pairwise disjoint, we can count the number of cyclic permutations of length $r$ from a set of $n$ elements, $Q_r^n$. The reasoning above directly shows that $Q_r^n = P_r^n / r$. For example, there are $(n-1)!$ ways to seat $n$ people around a round table. \\
+
+\begin{problem}{2}
+There are $3$ girls and $5$ boys sitting around a table. Find the number of ways that they can sit around the table so that
+\begin{enumerate}
+\item there are no restrictions
+\item $B_1$ and $G_1$ cannot sit next to each other 
+\item No girls are adjacent to other girls.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\begin{enumerate}
+\item $7!$ 
+%\item Consider fixing the position of $B_1$. $G_1$ can go in any of the $5$ remaining spots not adjacent to his seat. The remaining seats can be filled in $6!$ different ways (note that the rotational symmetry is broken!) yielding $5 \cdot 6!$ \quad $\qed$. %also, complementary counting
+\item We can seat the 5 boys in $(5-1)!$ ways. In three of the remaining spaces between the boys, we have to put a girl in three of those spots. $2 \cdot 6!$
+\end{enumerate}
+\end{solution}
+
+\section{Combinations}
+Define the combination $C(n,r)$ be the number of ways to choose an (unordered) set of $r$ elements from a set of $n$. We can define this in such a way that 
+\[
+	C(n, r) = 
+\]
+We can construct a recursive definition for $C(n, r)$ as well. Let $T$ be the set of subsets of a set $S = stuff $ of size $r$. We can find $|T|$ by partitioning it into $T_1$ and $T_2$, using a similar definition from before - let $T_1$ be the set of subsets of $S$ that do not contain an arbitrary element $s_1$, and $T_2$ be the set of subsets of $S$ that do contain $s_1$. Notice that $|T_1| = C(n-1, r)$, as we have to pick $r$ elements from the other $n-1$ elements. We also see that 
+
+
+\begin{problem}{3}
+Given $2n$ tennis players, find the number of ways to arrange $n$ (unordered) games. 
+\end{problem}
+
+\begin{solution}{1}
+Index your players from $1$ to $2n$. We can match $P_1$ with another player in $2n-1$ ways. The next 
+\end{solution}
+
+\begin{solution}{2}
+We can pick a whole bunch of pairs. We can pick the first pair in $\binom{2n}{2}$ ways, the second pair in $\binom{2n-2}{2}$ ways, etc. until we are left with the lsat player. However, we have to de-order the games, as 
+\end{solution}
+
+\begin{solution}{3}
+We can permute all $2n$ players in $(2n)!$ ways. However, we've overcounted just as in Solution 2, as we've implicitly ordered the games 
+\end{solution}
+
+
+\begin{problem}{4}
+%Given positive integers $n, k \in \NN$, let $S$ be a set of $n$ points in the plane so that no 3 points are collinear and every point $P$ is equidistant to at least $k$ other points. Prove $k < \frac{1}{2} + \sqrt{2n}$. 
+\end{problem}
+\end{document}

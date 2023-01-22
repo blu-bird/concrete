@@ -1,0 +1,79 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Catalan's Reprise}
+Recall we wanted to count the number of triangulations of a regular polygon with $n$ sides - let $T_n$ be the number of ways to triangulate a $n$-gon. 
+
+The recursive process is constructed by fixing an edge that must be in exactly one triangle, and then doing casework on which of the other $n-2$ vertices it must have. Suppose we label the vertices of the $n$-gon from 1 to $n$ and have our fixed edge be the edge with vertices labeled $1$ and $n$. If we pick vertex $k$ to be the other vertex, we can triangulate the two other polygons, one in $T_k$ and another in $T_{n-k-1}$ ways. Therefore, we have the recurrence relation
+\[
+	T_n = \sum_{k=2}^{n-1} T_k T_{n-k+1}
+\]
+
+Shifting the indices back by 2, it appears to be that $C_n$ is the number of ways to triangulate an $n+2$-gon. To rigorously show this, we will have to manipulate the recurrence relation - and by doing this we see that 
+\[
+	C_{n+1} = \sum_{k=1}^n C_k C_{n-k}
+\]
+Fundamentally, we will see the Catalan numbers reappear when we can break up a problem into two smaller subproblems. This is not extremely obvious for the path problem, but we can consider the first point at which the path crosses the line $y=1$ again?
+
+\section{Equivalence Relation Problems}
+An equivalence relation $\cong$ if it is symmetric, reflexive, and transitive. A general relation on a set $A$ is a subset of the set $A \times A$. We can describe this relation as a table, called a \textbf{Cayley Table}. Here is a relation on 4 elements: 
+
+%x a b c d
+%a     x  
+%b   x x
+%c 
+%d       x
+
+As another example, the "greater than" and "less than" relations are relations that 
+
+\begin{problem}
+How many relations are there on a set of $n$ elements? How many relations are reflexive? How many are reflexive and symmetric? How many are reflexive, symmetric, and transitive? 
+\end{problem}
+
+\begin{solution}
+	There are clearly $2^{n^2}$ possible relations. 
+	
+	For a reflexive relation, we just fix the main diagonal. This gives $2^{n^2-n}$. 
+	
+	For reflexive and symmetric relations, we not only must fix the main diagonal, but then out of any of the $\binom{n}{2}$ 
+	
+	For reflexive, symmetric, and transitive relations, we must think of this differently. 
+	
+	The answer is $\sum_{k=1}^n \stirii{n}{k} = B_n$, the $n$th \textbf{Bell  number}. 
+\end{solution}
+\end{document}

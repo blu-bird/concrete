@@ -1,0 +1,172 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Applications of Ordinary Generating Functions}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Revisiting an Old Problem}
+\begin{problem}{1}
+	Given $\{ a, b, c, d, e \}$, compute the number of ways pick a multiset of size $3$ from these elements such that no item may appear more than 2 times. 
+\end{problem}
+
+We will do this using an ordinary generating function. Define an \textbf{ordinary generating function} $A(x)$ of a sequence $a_0, a_1, a_2, \ldots$ as 
+\[
+	A(x) = \sum_{k=0}^\infty a_k x^k 
+\]
+
+Consider the sum 
+\[
+	\binom{n}{0}^2 + \binom{n}{1}^2 + \binom{n}{2}^2 + \ldots + \binom{n}{n}^2
+\]
+We will evaluate this in two ways. First, consider the product $(1+x)^n \left( 1 + \frac{1}{x} \right)^n$ and expand these using the binomial theorem: 
+\begin{align*}
+(1+x)^n \left( 1 + \frac{1}{x} \right)^n &= \left( \sum_{k=0}^n \binom{n}{k} x^k \right) \left( \sum_{j=0}^n \binom{n}{j} x^{-j} \right) \\
+&= \sum_{k=0}^n \sum_{j=0}^n \binom{n}{k} \binom{n}{j} x^{k-j} 
+\end{align*}
+Note that our desired sum is the coefficient of the constant term - ie. all the terms when $k=j$. 
+
+However, notice also that this product can be rearranged as 
+\[
+	(1+x)^n \left( 1 + \frac{1}{x} \right)^n = (1+x)^{2n} x^{-n} = x^{-n} \sum_{k=0}^n \binom{2n}{k} x^n 
+\]
+so the constant term is $\binom{2n}{n}$. Therefore, this sum is $\binom{2n}{n}$. $\blacksquare$
+
+We can also show this with a clever combinatorial argument. Suppose we have $n$ blue marbles and $n$ green marbles, and we wish to pick $n$ of these marbles, which can be done in $\binom{2n}{n}$ ways. However, we can also compute this by doing casework on the number of green marbles we pick. We could pick $g$ green marbles, where $g$ can range between $0$ and $n$. 
+
+\section{}
+Generating functions are based around the idea that algebra can do a lot of combinatorial problems for us. 
+Consider first the \textit{enumerator} polynomial:
+\[
+	(1+ax)(1+bx)(1+cx) = 1 + (a+b+c) x + (ab + bc + ac)x^2 + abcx^3 
+\]
+Notice that if we have sets $A, B, C$ with sizes 
+This isn't very useful for larger and larger sizes of sets - but what if we just wanted to count the number of possible subsets of size $k$ from a set of $n$ distinct elements? By our logic above, if we set $a = b = c$, we just get 
+\[
+	(1+x)^3 = 1 + 3x + 3x^2 + x^3 = \sum_{k=0} C_k x^k 
+\]
+where $C_k$ is the number of subsets of size $k$. This directly gives us the identity 
+\[
+	(1+x)^n = 
+\]
+Let's plug a few values of $x$ into this expression. If we plug $x = 1$, we have: 
+\[
+	2^n = \sum_{k=0}^{n} \binom{n}{k}
+\]
+If we plug in $x = -1$, we have: 
+\[
+	0 = \sum_{n=0}^{n} \binom{n}{k} (-1)^k 
+\]
+or, by parity: 
+\[
+	\sum_{k even} \binom{n}{k} = \sum_{k odd} \binom{n}{k} 
+\]
+If we take a derivative with respect to $x$ of the original expression: 
+\[
+	n(1+x)^{n-1} = \sum_{k=0}^{n} k \binom{n}{k} x^{k-1}
+\]
+So if we plug in $x = 1$: 
+\[
+	n2^{n-1} = \sum_{k=0}^{n} k \binom{n}{k}
+\]
+We can also consider this combinatorially - consider the number of ways to pick a team of any size that has a designated captain. 
+
+What if we want to select $k$ items from $n$, with each element chosen at most twice? We now have to change the way that our original enumerating function worked - notice that we must introduce a quadratic term in the $1+ax$ in a factor, $a^2x^2$, to pick two of any element from the set $A$. Repeating the same logic as above, we have the generating function for this problem 
+\[
+	(1+x+x^2)^n.
+\]
+Let us expand it using multinomial coefficients: 
+\begin{align*}
+ (1+x+x^2)^n = \sum_{i+j+k=n} 1^i x^j (x^2)^k \binom{n}{i, j, k}
+\end{align*}
+where $\binom{n}{i, j, k} = \frac{n!}{i!j!k!}$, a \textit{multinomial} coefficient. Therefore, we have the coefficient of $x^{j+2k}$ as $\binom{n}{i, j, k}$, which, when written as $\sum C_rx^r$, is the number of ways to pick a multiset of size $r$ with each element used up to two times. This allows us to do the first problem again from a different perspective: 
+
+\begin{problem}{1, again}
+	Given $\{ a, b, c, d, e \}$, compute the number of ways pick a multiset of size $3$ from these elements such that no item may appear more than 2 times. 
+\end{problem}
+
+We can do this using a generating function - this equivalent to finding the coefficent of $x^3$ in the expansion of $(1+x+x^2)^5$. Notice that the only way to do this is to have $x^3 = (x)(x^2)^1$, or $x^3 = (x)^3$. This means that the number of ways to generate our multiset is $\binom{5}{3, 0, 2} + \binom{5}{1, 1, 3} = 10 + 20 = \boxed{30}$. 
+
+\begin{problem}
+	From 18 items, pick between 3 and 5 of each and select a multiset of size 79. 
+\end{problem}
+\begin{solution}
+	This corresponds to finding the coefficient $x^79$ of $(x^3 + x^4 + x^5)^18$, which can be computed using some brute force to be %some large garbage
+\end{solution}	
+
+Given a set of $n$ elements, choose a multiset of size $r$ (with no restrictions). We know already that this is The corresponding generating function is 
+\[
+	(1 + x + x^2 + \ldots + x^r + \ldots)^n
+\]
+of which we want the coefficient of $x^r$. We don't have to have the coefficients after the $x^r$ term, but the fact that we have an infinitude of terms after the $x^r$ terms gives the following easy form for this generating function: 
+\[
+	\frac{1}{(1-x)^n}
+\]
+We can expand this binomially: 
+\[
+	(1-x)^{-n} = \sum_{k=0}^\infty \frac{\ffact{-n}{-k}}{k!} (-x)^k = \sum_{k=0}^\infty \frac{\rfact{n}{k}}{k!} x^k  
+\]	
+where $\rfact{n}{k}$ is the \textit{rising factorial}, $n(n+1)(n+2) \ldots (n+k-1)$. This can be rearranged again to the form we already have seen: 
+\[
+	 = \sum_{k=0}^\infty \binom{n+k-1}{k} x^k  = \sum_{k=0}^\infty \snb{n}{k} x^k
+\]	
+\begin{problem}{3}
+	Given a set of $n$ elements, choose a multiset of size $r$, but each element must be used at least once. 
+\end{problem}
+
+\begin{solution}
+	Instead of starting each of our factors at $1$, we must start each factor at $x$ as each element must be chosen at least once. This gives us the generating function
+\[
+	(x + x^2 + \ldots )^n = \left(\frac{x}{1-x}\right)^n 
+\]
+We can expand: 
+\begin{align*}
+	&= x^n \sum_{k=0}^\infty \frac{\ffact{-n}{-k}}{k!} (-x)^k \\
+	&= \sum_{k=0}^\infty \frac{\rfact{n}{k}}{k!} x^{k+n} \\
+	&= \sum_{r=n}^\infty \frac{\rfact{n}{r-n}}{(r-n)!} x^{r}\\
+	&= \sum_{r=n}^\infty \binom{r-1}{n-1} x^{r} = \sum_{r=n}^\infty \snb{n}{r-n} x^{r}
+\end{align*}
+Therefore, we have the number of ways to do this as the coefficient of $x^r$, which is $\binom{r-1}{n-1} = \tsnb{n}{r-n}$. 
+\end{solution}
+
+\begin{problem}{4}
+	Find the coefficient of $x^23$ in the expansion of $(1+x^5+x^9)^100$. 
+\end{problem}
+\begin{solution}
+	The only way we can do this is by considering $23 = 2\cdot 9 + 5$, so then 
+
+\end{solution}
+
+
+\end{document}

@@ -1,0 +1,189 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Polya's Enumeration Theorem}
+\textbf{Polya's Enumeration Theorem} is a generalization of Burnside's Lemma. 
+
+We will first prove Burnside's Lemma. Recall the statement of Burnside's Lemma: for a set $S$ and a permutation group $G$, then the number of equivalence classes of $S$ under $G$ is given by 
+\[
+	\frac{1}{|G|} \sum_{\pi \in G} |fix(\pi)| 
+\]
+where $fix(\pi)$ is the set of elements that are fixed by $\pi$. 
+
+Recall that we proved last time the Orbit Stabilizer Theorem: 
+For any element $s \in S$ and the permutation group $G$, we have that 
+\[
+	|orbit(s)||stabilizer(s)| = |G|.
+\]
+Recall also that $orbit(s)$ is the set of all other elements in the set $S$ that permutations on $s$ can reach, and the stabilizer group $stabilizer(s)$ is the group of permutations acting on $s$ that leave it fixed. 
+
+
+\begin{proof}[First Proof of Burnside's]
+We want to count equivalence classes there are, so essentially we are looking at \textit{how many} orbits there are. 
+
+Let's do this by considering the fixed points in the table $S \times G \rightarrow S$. We will do this in two ways. The first way is to simply do it naively, adding up the number of ways that each $\pi$ in $G$ fixes (down in columns). This gives the expression 
+\[
+	\sum_{\pi \in G} |fix(\pi)|.
+\]
+
+If we add across in rows, however, we similarly get the sum 
+\[
+	\sum_{s \in S} |stab(s)|.
+\]
+By the Orbit-Stabilizer Theorem, this is 
+\[
+	\sum_{s \in S} \frac{|G|}{|orbit(s)|}.
+\]
+We can now break up $S$ into distinct orbits and sum over the orbits $O_1, O_2, \ldots O_k$. We can rewrite this as a double sum: 
+\[
+	\sum_{O_i \text{ orbits}}\sum_{s \in O_i} \frac{|G|}{|orbit(s)|}.
+\]
+What is the size of $orbit(s)$ if $s \in O_i$? Well, it has to be $|O_i|$: 
+\[
+	|G| \sum_{O_i \text{ orbits}}\sum_{s \in O_i} \frac{1}{|O_i|}.
+\]
+
+The inner sum can be evaluated by noting that if we're adding up $\frac{1}{|O_i|}$ for $|O_i|$ elements, this has to be 1: 
+\[
+	|G| \sum_{O_i \text{ orbits}} 1
+\]
+This is therefore $|G| (\text{the \# of orbits})$, so the number of orbits or the number of equivalence classes is given by Burnside's statement, as desired. 
+
+\end{proof}
+
+Let's build up to Polya's Enumeration Theorem through a series of definitions. 
+
+Let $X$ be a set (of vertices) and $S$ is a set of functions on $X$, $X \rightarrow C$, where $C$ is another set (of colors). Let $G$ be a group operating on $X$. We will say that if $f_i, f_j \in S$ are \textit{equivalent}, ie. $(f_i \cong f_2)$ if and only if 
+$f_i(x) = f_j(\pi(x))$ for all $x \in X$ for some $\pi \in G$. 
+
+This is fairly abstract, but our functions $f_i$ are essentially colorings of objects, and all we're saying that two colorings are the same if they transform to the same thing under an element in the group. 
+
+Example: $c_{12}$ and $c_{15}$ in the table, and test it for all 
+elements under the permutation $H$.
+
+We define the \textit{weight} of an element $c \in C$ as $w(c)$, and the \textit{weight} of a function $f: X \rightarrow C$, $W(f)$, is the product of the weights in its range, namely
+\[
+	\prod_{x \in X} w(f(x))
+\]
+where the weight of both functions and elements map to an abelian group and a field. 
+
+The \textit{inventory} of a set of functions is 
+\[
+	\sum_{f_i} W(f_i)
+\]
+
+To be concrete, suppose if we consider the two coloring of a square with red and green, and let $w(R) = r$ and $w(G) = g$, then from the table, we can see that coloring $c_1$ has weight $r^4$ and coloring $c_2$ has weight $rg^3$, etc. 
+
+For example, what is the inventory of all the two-colorings of a square, $c_1, c_2, \ldots c_{16}$? By enumeration, this is $r^4 + 4r^3 g + 6r^2g^2 + 4 rg^3 + g^4 = (r + g)^4$. This makes sense from a generating functions perspective, as each of the four vertices can be assigned either the weight $r$ or $g$. 
+
+Under the action of a group, \textbf{Polya's Enumeration Theorem} will tell us the correct coefficients of this generating function, ie. the correct number colorings that are independent of each other under a group. 
+
+We have to introduce one last definition - let the \textit{cycle index (polynomial)} of a permutation group $G$ be 
+\[
+	P_G(x_1, x_2, \ldots, x_k, \ldots) = \frac{1}{|G|}\sum_{\pi\in G} x_1^{b_1} x_2^{b_2} \ldots x_k^{b_k} \ldots
+\]
+where $b_k$ is the number of cycles of length $k$ in $\pi$ and the subscript of $x_i$ is the size of the cycle. 
+
+For example, in the dihedral group $D_4$, ie. rotations and reflections of a square, we have the following correspondences: 
+\[
+	e \rightarrow x_1^4 \quad r_{90} \rightarrow x_4^1 \quad r_{180} \rightarrow x_2^2 \quad r_{270} \rightarrow x_4^1
+\]	
+\[
+	H \rightarrow x_2^2 \quad V \rightarrow x_2^2 \quad L \rightarrow x_1^2x_2 \quad R \rightarrow x_1^2x_2
+\]	
+Thus, the cycle index is 
+\[
+	\frac{1}{8}(x_1^4 + 3x_2^2 + 2x_1^2 x_2 + 2 x_4)
+\]
+
+Finally, we have Polya's Enumeration Theorem, wrapped in these definitions: 
+\begin{theorem}
+The inventory of the equivalence classes of functions $f: X \rightarrow C$ under a permutation group $G$ is given by 
+\[
+	P_G\left(\sum w(c), \sum w^2(c), \sum w^3(c), \ldots, \sum w^k(c), \ldots \right) 
+\]	
+where the sums are over $C$. 
+\end{theorem}
+
+If we apply this to the two-colorings, we get the desired 
+\[
+	r^4 + r^3 g + 2 r^2 g^2 + rg^3 + g^4.
+\]
+
+And a simple corollary:
+The number of equivalence classes is just given by letting each of the weights be $1$, or letting each of the inputs in $P_G$ be $|C|$. 
+
+
+As an example, let's consider the vertices in a cube... 
+
+The cycle index is 
+\[
+\frac{}{24}
+\]
+
+
+This gives 10. 
+
+Polya was notorious for using this in chemistry to count the number of molecules with differing functional groups that were different but rotationally, the same. One example - consider a methane center and the possibilities of a methyl group, ethyl group, a hydrogen, and a chlorine group. These give 4 "colors" for the 4 vertices of this tetrahedron, so the number of distinct molecules is the number of distinct 4-colorings of the vertices of a tetrahedron. 
+
+To do this, we find the cycle index for a tetrahedron: 
+
+This gives 36. 
+
+What if we mandate that the molecule has to have one molecule: 
+
+This gives 21. 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,209 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[margin=1in]{geometry} 
+\usepackage{blubase}
+\usepackage[inline]{enumitem}
+\usepackage{fancyhdr}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{solution}
+    {\emph{Solution:}
+    }
+    {
+    \qedhere
+    }
+
+\lhead{Bryan Lu} 
+\rhead{Concrete Math - Spring 2019 \\ Problem Set 2} %replace XYZ with the homework course number, semester (e.g. ``Spring 2019"), and assignment number.
+\pagestyle{plain}
+
+\begin{document}
+\thispagestyle{fancy}
+\begin{problem}{1} 
+In how many ways may we write $n$ as a sum of an ordered list of $k$ positive numbers? Such a list is called a \textit{composition} of $n$ into $k$ parts. 
+\end{problem}
+
+\begin{solution}
+Consider alternatively the problem of placing $n$ unlabeled balls into $k$ labeled urns, with the condition that there is at least one ball in each urn. I claim that every way that this can be done corresponds to one and exactly one composition of $n$ into $k$ parts, as the number of balls in the first urn corresponds to the first positive integer, the number of balls in the second urn corresponds to the second integer, etc. The number of ways this can be done is simply $\snb{k}{n-k} = \boxed{\tbinom{n-1}{k-1}}$ - note that we must place one ball in each of the $k$ urns, and the remaining $n-k$ balls must be arranged among $k-1$ "dividers." 
+\end{solution}
+
+%alternatively, consider placing k-1 plus signs in n-1 spaces... give this more directly. 
+
+\begin{problem}{2}
+What is the total number of compositions of $n$ (into any number of parts)? 
+\end{problem}
+
+\begin{solution} We first establish the following lemma: \\
+\textbf{Lemma: } For all $n \in \ZZ^+$, we have: 
+\[
+	\sum_{k=0}^n \binom{n}{k} = 2^n 
+\]
+\indent \textit{Proof: } Consider the number of ways to choose a subset from a set of $n$ elements. We could fix the size the set at some integer $k$ ($0 \leq k \leq n$) and pick the set in $\binom{n}{k}$ ways, and sum over all possible $k$, which would count all possible subsets. Alternatively, we could simply pick each element to be in or out of the subset, which requires $2^n$ choices. This shows that the sum and $2^n$ are the same quantity. $\square$
+
+We are to consider the sum ranging over all possible $k$ of $\binom{n-1}{k-1}$. Clearly $k$ can only take on meaningful values from $1$ to $n$, so we have
+\[
+	\sum_{k=1}^n \binom{n-1}{k-1} = \sum_{k=0}^{n-1} \binom{n-1}{k} = \boxed{2^{n-1}}
+\]
+\end{solution}
+
+% we can then just consider picking any-size subset of the n-1 plus signs, so this is obviously just 2^n-1. 
+
+\begin{problem}{3}
+A Grey Code is an ordering of all distinct $n$-digit binary strings such that each string differs from the previous in precisely one digit. 
+\begin{enumerate}[label=(\alph*)]
+\item Write one Grey Code for $n=4$. 
+\item Prove by induction that Grey Codes exist for all $n \geq 4$. 
+\item Prove that the number of even-sized subsets of an $n$-element set equals the number of odd-sized subsets of an $n$-element set. 
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item One such Grey Code is 0000, 0001, 0011, 0010, 0110, 0111, 0101, 0100, 1100, 1101, 1101, 1111, 1110, 1010, 1011, 1001, 1000. 
+\item We already have our base case for $n = 4$ above. Suppose now a Grey Code already exists for binary strings of length $k$. I will now construct a Grey Code for binary strings of length $k+1$ by considering the sequence of binary strings in the original Grey Code of length $k$ with a $0$ appended to the beginning of each string, followed by a sequence consisting of the strings in the original Grey Code, except in reverse order, and a $1$ appended to the front of each string. This is a Grey Code of $k+1$-digit binary strings, as all of these $2^{k+1}$ strings are all distinct, and also each string differs from the previous string in exactly one digit, including for the first string in the second sequence. Therefore, we must have that for all $n \geq 4$, there exists a Grey Code of all $n$-digit binary strings. $\blacksquare$
+
+\textit{Remark.} Grey Codes exist for all $n \in \ZZ^+$: these can be obtained by noting that an easier base case exists for $n = 1$ (that being 0, 1) and then using the same reasoning to construct Grey Codes for strings of arbitrarily many digits. 
+\item Note that each binary string of length $n$ corresponds to a subset of $n$ elements - for some binary string of length $n$, if the string has a 1 in the $i$th position, pick element $i$ from the set $\{ 1, 2, \ldots n\}$ to be a member of the subset. 
+
+Consider a Grey Code of $n$-digit binary strings and the subsequence consisting of the strings at even-numbered positions. All the strings in this subsequence have the parity of the number of $1$s as an invariant - notice that between successive terms in this subsequence, they can differ in the number of 1s by $0$ or $2$, depending if $2$ 1s were replaced with 0s (or vice versa) or if a 1 was replaced with a 0 and a 0 was replaced with a 1. Similarly, the subsequence of strings at odd-numbered positions in the Grey Code all have the same parity of 1s, but the strings in these two subsequences cannot have the same parity of 1s as they differ in exactly 1 digit. One subsequence thus contains strings with an odd number of 1s, and one contains strings with an even number of 1s. Since these subsequences are the same length as there are an even number of $n$-digit binary strings, there must similarly be the same number of even-sized subsets of an $n$-element subset as odd-sized subsets. $\blacksquare$ 
+
+\textit{Remark. } This can also be shown by considering $0^n = (1-1)^n$: 
+\[
+	(1-1)^n = \sum_{k=0}^n (-1)^k \binom{n}{k} = 0
+\]
+\[
+	\binom{n}{0} + \binom{n}{2} + \binom{n}{4} \ldots = \binom{n}{1} + \binom{n}{3} + \binom{n}{5} \ldots
+\]
+The left hand side of this equation is the number of ways to choose an even-sized subset, and the right-hand side is the number of ways to choose an odd-sized subset. $\square$
+\end{enumerate}
+\end{solution}
+
+% 
+
+\begin{problem}{4}
+A list of parentheses is said to be balanced if there are the same number of left parentheses as right, and as we count from left to right we always find at least as many left parentheses as right parentheses. For example, (((()()))()) is balanced and ((()) and (()()))(() are not. How many balanced lists of $n$ left and $n$ right parentheses are there? 
+\end{problem}
+
+\begin{solution}
+Note that this problem bijects to the paths on the problem of paths on the coordinate plane that consist of steps of the form $\ihat + \jhat$ or $\ihat - \jhat$ that go from $(0, 0)$ to $(2n, 0)$ without crossing the $x$-axis. Notice that for every such valid path, we replace each step of the form $\ihat + \jhat$ as a left parenthesis in our list, and similarly each step of the form $\ihat - \jhat$ as a right parenthesis in our list to give a balanced list, since at no point will there be more right parentheses as left parentheses, just as there will not be a point when more $\ihat - \jhat$ steps have been taken compared to $\ihat + \jhat$ steps. As for every valid path, we have exactly one such balanced list of parentheses, there are exactly $\boxed{C_n}$ balanced lists of parentheses, where $C_n$ is the $n$th Catalan number, or $\boxed{\tfrac{1}{n+1} \tbinom{2n}{n}}$. 
+%We can use complementary counting. First note that there are $\binom{2n}{n}$ ways to arrange the $n$ left and right parentheses without any restrictions. It now suffices to find all the unbalanced configurations with $n$ left and $n$ right parentheses.
+%
+%Consider such an unbalanced configuration - there must exist at least one point in this list of parentheses where the number of right parentheses before this point is greater than the number of left parentheses. Take the first such point from the left where this is true, and reverse the orientation of each parenthesis to the left of this point - turn 
+\end{solution}
+
+\begin{problem}{5}
+A tennis club has $4n$ members. To specify a doubles match, we choose two teams of two people. In how many ways may we arrange the members into doubles matches so that each player is in one doubles match. In how many ways may we do it if we specify in addition who serves first on each team? 
+\end{problem}
+
+\begin{solution}
+Suppose we arrange these $4n$ people in a line, and then take the first and second people to be a team, the third and fourth people to be a team, and so on down the line. We can arrange these people in $(4n)!$ ways, but then we must divide by a factor of $2$ for each team, since we can rearrange the people on each team without changing the overall configuration of the teams, for a total of $2^{2n}$ to be divided out. 
+
+If we continue with this arrangement, if we take the first and second teams to play each other, the third and fourth teams to play each other, etc., then we will have overcounted by a factor of $2$ for each game we create as we could swap the order of the teams without changing the matches. This means we must divide out by a further factor of $2^n$. We also have to consider dividing out by a factor of $n!$, as we could have arranged these games in any order. In total, this gives $\boxed{\tfrac{(4n)!}{2^{3n} n!}}$ ways to arrange the players into doubles matches.
+
+If we were to specify the first server on each team, we would have to introduce a choice between two options for each team, for a factor of $2^{2n}$ for each possible arrangement into doubles matches. In this scenario, this gives $\boxed{\tfrac{(4n)!}{2^{n} n!}}$ ways to arrange the teams.  
+\end{solution}
+
+% 
+
+\begin{problem}{6}
+A town has $n$ streetlights running along the north side of main street. The poles on which they are mounted need to be painted so that they do not rust. In how many ways may they be painted with red, white, blue, and green if an even number of them are to be painted green?
+\end{problem}
+
+\begin{solution}
+We can proceed using casework. If we set aside $g$ of these poles to be painted green, where $g$ is some even integer $\leq n$, we can paint the rest in order by picking one of three colors for the remaining $n-g$ poles. However, we must pick these $g$ poles in $\binom{n}{g}$ ways, so in total we have
+\[
+\sum_{g \text{ even}} \binom{n}{g} 3^{n-g} = \boxed{\sum_{k=0}^{\floor{\frac{n}{2}}} \binom{n}{2k} 3^{n-2k}}
+\]
+ways to color these poles. 
+
+For a nicer closed form, we can consider using the Binomial Theorem: 
+\[
+	(-1+3)^n = \sum_{k=0}^n (-1)^k \binom{n}{k} 3^{n-k} 
+\]
+\[
+	(1+3)^n = \sum_{k=0}^n \binom{n}{k} 3^{n-k} 
+\]
+If we add these sums together, we have that 
+\[
+	2 \sum_{k=0}^{\floor{\frac{n}{2}}} \binom{n}{2k} 3^{n-2k} = 4^n + 2^n.
+\]
+From this we obtain the cleaner closed form for this sum $\boxed{2^{2n-1} + 2^{n-1}}$. 
+\end{solution}
+
+% Let E_n and O_n be the number of ways to color this with an even number of green poles and an odd number of green poles. Notice that we can construct the recurrence relation E_{n+1} = 3E_n + O_n, and also O_{n+1} = 3O_n + E_n. Note that O_n = 4^n - E_n, so E_{n+1} = 2E_n + 4^n, and by solving the recurrence relation (turn it into a characteristic equation, etc.) we can get this one. 
+
+\begin{problem}{7}
+We have $n$ identical ping-pong balls. In how many ways may we paint them red, white, blue, and green if we use green paint on an even number of them?
+\end{problem}
+
+\begin{solution}
+As in the previous problem, we can proceed using casework on the number of green objects. Suppose we choose $g$ of these balls to be green, where $g$ is an even number. Then, we can consider constructing a multiset of length $n-g$ from 3 possible elements, thus giving $\snb{n-g}{3} = \binom{n-g+2}{2}$ colorings for the remaining balls. If we sum over all possible $g$, we have
+\[
+	\sum_{g \text{ even}} \binom{n-g+2}{2}  = \boxed{\sum_{k=0}^{\floor{\frac{n}{2}}} \binom{n-2k+2}{2}}
+\]
+\end{solution}
+
+% use hockey stick???
+
+\begin{problem}{8}
+A boolean function $f : \{0, 1 \}^n \rightarrow 0, 1$ is \textit{self-dual} if replacing all 0s with 1s and 1s with 0s yields the same function. How many self-dual boolean functions are there as a function of $n$?
+\end{problem}
+
+\begin{solution}
+Notice that for any boolean string in the domain, its dual (the string obtained by swapping 0s for 1s and vice versa) should map to the same element. Since every string has exactly one dual, we have that we have $2^{n-1}$ equivalence groups under duality. We only have to make the choice between 0 or 1 for each equivalence group, so in total we have $\boxed{2^{2^{n-1}}}$ self-dual boolean functions. 
+\end{solution}
+
+% 
+
+\begin{problem}{9}
+A boolean function $f : \{0, 1 \}^n \rightarrow 0, 1$ is \textit{symmetric} if any permutation applied to the digits in the domain yields the same function. e.g. $f(001) = f(010) = f(100)$. How many symmetric boolean functions are there as a function of n?
+\end{problem}
+
+\begin{solution}
+For a binary string $s$ in the domain, any strings with the same number of $1$s as $s$ should map to the same element as $s$, as under a permutation, any string with the same number of $1$s (and therefore $0$s) as $s$ can be rearranged to form $s$. Therefore, there are only $n+1$ equivalence groups, one for each possible number of $1$s in a binary string of length $n$. Making a choice between 2 options for each equivalence group gives us $\boxed{2^{n+1}}$ symmetric functions. 
+\end{solution}
+
+
+\begin{problem}{10}
+Prove $x^n = \sum^n_{k=0} S(n, k) \ffact{x}{k}$. 
+\end{problem}
+
+\begin{solution}
+We first prove the statement for $x \in \ZZ_{\geq 0}$. Consider instead the problem of placing labeled $n$ balls into $x$ labeled urns. Note that we can do this in $x^n$ ways, by choosing one of the $x$ urns for each ball. 
+
+Equivalently, for some integer $k$ such that $0 \leq k \leq n$, we could consider partitioning the balls into $k$ sets and then picking $k$ of the urns from the $x$ possible urns. We can partition the balls into $k$ sets in $S(n, k)$ ways, and then we can pick a possible set of $k$ urns in $\binom{x}{k}$ ways and put each of the partitioned sets into these $k$ urns in $k!$ ways. This gives us 
+\[
+	x^n = \sum^n_{k=0} S(n, k)\binom{x}{k} k!  = \sum^n_{k=0} S(n, k) \ffact{x}{k}
+\]
+as required. $\blacksquare$
+
+We can also prove this using induction on $n$. If $n = 1$, this statement is easily seen to be true, as $x = \ffact{x}{1}$. We can show the inductive step as follows: 
+\begin{align*}
+	x^{n+1} = x \cdot x^n &= \sum_{k=0}^n x \cdot \stirii{n}{k} \ffact{x}{k} \\
+	&= \sum_{k=0}^n \stirii{n}{k} (\ffact{x}{k+1} + k \ffact{x}{k}) \\
+	&= \sum_{k=0}^n \stirii{n}{k} \ffact{x}{k+1} + \sum_{k=0}^n k \stirii{n}{k} \ffact{x}{k} \\
+	&= \sum_{k=1}^{n+1} \stirii{n}{k-1} \ffact{x}{k} + \sum_{k=0}^n k \stirii{n}{k} \ffact{x}{k} 
+\end{align*}
+We can add terms to each of these partial sums that are zero: 
+\begin{align*}
+&= \sum_{k=0}^{n+1} \stirii{n}{k-1} \ffact{x}{k} + \sum_{k=0}^{n+1} k \stirii{n}{k} \ffact{x}{k} \\
+&= \sum_{k=0}^{n+1} \left(\stirii{n}{k-1} + k \stirii{n}{k} \right)\ffact{x}{k} =  \sum_{k=0}^{n+1} \stirii{n+1}{k} \ffact{x}{k} 
+\end{align*}
+This completes the induction and thus the statement is proved for arbitrary real $x$. $\blacksquare$
+\end{solution}
+
+\begin{problem}{11}
+Prove $(1 + x)^\alpha = \sum^\infty_{k=0} \frac{\ffact{\alpha}{k}}{{k!}} x^k$ for any real $\alpha$. 
+\end{problem}
+
+\begin{solution}
+Consider the Taylor series of the function $f(x) = (1+x)^\alpha$ centered at $x = 0$. It is sufficient to show that $\dnv{f}{x}{k} \Big|_{x=0} = \ffact{\alpha}{k}$, or rather that $\dnv{f}{x}{k} = \ffact{\alpha}{k} (1+x)^{\alpha-k}$, which we show by induction. The base cases $k=0$ and $k=1$ are trivial and give $1$ and $\alpha$, respectively. 
+
+Suppose the statement is true for positive integer $m$. Then, 
+\[
+	\dv{}{x}\left( \dnv{f}{x}{m}\right) = \dv{}{x} (\ffact{\alpha}{k} (1+x)^{\alpha-k}) = (\alpha-k)\ffact{\alpha}{k} (1+x)^{\alpha - k -1} = \ffact{\alpha}{k+1} (1+x)^{\alpha - (k+1)}
+\]
+and thus our claim is proved. This shows that the Taylor series of $f$ is indeed of the form as given. $\blacksquare$
+\end{solution}
+
+\end{document}

@@ -1,0 +1,117 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Partitions and Stirling Numbers}
+\begin{problem}{1}
+How many ways can a set of 4 elements be partitioned into 2 non-empty sets? 
+\end{problem}
+\begin{proof}[Solution:]
+casework 
+\end{proof}
+
+Defintion: the number of ways to partition a set of $n$ elements into $k$ non-empty subsets is the \textbf{Stirling Number of the second kind} $S(n, k)$ or %binomial with curly brackets
+
+Let's construct a few base cases: 
+\begin{align*}
+	&S(1, 1) = 1 \\
+	&S(n, 1) = 1 \\
+	&S(n, n) = 1 \\
+	&S(0, 0) = 1 \text{\quad (defined as such)} \\
+	&S(n, 2) = 
+\end{align*}
+The first four of these are fairly trivial to see, but the last two are not. 
+\begin{problem}{Claim:}
+$S(n, 2) = 2^{n-1} - 1$ 
+\end{problem}
+\begin{proof}
+Consider $A = \{ 0, 1 \}^n$. This will be the characteristic function of membership in the two sets $S_0$, $S_1$. Note that $|A| = 2^n$, but $1^n$ and $0^n$ are not valid partitions (since they have an empty set). So we have $|A| = 2^n - 2$ valid mappings. However, since we are double counting because the identity of the subsets are irrelevant, we divide by 2 to yield $2^{n-1} - 1$. 
+\end{proof}
+
+\begin{problem}{Claim: }
+$S(n, n-1) = \binom{n}{2}$. 
+\end{problem}
+\begin{proof}
+Choose two elements from the $n$ that will be in the same set, and each of the rest of the elements must be in its own set. 
+\end{proof}
+
+With these base cases in mind, we can look at constructing a recursive formula for $S(n, k)$. We can start by looking at the partitions of an $n-1$-element set into $k-1$ elements - and the $n$th element must go into a new set by itself. Alternatively, we can consider $S(n-1, k)$, or the partitions of an $n-1$-element set into $k$-elements, and we must pick which one of the sets the last element must go into in $k$ ways. This gives us the recursive formula
+\[
+	S(n, k) = S(n-1, k-1) + kS(n-1, k)
+\]
+We can now begin computing values of the Stirling numbers of the second kind: 
+\begin{center}
+\begin{tabular}{c | c c c c c c c}
+B & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline 
+labeled & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+unlabeled & & & \\
+labeled & & & \\
+unlabeled & & & \\
+
+\end{tabular}
+\end{center}
+$1 - - - - - -$
+$1 1 - - - - -$
+$1 3 1 - - - -$
+$1 7 6 1 - - -$
+$1 15 25 10 1 - -$
+$1 31 90 65 15 1 -$
+$1 63 301 350 140 21 1$ etc. 
+
+\section{Revisiting Balls and Urns}
+\begin{center}
+\begin{tabular}{c c c c c c}
+B & U & no restrictions & $\leq 1$ per urn & $\geq 1$ per urn \\ \hline 
+labeled & labeled & & & \\
+unlabeled & labeled & & & \\
+labeled & unlabeled & & & \\
+unlabeled & unlabeled & & & \\
+
+\end{tabular}
+$L -> L$ 
+$U -> L$, leq 1 - choose B of the U urns (U B)
+$U -> L$, no restrictions - multiset problem, ((U, B))
+$U -> L$, $\geq$ 1 - fill the urns with balls, and then same as before - ((U, B-U))
+$L -> U$, geq 1 - literally the Stirling numbers of the second kind
+$L -> U$, leq 1 - either 1 or 0 $[ B \leq U]$ only 1 if $B \leq U$. 
+$L -> U$, no restrictions - sum of Stirling numbers $S(B, n)$ from $n = 1 to U$, and if we go off the triangle it is 0
+$L -> L$, geq 1 - partition the elements, and then label the subsets $U! S(B, U)$. 
+\end{center}
+stuff 
+
+
+\end{document}

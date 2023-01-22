@@ -1,0 +1,154 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Counting Unlabeled Graphs}
+A simple graph $G$ consists of a set of vertices $V$ and a set of edges $E$, where an edge is a pair of distinct vertices in $V$, where the ordering of the vertices in the edge does not matter. 
+
+Consider the two below graphs: 
+%% bow tie and square
+Are these the same? That is, are these graphs isomorphic to each other? Notice that if we consider permuting the vertices using the permutation $\pi$ below: 
+\[
+	\pi = \begin{pmatrix}
+	A & B & C & D\\
+	A & C & B & D
+	\end{pmatrix}
+\]	
+and apply this permutation of vertices to the edges, every edge in the graph 1 maps to exactly one edge in graph 2. Therefore, $G_1 \cong G_2$ under $\pi$.
+
+In general, what if we have an arbitrarily large number of vertices (like, 100)? Then, it is not reasonable for us to try permuting all the vertices and eliminating the ones that we get to get all possible distinct graphs with 100 vertices. 
+
+Let's try a few small cases. If we only have 3 vertices, we can enumerate to find the 4 possibilities, and similarly for 4 vertices, but beyond this becomes somewhat messy. Let's try to use Polya.
+
+We want the symmetric group of order 3 ($S_3$), which consists of all possible permutations of three nodes. We act with this group on all possible edges between the nodes, which yields the cycles we want: 
+
+\begin{center}
+\begin{tabular}{c | c | c | c}
+ $S_3$ & Possibilities & $S_3^{(2)}$ & Term \\ \hline
+(1)(2)(3) & 1 & (12)(13)(23) & $x_1^3$ \\
+(1)(23) & 3 & (12 13) (23) & $x_1 x_2$ \\
+
+
+
+\end{tabular}
+\end{center}
+
+This gives us the cycle index polynomial 
+\[
+	P_{S_3^{(2)}} = \frac{1}{6} (x_1^3 + 3x_1 x_2 + 2x_3) 
+\]
+
+In order to enumerate, we assign weight $r$ to if the edge is present, and $b$ to if it is not present. This gives us the polynomial 
+\[
+	P_{S_3} = \frac{1}{6}( (r+b)^3 + 3(r+b)(r^2+b^2) + 2(r^3 + b^3))
+\]
+
+We can simplify, noting that there's only one way for an edge to not be present, so plug $b = 1$: 
+\[
+	 = r^3 + r^2 + r + 1
+\]
+
+In order to count the number of non-isomorphic graphs, we can let $r = 1$ to yield the desired answer of 4. 
+
+How about we continue for $n = 4$? Here are the different types of permutations we can encounter in this group: 
+
+\begin{center}
+\begin{tabular}{c | c | c | c}
+ $S_4$ & Possibilities & $S_4^{(2)}$ & Term \\ \hline
+(1)(2)(3)(4) & 1 & (12)(13)(14)(23)(24)(34) & $x_1^6$ \\
+(1)(2)(34) & 6 & (12)(13 14)(23 24)(34) & $x_1^2 x_2^2$ \\
+(1)(234) & 8 & (12 13 14)(23 24 34) & $ x_3^2 $\\
+(12)(34) & 3 & (12)(13 14)(23 24)(34) & $x_1^2 x_2^2 $\\
+(1234) & 6 & (12 23 34 14)(13 24) & $x_4 x_2$ \\
+
+\end{tabular}
+\end{center}
+
+This gives the cyclic index polynomial 
+\[
+	\frac{1}{24} (x_1^6 + 9 x_1^2 x_2^2 + 8 x_3^2 + 6 x_2 x_4)
+\]
+
+Substituting $x_k = x^k + 1$, we have 
+\[
+	x^6 + x^5 + 2x^4 + 3x^3 + 2x^2 + x + 1 
+\]
+And allowing $x = 1$ gives the desired 11 different graphs. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

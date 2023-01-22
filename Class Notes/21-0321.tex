@@ -1,0 +1,145 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+
+%%%%% Define your custom functions and macros here, if any
+\newcommand{\fallfac}[2]{{#1}^{\underline{#2}}}
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Generating Functions - The Catalan Numbers}
+\def\scribestring{Sophia Pentakalos and Sophia Wang}
+\def\datestring{Thursday, March, 21st 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Unlabeled Probability}
+
+\begin{problem}
+1 You throw two marbles into two buckets. Find the probability that they both land in the same bucket: 
+
+\begin{itemize}
+    \item Unlabeled into unlabeled:  1/2 (2 scenarios: marbles in separate buckets or together)
+    \item Labeled into unlabeled: 1/2 (2 scenarios: marbles in separate buckets or together)
+    \item Labeled into labeled: 1/2 (4 scenarios - 2 of which include both marbles in the same bucket)
+    
+    \item Unlabeled into labeled: 
+    
+    Let's label buckets A and B. You have two indistinguishable marbles, and so there are three scenarios: marbles are in separate buckets, both marbles are in A, and both marbles in B. Therefore, you may incorrectly conclude that the probability is 2/3, when in reality it remains 1/2. The probability of marbles being in separate buckets is twice the odds that both marbles are in A. 
+    \newline \newline
+    This is because \textbf{probability problems are ALWAYS labeled.}
+    \newline \newline
+    If you label the marbles 1 and 2, there are two ways for the marbles to be in separate buckets, each as probable as any of the other scenarios: 1-A and 2-B or 1-B and 2-A. 
+    
+    When you are asked for the probability, always treat both the balls and urns, or marbles and buckets, as labeled into labeled. 
+
+\end{itemize}
+
+\end{problem}
+
+\section{Generating Function for Catalan Numbers}
+
+Recall:
+
+$$C_n = \sum_{i=0}^{n-1} C_i C_{n-1-i} $$ $$ C_0 = C_1 = 1$$
+
+Or in other words: $C_{n+1} = \sum_{i=0}^{n} C_i C_{n-1}$
+
+\bigbreak
+
+\bigbreak
+
+\noindent
+Let's find a mathematical, instead of combinatorial, formula for $C_n$:
+
+\smallbreak
+
+\noindent Define $f(x) = \sum_{n=0}^{\infty} C_n x^n$
+
+\medbreak
+
+
+\noindent Notice that $f(x) = C_0 + C_1x + C_2x^2 + C_3x^3 + ...$
+
+\medbreak
+${f(x)}^2 = C_0^2 + (C_0C_1 + C_1C_0)x + (C_0C_2 + C_1C_1 + C_2C_0) x^2 + ...$ 
+
+\smallbreak
+$= C_1 + C_2x + C_3x^2 + C_4x^3+ ... $
+
+\medbreak
+
+$x{f(x)}^2 = C_1x + C_2x^2 + C_3x^3 
++ C_4x^4 + ... $
+
+\smallbreak
+
+$x{f(x)}^2 = f(x) - C_0 = f(x) - 1$
+
+\smallbreak
+
+$x{f(x)}^2 - f(x) + 1 = 0$
+
+\smallbreak
+\noindent Now, use the quadratic formula to get: 
+
+$f(x) = \frac{1\pm \sqrt{1-4x}}{2x}$
+
+\noindent 
+However, we need to express this in series notation, in order to directly know the nth coefficient.
+
+\medbreak
+
+\noindent Recall from p.20 of Unit 1, Section 3.2:
+
+\smallbreak
+
+\noindent $(1-x)^\frac{1}{2} = \frac{\sum \fallfac{\frac{1}{2}}{k}}{k!} x^k$
+
+\medbreak
+$= 1 - \frac{1}{2}\sum_{n=0}^{\infty}\binom{2n}{n} \frac{1}{n+1}\frac{1}{4^n} x^{n+1}$
+
+\medbreak
+
+\noindent So, $(1-4x)^{\frac{1}{2}} = 1 - \frac{1}{2}\sum_{n=0}^{\infty}\binom{2n}{n} \frac{1}{n+1}\frac{1}{4^n} x^{n+1}$
+
+\smallbreak
+$(1-4x)^{\frac{1}{2}} = 1 - 2 \sum_{n=0}^{\infty}\binom{2n}{n} \frac{1}{n+1} x^{n+1}$ 
+
+\medbreak
+
+\noindent
+Based on what we previously found, $(1-4x)^{\frac{1}{2}} = 1 - 2 \sum_{n=0}^{\infty}\binom{2n}{n} \frac{1}{n+1} x^{n+1}$ , we know to choose the solution of $f(x) = \frac{1 - \sqrt{1-4x}}{2x}$.
+
+\medbreak
+
+\noindent Now, we simplify, to get that the generating function for the Catalan Numbers is:
+$$\fbox{f(x) = \sum_{n=0}^{\infty} \binom{2n}{n} \frac{1}{n+1} x^n}$$
+
+
+
+\end{document}

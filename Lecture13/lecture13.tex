@@ -1,0 +1,137 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{blubase}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Manipulating Generating Functions}
+Examples of turning sequences into functions: 
+\begin{enumerate}
+\item $<1, 1, 1, 1, \ldots > \, = 1 + x + x^2 + x^3 + \ldots = \frac{1}{1-x}$
+\item $<2, 2, 2, 2, \ldots > \, = 2 + 2x + 2x^2 + 2x^3 + \ldots = \frac{2}{1-x}$
+\item  $<1, -1, 1, -1, \ldots > \,= 1 - x + x^2 - x^3 + \ldots = \frac{1}{1+x}$
+\item $<1, 0, 1, 0, 1, \ldots > \,= 1 + x^2 + x^4 + \ldots = \frac{1}{1-x^2}$
+\item $<0, 1, 0, 1, 0, \ldots >\, = x + x^3 + x^5 + \ldots = \frac{x}{1-x^2}$
+\item $<1, 2, 4, 8, 16, \ldots > \, = 1 + 2x + 4x^2 + 8x^3 + \ldots = \frac{1}{1-2x}$
+\item $<1, \frac{1}{2}, \frac{1}{6}, \frac{1}{24}, \ldots> \, = 1 + \frac{1}{2} x + \frac{1}{6} x^2 + \frac{1}{24}x^3 + \ldots = \frac{e^x - 1}{x}$
+\item $<1, 2, 3, 4, \ldots> = 1 + 2x + 3x^2 + 4x^3 + \ldots = \dv{}{x}(1 + x + x^2 + x^3 + \ldots) = \dv{}{x}\left(\frac{1}{1-x}\right) = \frac{1}{(1-x)^2} $
+\item $<2, 6, 12, 20, 30, \ldots> = 2 + 6x + 12x^2 + 20x^3 + \ldots = \dv{}{x}(1 + 2x + 3x^2 + 4x^3 + \ldots) = \dv{}{x}\left(\frac{1}{(1-x)^2}\right) = \frac{2}{(1-x)^3} $ \\
+Notice this is the sequence $\{ (k+1)(k+2) \}$.
+\item $<0, 1, 4, 9, 16, \ldots> = x + 4x^2 + 9x^3 + 16x^4 + \ldots = \frac{2}{(1-x)^3} -3\frac{1}{(1-x)^2} + \frac{1}{1-x} = \frac{x+ x^2}{1-x^3}$\\
+Notice that $k^2 = 1(k+2)(k+1) - 3(k+1) + 1$, so we can just take a linear combination of the sequences we know. 
+\end{enumerate}
+
+\section{Multiplying Generating Functions}
+Suppose we have
+\[
+	A(x) = a_0 + a_1x + a_2x^2 + \ldots = \sum_{k=0}^\infty a_kx^k 
+\]
+\[
+	B(x) = b_0 + b_1x + b_2x^2 + \ldots = \sum_{k=0}^\infty b_kx^k 
+\]
+and $C(x) = A(x) B(x)$. How would we find $c_n$? Notice that we can only generate terms of $x^n$ if we consider $a_0b_n, a_1b_{n-1}$, etc. Therefore, the coefficients are the Cauchy product of the coefficients: 
+\[
+	c_n = \sum_{k=0}^n a_k b_{n-k}
+\]
+so 
+\[
+	C(x) = stuff.
+\]
+Let's now consider a more specific example - if we let $B(x) = 1 + x + x^2 + x^3 + \ldots$, we will get $C(x) = A(x)B(x)$ as
+\[
+	C(x) = a_0x + (a_0+a_1)x + (a_0+a_1+a_2)x^2 + \ldots + \sum_{i=0}^k x^k + \ldots.
+\]
+Notice that leads us to conclude the following theorem: 
+\begin{theorem}
+If $A(x)$ is the ordinary generating function for the sequence $\{a_0, a_1, \ldots \}$, then $\frac{A(x)}{1-x}$ is the generating function for its partial sums. 
+\end{theorem}
+
+Let's see some applications of this now. Notice that we can very easily find the generating function for $<1, 2, 3, 4, \ldots>$ by directly applying this result to $A(x) = \frac{1}{1-x}$: 
+\[
+	\frac{1}{(1-x)^2} = 1 + 2x + 3x^2 + \ldots
+\]
+Notice the similarity we see with the generating function for the multiset coefficients: 
+\[
+	\frac{1}{(1-x)^2} = \sum_{k=0}^\infty \snb{2}{k}x^k = \sum_{k=0}^\infty \binom{2+k-1}{k}x^k = \sum_{k=0}^\infty \binom{k+1}{k}x^k = \sum_{k=0}^\infty (k+1)x^k 
+\]
+We can now get the generating function for the triangular numbers $D(x)$ if we take partial sums again: 
+\begin{align*}
+D(x) = B(x) C(x) &= \frac{1}{(1-x)^3} \\
+&= \sum_{k=0}^\infty \snb{3}{k}x^k \\
+&= \binom{3+k-1}{k}x^k \\
+&= \sum_{k=0}^\infty \binom{k+2}{2}x^k \\
+&= \sum_{k=0}^\infty \frac{(k+1)(k+2)}{2}x^k = \sum_{k=1}^\infty \frac{k(k+1)}{2}x^{k-1}
+\end{align*}
+
+Once more, to get the tetrahedral numbers 
+\[
+	E(x) = 1 + 4x + 10x^2 + 20x^3 + 35x^4 + \ldots
+\]
+\begin{align*}
+E(x) = B(x) \cdot x D(x) &= \frac{x}{(1-x)^4} \\
+&= \sum_{k=0}^\infty \snb{4}{k}x^{k+1} \\
+&= \binom{4+k-1}{k}x^k \\
+&= \sum_{k=0}^\infty \binom{k+3}{3}x^{k+1} \\
+&= \sum_{k=0}^\infty \frac{(k+1)(k+2)(k+3)}{6}x^{k+1} = \sum_{k=1}^\infty \frac{k(k+1)(k+2))}{6}x^{k}
+\end{align*}
+
+From here, it seems that
+\[
+	\sum_{k=1}^n \rf{k}{m} = \frac{\rf{n}{m+1}}{m+1}
+\]
+just by considering summing the first $n$ terms of the triangular sequence and comparing it to the coefficient of the tetrahedral sequence, and then generalizing the statement to arbitrary $n$. This is a "finite calculus" version of the power rule for integration. 
+
+Let's use this to find $\sum_{k=1}^n k^2$. Notice that we can write $k^2 = k(k+1) - k$, so we can just say
+\begin{align*}
+\sum_{k=1}^n k^2 &= \sum_{k=1}^n k(k+1) - \sum_{k=1}^n k\\
+&= \frac{n(n+1)(n+2)}{3} - \frac{n(n+1)}{2} = \frac{n(n+1)(2n+1)}{6}
+\end{align*}
+which is the correct formula that we have proved before. 
+
+Suppose we do this again, using the sum we have just shown: 
+\begin{align*}
+\sum_{k=1}^n k^3 &= \sum_{k=1}^n k(k+1)(k+2) - 3\sum_{k=1}^n k^2 - 2 \sum_{k=1}^n k \\
+&= \frac{\rf{n}{4}}{4} - 3\frac{n(n+1)(2n+1)}{6} - 2\frac{n(n+1)}{2} \\
+&= \frac{n^2(n+1)^2}{4}
+\end{align*}
+
+
+
+
+
+
+
+
+\end{document}

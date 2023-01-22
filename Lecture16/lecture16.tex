@@ -1,0 +1,143 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{The Lecture Title}
+\def\scribestring{Your Name}
+\def\datestring{Day, Mon, Date Year}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Undetermined Coefficients}
+Given $a_n + A a_{n-1} + Ba_{n-2} = 0$, we can solve this homogeneous recurrence relation with a shorter method (with undetermined coefficients). We will find the solution to this recurrence using a 
+
+Notice that given this relation, we can notice that the following sum is still zero: 
+\[
+	\sum_{n=0}^\infty (a_n + Aa_{n-1} + Ba_{n-2})x^n = 0
+\]
+We can now simplify this in terms of the generating function $g(x)$ for $a_n$: 
+\[
+ \implies (g(x) - a_0 - a_1 x) + Ax(g(x) - a_0) + Bx^2 g(x) = 0
+\]
+We collect like terms: 
+\[
+	g(x) ( 1 + Ax + Bx^2) = (a_1 + Aa_0)x + a_0 = Cx + D
+\]
+This implies that we can write this generating function as 
+\[
+	g(x) = \frac{Cx+D}{1 + Ax + Bx^2}
+\]
+We can now use a partial fraction decomposition to decompose $1 + Ax + Bx^2$ into a sum of reciprocals of (distinct) linear terms $1-r_1x$, $1-r_2x$:
+\[
+	g(x) = \frac{Cx+D}{1 + Ax + Bx^2} = \frac{E}{1-r_1x} + \frac{F}{1-r_2x}
+\]
+where $(1-r_1x)(1-r_2x) = 1 + Ax + Bx^2$. This decomposition directly leads to the explicit form
+\[
+	a_n = Er_1^n + F r_2^n
+\]
+Notice, however, that $(x-r_1)(x-r_2) = x^2 + Ax + B$, so instead we can use the following method to determine these exponents directly: 
+
+\textbf{Given $a_n + A a_{n-1} + Ba_{n-2} = 0$:}
+\begin{enumerate}
+\item Solve $x^2 + Ax + B = 0 = (x-r_1)(x-r_2)$. 
+\item Write $a_n = C_1r_1^n + C_2r_2^n$. 
+\item Use initial conditions to solve for $C_1$, $C_2$. 
+\end{enumerate}
+
+\begin{problem}{1}
+Let $a_n = 7a_{n-1} -10a_{n-2}$, with $a_0 = 0, a_1 = 7$. Find an explicit formula for $a_n$. 
+\end{problem}
+\begin{solution}
+	We write this recurrence relation as 
+	\[
+		a_n - 7a_{n-1} + 10a_{n-2} = 0
+	\]
+	We can solve the quadratic $x^2 - 7x + 10 = 0$, which gives the roots $5$ and $2$. Therefore, 
+	\[
+		a_n = C_12^n + C_25^n
+	\]
+	Plugging in our initial conditions gives
+	\[
+		0 = C_1 + C_2 \quad 7 = 2C_1 + 5C_2
+	\]	
+	giving $C_1 = -\frac{7}{3}$, $C_2 = \frac{7}{3}$. Therefore, 
+	\[
+		a_n = \frac{7}{3} (5^n - 2^n)
+	\]
+\end{solution}
+
+What if we have now that $r_1 = r_2$? Recall that we had the form for our generating function above, but when we do the partial fraction decomposition, we must now have terms of the form
+\[
+	g(x) = \frac{Cx+D}{1 + Ax + Bx^2} = \frac{Cx+D}{(1-rx)^2} =  \frac{E}{1-rx} + \frac{F}{(1-rx)^2}
+\]
+This yields the explicit form 
+\[
+	a_n = Er^n + F(n+1)r^n = E'r^n + F'nr^n
+\]
+for some $E', F'$. We can now do the same process as above if the roots have multiplicity greater than 1. For example, if a root $r$ has multiplicity 3, we will have terms in $a_n$ that look like 
+\[
+	a_n = Er^n + Fn r^n + Gn^2 r^n.
+\]
+This takes a similar form for roots of greater multiplicity. 
+\begin{problem}{2}
+	Find an explicit form for $a_n$: $a_n + 6a_{n-1} + 9a_{n-2} = 0$, $a_1 =1$, $a_2 = 2$. 
+\end{problem}
+\begin{solution}
+\[
+	a_n = -\frac{8}{9}(-3)^n + \frac{5}{9}n(-3)^n 
+\]
+\end{solution}
+
+We will revisit the recurrence relation $a_n = 2a_{n-1} + n - 1$, and look at doing this relatively judiciously. By using the generating function, we have
+\[
+	g(x) = 1 + 2xg(x) + \sum_{n=1}^\infty nx^n - \sum_{n=1}^\infty x^n 
+\]
+\begin{align*}
+	\rightarrow g(x)(1-2x) &= 1 + \sum_{n=1}^\infty nx^n - \sum_{n=1}^\infty x^n \\
+	&= 1 + \frac{x}{(1-x)^2} - \left( \frac{1}{1-x} - 1 \right) \\
+	&= 2 + \frac{x}{(1-x)^2} - \frac{1}{1-x} \\
+	&= 2 + \frac{2x-1}{(1-x)^2}
+\end{align*}
+\[
+	\implies g(x) = \frac{2}{1-2x} - \frac{1}{(1-x)^2}
+\]
+which gives us the desired result much more quickly. 
+
+
+
+
+
+
+
+
+
+
+\end{document}

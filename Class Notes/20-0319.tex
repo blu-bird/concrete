@@ -1,0 +1,285 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{ textcomp }
+\usepackage{amsmath}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Generating Functions \& Solving Recurrences}
+\def\scribestring{Ritika Shrivastav, Anupama Jayaraman}
+\def\datestring{19, March, 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\newcommand{\bracenom}{\genfrac{\lbrace}{\rbrace}{0pt}{}}
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Unit 1 Proof}
+%Do proof
+\begin{problem} 1 Prove $\sum_{j = 0}^n \bracenom{n}{k}\begin{bmatrix} 
+j \\
+k
+\end{bmatrix} = \delta(n,k)$ \end{problem}
+
+\begin{solution}
+We are given:
+
+1. $x^n = \sum_{j = 0}^n \bracenom{n}{j}x^\underline{j}$
+\nextline
+
+2. $x^\underline{j}$   $= \sum_{k = 0}^j \begin{bmatrix} 
+j \\
+k
+\end{bmatrix}x^k$ $=$ $ \sum_{k = 0}^n \begin{bmatrix} 
+j \\
+k
+\end{bmatrix}x^k$ 
+\newline
+For this second part, we can increase the upper bound because all values for which $n > j$ are just equal to 0.
+\newline 
+Plugging Equation 2 into Equation 1, we get...
+\newline
+$x^n$ = $\sum_{j = 0}^n \bracenom{n}{j}$ $\sum_{k = 0}^n \begin{bmatrix} 
+j \\
+k
+\end{bmatrix}x^k$
+\newline
+Because j is independent of the inner sum, we can actually switch the order and move both sums to encapsulate the entire expression.
+\newline
+$x^n$ = $\sum_{j = 0}^n \sum_{k = 0}^n \bracenom{n}{j}$ $ \begin{bmatrix} 
+j \\
+k
+\end{bmatrix}x^k$
+\newline
+The sum basically represents adding the rows of a matrix vs adding the columns of a matrix, which basically proves the statement and we get...
+$\sum_{j = 0}^n \bracenom{n}{k}\begin{bmatrix} 
+j \\
+k
+\end{bmatrix} = \delta(n,k)$ 
+\end{solution}
+\section{Applications of Generating Functions}
+
+\subsection{A food counting problem}
+\begin{problem}1 Fill a bag with $n$ pieces of fruit \underline{GIVEN}: The number of apples is even, the number of bananas is a multiple of 5, the number of oranges is at most 4, and the number of pears is at most 1. How many ways can I do this? \end{problem}
+\begin{solution}
+\\To solve this problem, let's find find a generating function that represents the situation. To do so, let's breakdown the function into its apples, bananas, oranges, and pears terms:\\ \\
+Apples: We want 0, 2, 4, ... apples. We can write this as $(x^0 + x^2 + x^4 + x^6 +...) = (1 + x^2 + x^4 + x^6 +...)$. This is also equal to $\frac{1}{1-x^2}$.\\\\
+Bananas: We want 0, 5, 10, ... oranges. We can write this as $(1 + x^5 + x^10 + x^15 +...)$, or $\frac{1}{1-x^5}$.\\\\
+Oranges: We want 0, 1, 2, 3, or 4 oranges. We can write this as $(1 + x + x^2 + x^3 + x^4)$. To write this as a fraction, let's make use of the formula for a truncated series: $(1-x^{n+1}) = (1-x)(1+x+x^2+...+x^n)$. From this formula, we can see that we can write the number oranges as $\frac{1-x^5}{1-x}$. \\\\
+Pears: We want either 0 or 1 pear, or $(1+x)$.\\\\\
+If we multiply all of the components together, we get: \\\\
+$g(x) = (1 + x^2 + x^4 + x^6 +...)(1 + x^5 + x^10 + x^15 +...)(1 + x + x^2 + x^3 + x^4)(1+x) = \frac{1}{1-x^2}*\frac{1}{1-x^5}*\frac{1-x^5}{1-x}*(1+x) = \frac{1}{(1-x)^2}$ \\\\
+$\frac{1}{(1-x)^2}$ has the form of the summation of a multiset: $\sum_{k = 0}^\infty \multiset{2}{k}x^k = \sum_{k = 0}^\infty (k+1)x^k$. To find the number of ways to fill the bag with fruit, we simply find the coefficient of $x^n$ in the expansion of the summation. In other words, there are:\\\\
+\framebox{$(n+1)$ ways}.
+
+\end{solution}
+
+\subsection{Making Change for \$1}
+\begin{problem}2 Write a generating function for making change given 1\textcent{}, 5\textcent{}, 10\textcent{}, 25\textcent{}, and 50\textcent{} coins. 
+\end{problem}
+\begin{solution} 
+\\As with the fruit problem, let's create a generating function for the scenario. We will be working in terms of cents.\\\\
+1\textcent{}: $(1+x+x^2+x^3+...)=\frac{1}{1-x}$ \\\\
+5\textcent{}: $(1+x^5+x^10+...)=\frac{1}{1-x^5}$\\\\
+10\textcent{}: $(1+x^10+x^20+...)=\frac{1}{1-x^{10}}$\\\\
+25\textcent{}: $(1+x^25+x^50+...)=\frac{1}{1-x^{25}}$\\\\
+50\textcent{}: $(1+x^50+x^100+...)=\frac{1}{1-x^{50}}$\\\\
+By multiplying all of the terms together, we have the generating function: \\\\
+$g(x)=\frac{1}{(1-x)(1-x^5)(1-x^{10})(1-x^{25})(1-x^{50})}$ \\\\
+To find the number of ways we can make change for \$1, we find the coefficient of $x^{100}$. This is \framebox{293}.
+
+What if there are coins available in every single denomination?
+Then we have... \\\\
+1\textcent{}: $(1+x+x^2+x^3+...)=\frac{1}{1-x}$ \\\\
+2\textcent{}: $(1+x^2+x^4+...)=\frac{1}{1-x^2}$\\\\
+3\textcent{}: $(1+x^3+x^6+...)=\frac{1}{1-x^3}$\\\\
+4\textcent{}: $(1+x^4+x^8+...)=\frac{1}{1-x^4}$\\\\
+n\textcent{}: $(1+x^n+x^2n0+...)=\frac{1}{1-x^n}$\\\\
+By multiplying all of the terms together, we have the generating function: \\\\
+$g(x)=\frac{1}{(1-x)(1-x^2)(1-x^3)(1-x^4)(1-x^n)}$ \\\\
+This is also the generating function for integer partitions. \\\\
+$g(x) = \prod_{k=0}^n \frac{1}{1-x^k} = \sum_{r>0} P(r)x^r $ \\\\
+P(r) is the is the number of integer partitions of r.
+\end{solution}
+
+%extension --> every denomination
+\\
+
+\begin{theorem}The number of partitions of n into distinct parts $r$ is the number of partitions of $n$ into odd parts.\end{theorem}
+\\\\
+Distinct parts is when you split the number into parts but the sum doesn't include 2 of the same number. For example, $8 = 1 + 7$ is distinct because 1 and 7 are different. However $8 = 4 + 2 + 2$ is not because you have two 2's. \\\\
+Odd parts are those that are made of a repeated sum of only odd numbers, that can be repeated as many times as one pleases. For example, $8 = 3 + 3 + 1 + 1$ is fine because it contains only odds. However, $8 = 3 + 3 + 2$ is not because 2 is an even number.\\\\
+Generating Functions:\\\\
+Distinct parts: $g(x) = (1+x)(1+x^2)(1+x^3)...$\\\\
+Odd parts: $g(x) = (\frac{1}{1-x})(\frac{1}{1-x^3})(\frac{1}{1-x^5})...$\\\\
+Claim they are identical. So set both generating functions equal and use the trick that $1+x = \frac{1-x^2}{1-x}$ \\\\
+$(1+x)(1+x^2)(1+x^3)... = (\frac{1}{1-x})(\frac{1}{1-x^3})(\frac{1}{1-x^5})...$\\\\
+$(\frac{1-x^2}{1-x})(\frac{1-x^4}{1-x^2})(\frac{1-x^6}{1-x^3})... = (\frac{1}{1-x})(\frac{1}{1-x^3})(\frac{1}{1-x^5})...$\\\\
+We notice that term cancel neatly to provide that the two sides are directly equal and therefore this theorem has been proved.
+
+\section{Solving Recurrence Equations}
+
+\begin{problem} 3
+Given $a_n = a_{n-1} + 8a_{n-2} - 12a_{n-3}$; $a_0 = 2, a_1 = 3$, $a_2 = 19$, find the generating function $g(x) = \sum_{n = 0}^\infty a_nx^n$ and formula for $a_n$.
+\end{problem}
+\begin{solution}
+
+\noindent Let's start with $g(x) = \sum_{n = 0}^\infty a_nx^n$\\\\
+\noindent
+Since we know the first three terms from our initial condition, we can add up our base cases and the summation of $a_n$ from $n=3$ to $n=\infty$. \\
+
+$g(x) = 2 + 3x + 19x^2 + \sum_{n = 3}^\infty a_nx^n$ \\
+
+\noindent
+We know the recurrence relation so we can substitute it into the equation we have above\\
+
+$g(x) = 2 + 3x + 19x^2 + \sum_{n = 3}^\infty (a_{n-1} + 8a_{n-2} - 12a_{n-3})x^n$\\
+
+\noindent
+and expand it properly\\
+
+$g(x) = 2 + 3x + 19x^2 + \sum_{n = 3}^\infty a_{n-1}x^n + \sum_{n = 3}^\infty 8a_{n-2}x^n - \sum_{n = 3}^\infty 12a_{n-3}x^n$ \\
+
+\noindent
+Now, we need to make some manipulations. First, we want the subscript of each of the $a_n$'s to match the power to which each x is being raised. To do so, let's factor out the coefficients and the appropriate number of $x$'s from each term.\\
+
+$g(x) = 2 + 3x + 19x^2 + x\sum_{n = 3}^\infty a_{n-1}x^{n-1} + 8x^2\sum_{n = 3}^\infty a_{n-2}x^{n-2} - 12x^3\sum_{n = 3}^\infty a_{n-3}x^{n-3}$ \\
+
+\noindent
+The second manipulation involves shifting the indices such that the term within the summation is $a_nx^n$. \\
+
+$g(x) = 2 + 3x + 19x^2 + x\sum_{n = 2}^\infty a_{n}x^{n} + 8x^2\sum_{n = 1}^\infty a_{n}x^{n} - 12x^3\sum_{n = 0}^\infty a_{n}x^{n}$ \\
+
+\noindent
+Now that we have the new summations in terms of $a_nx^n$, they can all be rewritten using the original $g(x)$ function minus the initial terms that are excluded from the summation:\\
+
+$g(x) = 2 + 3x + 19x^2 + x(g(x) - a_0 - a_1x) + 8x^2(g(x) - a_0) - 12x^3g(x)$
+\\ \indent \indent $ = 2 + 3x + 19x^2 + x(g(x) - 2 - 3x) + 8x^2(g(x) - 2) - 12x^3g(x)$ \\
+
+\noindent
+Given this equation, we can finally solve for $g(x)$ by moving terms around. After we do this, we can see that our final equation for $g(x)$ is \\
+
+\framebox{\textbf{$g(x) = \frac{2 + x}{1 - x - 8x^2 - 12x^3}$}}\\
+
+\noindent\normalsize
+\textbf{**Notice}: \textit{If we move all of the terms in the original $a_n$ equation to one side, we obtain $a_n - a_{n-1} - 8a_{n-2} + 12a_{n-3} = 0$. This resembles the denominator of our final $g(x)$ equation.} 
+
+\noindent
+Now let's find the formula for $a_n$. With our equation for $g(x)$, we can factor the denominator into $(1 + 3x)(1 - 2x)^2$ to determine an equation for $a_n$. More specifically, we can use \textit{partial fraction decomposition} to breakdown the function into terms that will be more useful to us.\\
+
+$g(x) = \frac{2 + x}{1 - x - 8x^2 - 12x^3} = \frac{A}{1 + 3x} + \frac{B}{1 - 2x} + \frac{C}{(1-2x)^2}$ \\
+
+\noindent
+To conduct partial fraction decomposition, we multiply the denominator of $g(x)$ on both sides of the equation.\\
+
+$2 + x = A(1-2x)^2 + B(1 + 3x)(1 - 2x) + C(1 + 3x)$\\
+
+\noindent
+Once we solve this equation, by plugging in different values for $x$, we get 
+$A = \frac{3}{5}, B = \frac{2}{5}, C = 1$. This allows as to rewrite $g(x)$ as a sum of fractions. \\
+
+{$g(x) = \frac{3}{5}(\frac{1}{1 + 3x}) + \frac{2}{5}(\frac{1}{1 - 2x}) + \frac{1}{(1-2x)^2}$}\\
+
+\noindent\normalsize
+Looking closer, we notice that each fraction can be rewritten as a summation. We can convert the equations by using the following principles:\\
+
+1) $\frac{1}{1 - x} = \sum_{n = 0}^\infty x^n$ and 
+2) $\frac{1}{(1 - x)^k} = \sum_{n = 0}^\infty \multiset{n}{k}x^n$\\
+
+\noindent
+With these principles, we get the following equation:\\
+
+$g(x) = \frac{3}{5}\sum_{n = 0}^\infty (-3x)^n + \frac{2}{5}\sum_{n = 0}^\infty 2x^n + \sum_{n = 0}^\infty (n + 1)(2x)^n$\\
+
+\noindent
+We can now use this equation to achieve our final equation for $a_n$. To do so, we simply remove the summations and the $x^n$'s from the equation.:\\
+
+\framebox{\textbf{$a_n = \frac{3}{5}(-3)^n + \frac{2}{5}(2^n) + (n + 1)2^n$}} 
+
+\end{solution} \\
+
+
+
+\begin{problem} 4
+Given $a_n = 6a_{n-1} - 9a_{n-2}$; $a_0 = 1, a_1 = 9$, find $a_n$.
+\end{problem}
+\begin{solution}
+We find the generating function....\\\\
+$g(x) = \sum_{n = 0}^\infty a_nx^n$\\\\
+$g(x) = 1 + 9x + \sum_{n = 2}^\infty (6a_{n-1} - 9a_{n-2})x^n$\\\\
+$g(x) = 1 + 9x + \sum_{n = 2}^\infty 6a_{n-1}x^n - \sum_{n = 2}^\infty 9a_{n-2}x^n$\\\\
+$g(x) = 1 + 9x + 6x\sum_{n = 2}^\infty 6a_{n-1}x^{n-1} - 9x^2\sum_{n = 2}^\infty a_{n-2}x^{n-2}$\\\\
+$g(x) = 1 + 9x + 6x\sum_{n = 1}^\infty 6a_{n}x^{n} - 9x^2\sum_{n = 0}^\infty a_{n}x^{n}$\\\\
+$g(x) = 1 + 9x + 6x(g(x) - a_0) - 9x^2g(x)$\\\\\\
+$g(x)(1 - 6x - 9x^2) = 1 + 9x - 6x$\\\\
+$g(x) = \frac{1 + 3x}{1 - 6x - 9x^2}$\\\\
+Then, we use partial fractions...\\\\
+$\frac{1 + 3x}{1 - 6x - 9x^2} = \frac{A}{1 - 3x} + \frac{B}{(1 - 3x)^2}$\\\\
+$1 + 3x = A(1 - 3x) + B$\\\\
+If $x = 1/3$...$2 = B$\\
+If $x = 0$...$1 = A + 2$, $A = -1$\\\\
+This gives us an expression like so...\\\\
+$g(x) = -\frac{1}{1 - 3x} + \frac{2}{(1 - 3x)^2}$\\\\
+Using summation principles mentioned above, we get...\\\\
+$g(x) = -1\sum_{n = 0}^\infty (3x)^n + 2\sum_{n = 0}^\infty (n + 1)(3x)^n$\\\\
+$a_n = (-1)3^n + 2(n + 1)3^n$\\\\
+$a_n = 3^n(-1 + 2n + 2)$\\\\
+and\\\\
+$a_n = (2n + 1)3^n$
+
+\end{solution} \\
+
+
+\begin{problem} 5
+given $a_n = -3a_{n-1} + 10a_{n-2} + 3(2^n)$; $a_0 = 1, a_1 = 6$, find $a_n$.
+\end{problem}
+\begin{solution}
+We will use the steps from above to find $a_n$. \\
+
+\noindent
+First let's find the generating function: \\\\
+$g(x) = 0 + 6x + \sum_{n = 2}^\infty a_n x^n$ \\\\
+$g(x) = 6x + \sum_{n = 2}^\infty(-3a_{n-1} + 10a_{n-2} + 3(2^n))x^n$\\\\
+$g(x) = 6x + -3\sum_{n = 2}^\infty a_{n-1}x^n + 10\sum_{n = 2}^\infty a_{n-2}x^n + 3\sum_{n = 2}^\infty (2x)^n$\\\\
+$g(x) =  6x - 3x\sum_{n = 2}^\infty a_{n-1}x^{n-1} + 10x^2\sum_{n = 2}^\infty a_{n-2}x^{n-2} + 3\sum_{n = 2}^\infty(2x)^n$\\\\
+$g(x) =  6x - 3x\sum_{n = 1}^\infty a_{n}x^{n} + 10x^2\sum_{n = 0}^\infty a_{n}x^{n} + 3\sum_{n = 2}^\infty(2x)^n$\\\\
+$g(x) =  6x - 3x(g(x) - 0) + 10x^2(g(x)) + 3(\frac{1}{1-2x}-1-2x)$\\\\
+$g(x)[1+3x-10x^2]=6x+\frac{3}{1-2x}-3-6x=\frac{6x}{1-2x}$ \\\\
+$g(x)=\frac{6x}{(1-2x)(1+3x-10x^2)}=\frac{6x}{(1-2x)^2(1+5x)}$ \\\\
+\noindent \\
+Now for $a_n$:\\\\
+$\frac{6x}{(1-2x)^2(1+5x)} = \frac{A}{1-2x}+\frac{B}{(1-2x)^2}+\frac{C}{1+5x}$\\\\
+\noindent
+By solving this partial fraction equation, we get $A=\frac{-12}{49}$, $B=\frac{6}{7}$, and $C=\frac{-30}{49}$. Since these are messy numbers, we will hold off on substituting them into our equations until the end. \\\\
+$g(x) =  A\sum_{n = 0}^\infty 2^n x^n + B\sum_{n = 0}^\infty (n+1)2^n x^{n} + C\sum_{n = 0}^\infty(-5)^n x^n$\\\\
+$a_n = A*2^n + B(n+1)2^n + C(-5)^n$ \\\\
+\noindent
+Once we plug in the values of A, B, and C into the equation, we get our final equation for $a_n$: \\\\
+\framebox{$a_n = \frac{-12}{49}2^n + \frac{6}{7}(n+1)2^n + \frac{-30}{49}(-5)^n$}
+
+\end{solution} \\
+
+\end{document}
