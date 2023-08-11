@@ -1,0 +1,100 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{amsfonts, amssymb, amsmath, enumitem}
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Complex Roots and Bell Numbers}
+\def\scribestring{Sohom Paul}
+\def\datestring{Thursday, March 28, 2019}
+\def\multiset#1#2{\left(\!\!\left({#1\atopwithdelims..#2}\right)\!\!\right)}
+
+\newcommand{\stirlingii}[2]{\genfrac{\{}{\}}{0pt}{}{#1}{#2}}
+\newcommand{\stirlingi}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
+\newcommand{\fallingfactorial}[1]{^{\underline{#1}}}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring} 
+\begin{section}{Complex Roots}
+Consider the series expansion of function $\frac{1}{1+x^2}$. It is trivially true that 
+$$\frac{1}{1+x^2} = \sum_{n=0}^\infty (-1)^n x^{2n}$$
+Thus the $n$th coefficient is 0 if $n$ is odd and $(-1)^k$ if $n=2k$. Alternatively,
+$$\frac{1}{1+x^2} = \frac{A}{1+xi} + \frac{B}{1-xi} = A\sum i^kx^k + B \sum (-i)^k x^k$$
+\begin{problem}{1}
+Solve $a_n = -a_{n-2}; \; a_0 = 1, a_1 = 1$
+\end{problem}
+\begin{solution}
+We see the characteristic polynomial is $x^2 +1$ with roots $x=\pm i$, so $a_n = A(i)^n + B(-i)^n$. Solving with our initial conditions, our sequence can be represented as
+$$a_n = \frac{1}{2i}(i)^n + \frac{-1}{2i}(-i)^n$$
+Because $i$ is the fourth root of unity, our sequence cycles with period $4$. 
+Alternatively, we can use Euler's identity and De Moivre's Formula to get
+\begin{align*}
+    a_n &= \frac{1}{2i}\left(\cos \frac{n\pi}{2} + i \sin\frac{n\pi}{2}\right) + \frac{-1}{2i}\left(\cos \frac{n\pi}{2} - i \sin\frac{n\pi}{2}\right) \\
+    &= (A+B) \cos \frac{n\pi}{2} + (Ai-Bi)\sin \frac{n\pi}{2}
+\end{align*}
+Thus, we could've instead tried to solve 
+$$a_n = C \cos \frac{n\pi}{2} + D \sin \frac{n\pi}{2}$$
+and avoid using complex numbers in the first place.
+\end{solution}
+\begin{problem}{2}
+Solve $a_n = a_{n-1} - a_{n-2}; \; a_1 = 1, a_2 = 0$
+\end{problem}
+\begin{solution}
+    The characteristic equation $x^2 - x + 1 = 0$ has roots $$r_\pm = \frac{1 \pm \sqrt{3}}{2} = \exp\left(\pm\frac{i\pi}{3}\right)$$
+    Thus, we ansatz $a_n = C \cos \frac{n\pi}{3} + D \sin \frac{n\pi}{3}$. Using the initial conditions, we get
+    $$a_n = \cos \frac{n\pi}{3} + \frac{1}{\sqrt{3}} \sin \frac{n\pi}{3}$$
+\end{solution}
+In general, if our roots do not lie on the unit circle, we have to prepend the sines and cosines with powers of the roots. Because of the Conjugate Root Theorem, we are guaranteed that the modulus will factor out nicely.
+\end{section}
+
+\begin{section}{Bell Numbers}
+The number of non-empty partitions of a set of $n$ elements is the $n$th \emph{Bell number}, which obeys relation
+$$B_n = \sum_{k=0}^n \stirlingii{n}{k}$$
+Recall that
+$$x^n = \sum_{k=0}^n \stirlingii{n}{k} x\fallingfactorial{k}$$
+Let $X$ be some random variable. By linearity of expectation,
+$$E[X^n] = \sum_{k=0}^n \stirlingii{n}{k}E[X\fallingfactorial{k}]$$
+If we can find a random variable that obeys
+$E[X\fallingfactorial{k}] = 1$, then we can compute the $n$th Bell number. \\
+Let $X \sim Poisson(\lambda)$. By definition of the Poisson distribution,
+$$Pr[X=k] = \frac{\lambda^k}{k!}e^{-\lambda}$$
+Our first step is to prove that this a valid probability distribution. Observe
+$$Pr[X\geq 0] = \sum_{k=0}^\infty \frac{\lambda^k}{k!}e^{-\lambda} = e^{-\lambda}\sum_{k=0}^\infty \frac{\lambda^k}{k!} = e^{-\lambda}e^\lambda = 1$$
+Our next step is to find the expected value of $X$
+$$E[X] = \sum_{k=0}^\infty \frac{k\lambda^k}{k!}e^{-\lambda} = e^{-\lambda}\lambda\sum_{k=1}^\infty \frac{\lambda^{k-1}}{(k-1)!} = e^{-\lambda}\lambda e^{\lambda} = \lambda$$
+Rather than use a moment generating function, we shall compute $E[X^n]$ directly.
+$$E[X^n] = \sum_{k=0}^\infty Pr[X=k]k^n = \sum_{k=0}^\infty \frac{\lambda^k}{k!}e^{-\lambda}k^n$$
+To find $E[X\fallingfactorial{k}]$, we notice that falling factorials come out ff powers, so we observe the \emph{factorial generating function}, $E[t^X]$
+$$E[t^X] = \sum_{k=0}^\infty Pr[X=k]t^k = \sum_{k=0}^\infty \frac{\lambda^k}{k!}e^{-\lambda}t^k = e^{-\lambda}e^{t\lambda} = e^{\lambda(t-1)}$$
+It follows, from taking $\frac{\partial^n}{\partial t^n}$, that
+$$\sum_{k=0}^\infty \frac{k\fallingfactorial{n} t^{k-n}\lambda^k}{k!}e^{-\lambda} = \lambda^n e^{\lambda(t-1)}$$
+Letting $t=1$, we get
+$$\lambda^n = \sum_{k=0}^n \frac{k\fallingfactorial{n}\lambda^k}{k!}e^{-\lambda} = E[X\fallingfactorial{n}]$$
+Further letting $\lambda =1$, we get $E[X\fallingfactorial{k}] = 1$. Thus, using the first formulas of the section, we get $B_n = E[X^n]$ where $X\sim Poisson(\lambda=1)$, but we also know from above that $E[X^n] = \sum_{k=0}^\infty \frac{k^n}{k!}e^{-1}$ for this distribution. This gives
+$$B_n = \frac{1}{e}\sum_{k=0}^\infty \frac{k^n}{k!}$$
+As a bonus, we can write a recurrence of the Bell numbers:
+$$B_{n+1} = \sum_{k=0}^n {n \choose k}B_{n-k}$$
+To see this, construct the partition contain element $a_{n+1}$ and partition the rest.
+\end{section}
+\end{document}

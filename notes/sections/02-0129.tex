@@ -1,0 +1,130 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%% add package inclusions here, if any
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \def\titlestring{Introduction to Counting}
+% \def\scribestring{Sohom Paul}
+% \def\datestring{Tuesday, January, 29 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{document}
+% \thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+% \noindent
+% {\LARGE \textbf{\titlestring}}\\\\
+% %
+% {\Large Scribe: \scribestring}\\ \\
+% {\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+% \noindent
+
+\section{Basic Notation}
+% \begin{theorem}
+% 	One is the loneliest number
+% \end{theorem}
+% \begin{proof}
+% 	Two can be as bad as one. It's the loneliest number since the number one\footnote{http://www.metrolyrics.com/one-is-the-loneliest-number-lyrics-three-dog-night.html}.
+% \end{proof}
+If $A$ is a set, then we define:
+
+\begin{tabular}{p{1in} p{10cm}}
+    $|A|$ or $\#\{A\}$ &  represents the (finite) number of elements in the set, known as the \emph{magnitdue}, \emph{length}, \emph{size}, or \emph{cardinality} of that set\\
+    $A \cap B$ & \emph{intersection} (command in \LaTeX\ is \textbackslash cap) \\
+    $A \cup B$ & \emph{union} (command in \LaTeX\ is \textbackslash cup) \\
+    $\overline{A}$ & \emph{complement}, given by $\{x \mid x \not\in A\}$ \\
+    $A \setminus B$ & \emph{minus}, given by $\{x \mid x \in A, x \not\in B\}$; sometimes written as $A-B$ \\
+    $x\in A$ & set inclusion ($x$ is an \emph{element} of $A$) \\
+    $A \subseteq B$ & A is a \emph{subset} of B ($x\in A \implies x \in B$) \\
+    $A \subsetneq B$ & A is a \emph{proper subset} of B ($A\subseteq B, A\neq B$) \\
+    $\varnothing$ & empty set \\
+    $2^A$ or $\mathcal{P}(A)$ & \emph{power set} of $A$: set of all subsets of $A$, including $A$ and $\varnothing$
+\end{tabular}
+
+\section{Basic Combinatorics}
+\begin{theorem}
+$|2^A|=2^{|A|}$
+\end{theorem}
+\begin{proof} 
+We begin with an example.
+$$\mathcal{P}(\{1, 2, 3\}) = \{\varnothing, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\}\}$$
+Notice that the number of subsets is indeed $2^3 = 8$. \\
+Many problems in combinatorics are best solved by isomorphic counting; we rephrase the problem into something easier to count. Let us consider the binary functions on $A$,  $f: A \rightarrow \{0, 1\}$. Notice that each $f$ can be uniquely represented with a binary string, which in turn represents a way to make a subset of $A$
+\begin{align*}
+    001 &\rightarrow f(1) = 0,\, f(2) = 0,\, f(3) = 1 \rightarrow \{3\}\\
+    110 &\rightarrow f(1) = 1,\, f(2) = 1,\, f(3) = 0 \rightarrow \{1, 2\}
+\end{align*}
+Thus, $|2^A|$ is equinumerous to the number of binary numbers of length $|A|$, or $2^{|A|}$.
+\end{proof}
+
+\begin{theorem}
+If $A \subseteq B$ and $B \subseteq A$, then $A = B$
+\end{theorem}
+\begin{theorem}[Principle of Inclusion-Exclusion]
+$|A\cup B| = |A| + |B| - |A \cap B|$
+\end{theorem}
+The Principle of Inclusion-Exclusion may be applied repeated to count the cardinality of unions of more than two sets:
+$$|A\cup B\cup C| = |A| + |B| + |C| - |AB| - |BC| - |AC| + |ABC|$$
+Note that when it's clear what we're talking about, we can abbreviate $A\cap B$ as $AB$.
+
+\begin{problem} \\
+Prove that, for $m,n\in\mathbb{N}$ selected uniformly at random $$P(\gcd(m,n)=1) = \frac{6}{\pi^2}$$
+\end{problem}
+\begin{theorem}[Multiplication Theorem]
+Given sets $A_1, A_2, \dots A_n$, the number of ways to select an element from each set is $|A_1||A_2|\dots|A_n|$. 
+\end{theorem}
+\begin{proof}
+Draw a multitree  with root nodes in $A_1$ and let each node $x\in A_i$ have as its children $A_{i+1}$. As you traverse from root to leaf, each decision you make corresponds to a selection from that set, and the number of paths from root to leaf is $|A_1||A_2|\dots|A_n|$.
+\end{proof}
+\begin{corollary}\\
+If $|A| = n$, we can select $k$ of these elements, with repetition, in $n^k$ ways.
+\end{corollary}
+\begin{corollary}\\
+If $|A| = n$, we can select $k$ of these elements, without repetition, in $n(n-1)(n-2)\dots (n-k+1)$ ways.
+\end{corollary}
+We will notate the above expression as 
+$$n(n-1)(n-2)\dots(n-k+1) =\prescript{}{n}{P_k} = \prescript{n}{}{P_k}=n^{\underline{k}}$$
+The final notation will be the most commonly used in this class. This is called the ``falling factorial". Similar, we can define a ``rising factorial":
+$$n^{\overline{k}}=(n)(n+1)\dots(n+r-1)$$
+
+\begin{problem}[Problem 1]\\
+How many passwords with only capital letters or digits contain 8, 9, 10 characters, barring repeated characters?
+\\ \emph{Answer:} $36^{\underline{8}}+36^{\underline{9}}+36^{\underline{10}}$
+\end{problem}
+\begin{problem}[Problem 2]\\
+How many passwords with only capital letters or digits containing at least 1 digit and 1 letter contain 8, 9, or 10 characters, barring repeated characters?
+\\ \emph{Answer:} $(36^{\underline{8}}+36^{\underline{9}}+36^{\underline{10}}) - (26^{\underline{8}}+26^{\underline{9}}+26^{\underline{10}}) - (10^{\underline{8}}+10^{\underline{9}}+10^{\underline{10}})$
+\end{problem}
+\begin{problem}[Problem 3]\\
+How many passwords with only capital letters or digits contain 8 characters and have capital letters in even-numbered spaces (the 0th position, the 2nd position, and so on), allowing for repitition of characters? \\
+\emph{Answer:} $5^4 * 36^4$
+\end{problem}
+
+\subsection{Quotient Sets}
+\begin{problem}\\
+Let us count the number of permutations of ``ABCD". There are 24 permutations of this string of length 4 (e.g. ABCD, ABDC, ...). There are also 24 permutations of length 3 (e.g. ABC, ABD, ...) Let define equivalence relationship $p_1 \cong p_2$ if they contain the same letters (e.g. ACB $\cong$ ABC). Define an \emph{equivalence group} $G$ to be such that $p_1, p_2 \in G \implies p_1 \cong p_2$.
+How many equivalence groups are there out of the 24 permutations of length 3?
+\end{problem}
+\begin{solution}
+There are 4 equivalence groups. Note the following:
+\begin{enumerate}
+    \item All equivalence groups are of the size same size, 3!
+    \item Different equivalence groups are disjoint
+    \item The set of all equivalence groups forms a partition of the set of all $4^{\underline{3}}$ permutations of length 3.
+\end{enumerate}
+Thus, there are $4^{\underline{3}}/3!$ equivalence groups.
+\end{solution} \\ \\
+By noticing that equivalence groups are of size $r!$, we can now count \emph{combinations}.
+\[
+\prescript{}{n}{C_r} = \frac{\prescript{}{n}{P_r}}{r!}
+\]
+% \end{document}

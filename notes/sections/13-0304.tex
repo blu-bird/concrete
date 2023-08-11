@@ -1,0 +1,118 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+%%%% add package inclusions here, if any
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Counting \& Generating Functions}
+\def\scribestring{Anupama Jayaraman, Ritika Shrivastav}
+\def\datestring{Monday, March, 4 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Unit One: Counting}
+
+\begin{center} * \end{center}
+\begin{center} *\space\space\space\space* \end{center}
+\begin{center} *\space\space\space\space*\space\space\space\space* \end{center}
+\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
+\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
+\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
+\newline \newline
+
+\begin{example}
+    1 We want to find a different way of counting the number of parallelograms that can be made by connecting the stars in the arrangement above.
+\end{example}
+\begin{solution} 
+    One method to do this would be to pick a diagonal. We can say that picking the diagonal is unique because only one parallelogram will have the certain segment as its longest diagonal. To determine the number of diagonals, we need to pick the number of line segments we can make using the points.\newline
+    \newline
+    This can be done by taking the total number of points and choosing 2. \newline
+    For a triangle of $n$ rows, the number of points is $\frac{(n)(n+1)}{2}$ or ${n+1 \choose 2}$ \newline
+    To choose two dots we do ${{n+1 \choose 2} \choose 2}$ \newline
+    \newline 
+    However, we have to remember that if two dots are on the same line, then they won't be able to form the longest diagonal of a parallelogram, and if both are on an edge, it wouldn't be relevant. Therefore, we have to subtract for the times when the two dots chosen are collinear. \newline
+    \newline
+    So the subtracted values would be $3* some value$ because we have three orientations of the triangle to account for. (Another way of looking at this would be to say that we have 3 sides of the triangle to account for).\newline
+    Now, to determine "some value". We realize that some value in one orientation is actually just the same as counting for each row, how many ways they can pick two points. \newline
+    \newline
+    This can actually be written as a summation: $\sum_{i=2}^{n}{i \choose 2}$ \newline
+    To explain, the sum. We know we must start at i=2, because a row with one dot cannot pick two dots that are collinear. We use the summation because in the i-th row there are i dots and we need to pick 2 of them. \newline
+    \newline
+    This therefore results in a final solution of ${{{n+1 \choose 2} \choose 2} - 3 * \sum_{i=2}^{n}{i \choose 2}}$ \newline
+    \newline
+    After some algebra, our final answer is
+    \fbox{$3$${n+1 \choose 4}$}
+\end{solution}    
+
+
+\section{Unit Two: Generating Functions}
+\begin{problem}
+    1 Find the $nth$ term in the sequence if the the first term corresponds with $n=0$:
+     \begin{center} 1, 2, 4, 8, 16, ...\end{center}
+      \end{problem}
+\begin{solution}
+$a_{0} = 1$, $a_{1} = 2$, $a_{2} = 4$. It is clear from this pattern that $a_{n} = 2^{n}$. 
+\end{solution}
+
+\begin{problem}
+    2 Find the generating function for:
+     \begin{center} 1, 2, 4, 8, 16, ...\end{center}
+\end{problem}
+\begin{solution}
+In a generating function, the coefficients of each power correspond to each of the terms in the sequence. This sequence can thus be represented as $g(x) = 1*x^{0} + 2*x^{1} + 4*x^{2} + 8*x^{3} + 16*x^{4} + 32*x^{5} + ... = (2x)^0 + (2x)^1 + (2x)^2 + (2x)^3 + (2x)^4 + (2x)^5 + ...$. This resembles the the Taylor power series. Using 'reverse'-Taylor, we find that $g(x) = \frac{1}{1-2x}$. 
+\end{solution} \\
+ 
+
+\\From this example, we can see that $\frac{1}{1-ax}$ is the generating function for the sequence $1, a, a^2, a^3, ... = \{a^k\}_{k=0}$. Generally, from the generating function, to obtain the $nth$ value of the sequence, take the nth derivative of the function evaluated at 0.\newline
+
+\begin{problem}
+    3 For the following sequence, find the generating function:
+    \begin{center} 2, 5, 13, 35, 97, ... \end{center}
+\end{problem}
+
+\begin{solution}
+The $nth$ term of the sequence is $a_{n} = 2^{n} + 3^{n}$. From above, we know that $\frac{1}{1-2x}$ generates $\{2^n\}$ and $\frac{1}{1-3x}$ generates $\{3^n\}$. Since \textbf{we can add generating functions}, $\frac{1}{1-2x}+\frac{1}{1-3x}$ generates $\{2^n +3^n\}$. If we simplify, we get the generating function $g(x)=\frac{2-5x}{1-5x+6x^2}$.
+\end{solution}
+
+\begin{problem}
+4 Given the Fibonacci sequence, find the generating function. Then find the non-recursive definition of the $nth$ term: 
+\begin{center} $f_{0}=0, f_{1}=1, f_{n}=f_{n-1}+f_{n-2}$ \end{center}
+\begin{center} 0, 1, 1, 2, 3, 5, 8, 13, 21, ... \end{center}
+\end{problem}
+
+\begin{solution} \\
+Finding the generating function: \\To find the function $F(x)$, we need to reduce the number of terms we are dealing with. $F(x) = x + x^2 + 2x^3 + 3x^4 + 5x^5 + ...$. We can see that the coefficient of the $x^3$ term is the sum of the coefficients of the $x^2$ and $x$ terms, as per the definition of the sequence. To cancel out the terms, let's shift the the function by ${x}$ and ${x^2}$.\\
+$F(x) = x + x^2 + 2x^3 + 3x^4 + 5x^5 + ...$\\
+$x * F(x) = x^2 + x^3 + 2x^4 + 3x^5 + ...$ \\
+$x^2*F(x) = \indent   x^3 + x^4 + 2x^5 + ...$ \\
+By subtracting, we get $(1-x-x^2)*F(x) = x$, or $F(x) = \frac{x}{1-x-x^2}$. \\ \\ 
+Finding the non-recursive definition: \\By partial fraction decomposition, we can break down $F(x)$ into the form of $\frac{A}{1-\alpha x}+\frac{b}{1-\beta x}$. This corresponds with the form $F_{n}=A*\alpha ^n + B*\beta ^n$. After solving for $A, B, \alpha,$ and $\beta$, we find that $F_{n}=\frac{1}{\sqrt{5}}[(\frac{1+\sqrt{5}}{2})^{n} - (\frac{1-\sqrt{5}}{2})^{n}]$.
+\end{solution}
+
+
+\end{document}

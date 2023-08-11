@@ -1,0 +1,157 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+\usepackage{longtable}
+\usepackage{mathtools}
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Generating Functions}
+\def\scribestring{Frank Ding \\ \\ Annotated by Gwendolyn Jacobson and Caroline Jin}
+\def\datestring{Tue, March 13, 2018 \\ Annotated following Mon, March 11, 2019 lecture.}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Fundamental Generating Functions}
+Recall the generating function for a sequence $a_0, a_1, a_2, \dots, a_n, \dots$
+\[
+f(x) = \sum_{i=0}^{\infty} a_i x^i
+\]
+The goal is to find a formula for an arbitrary $a_i$. \\
+\begin{longtable}{p{0.2in}p{2.2in}p{3.6in}}
+    a.  &   $a_0, a_1, \dots = 1, 1, 1, \dots$ \begin{multline*} \text{Maclaurin series for $\frac{1}{1-x}.$} \end{multline*} &
+        $\begin{aligned}[t]
+            f(x)    &=  1 + x + x^2 + \dots \\ \\
+            &= \sum x^i \\ \\
+            x \cdot f(x)  &=  x + x^2 + x^3 + \dots \\
+            f(x) \cdot (1-x) &= 1 \\
+            f(x)    &=  \frac{1}{1-x}
+        \end{aligned}$ \\~\\
+    b.  &   $a_0, a_1, \dots = 2, 2, 2, \dots$ \begin{multline*} \text{...OR recognize $\frac{2}{1-x}$.}\end{multline*}&
+        $\begin{aligned}[t]
+            f(x)    &=  2 + 2x + 2x^2 + \dots \\
+            x \cdot f(x)  &=  2x + 2x^2 + 2x^3 + \dots \\
+            f(x) \cdot (1-x) &= 2 \\
+            f(x)    &=  \frac{2}{1-x}
+        \end{aligned}$ \\~\\
+        
+    c.  &   $a_0, a_1, \dots = 1, -1, 1, -1, \dots$ \begin{multline*} \text{i.e. $\frac{1}{1-(-x)}$} \end{multline*}&
+        $\begin{aligned}[t]
+            f(x)    &=  1 - x + x^2 - x^3 + \dots \\
+                    &= \sum x^i (-1)^{i+1} \\
+            x \cdot f(x) &= x - x^2 + x^3 - \dots \\
+            f(x) + x \cdot f(x) &= 1 \\
+            f(x)(1+x) &= 1 \\
+            f(x) &=  \frac{1}{1+x}
+        \end{aligned}$ \\~\\
+    d.  &   $a_0, a_1, \dots = 1, 0, 1, 0, \dots$ &
+        $\begin{aligned}[t]
+            f(x)    &=  1 + x^2 + x^4 + \dots \\
+            &= \sum x^{2i} \\
+            x^2 \cdot f(x) &= x^2 + x^4 + x^6 + \dots \\
+            f(x) \cdot (1 - x^2) &= 1 \\
+            f(x)    &=  \frac{1}{1-x^2}\\
+        \end{aligned}$ \\~\\
+        & OR you can add parts a. and c. and then divide by 2\\ \\
+    e.  &   $a_0, a_1, \dots = 0, 1, 0, 1, \dots$ &
+        $\begin{aligned}[t]
+            f(x)    &=  x + x^3 + x^5 + \dots \\
+            &= \sum x^{2i+1} \\
+            x^2 \cdot f(x) &= x^3 + x^5 + x^7 + \dots \\
+            f(x) - x^2 \cdot f(x) &= x \\
+            f(x) &= \frac{x}{1-x^2}
+        \end{aligned}$ \\~\\
+        & OR you can subtract part a. by part c. and then divide by 2\\ \\
+    f.  &   $a_0, a_1, \dots = 1, 2, 4, 8, 16, \dots$ &
+        $\begin{aligned}[t]
+            f(x)    &=  1 + 2x + 4x^2 + 8x^3 + \dots \\
+            &= \sum (2^i)(x^i) \\
+            2x \cdot f(x) &=  2x + 4x^2 + 8x^3 + \dots \\
+    f(x) \cdot (1-2x) &= 1 \\
+            f(x)    &=  \frac{1}{1-2x}
+        \end{aligned}$ \\~\\
+        & OR recognize similarity to $\frac{1}{1-x}$ Maclaurin series, and simply substitute $2x$ for $x$.\\ \\
+    g.  &   $a_0, a_1, \dots = 1, \frac{1}{2}, \frac{1}{6}, \frac{1}{24}, \dots$ \begin{multline*} \text{Similar to $e^x$ Maclaurin series.} \\ \\\text{Account for shift in constant} \\ \text{and $x$.} \end{multline*} &
+        $\begin{aligned}[t]
+            e^x &= 1 + x + \frac{x^2}{2} + \frac {x^3}{6} + \frac{x^4}{24} + \dots \\
+            &= \sum \frac{x^n}{n!} \\
+            e^x - 1 &= x + \frac{x^2}{2} + \frac {x^3}{6} + \frac{x^4}{24} + \dots \\
+            \frac{e^x - 1}{x} &= 1 + \frac{x}{2} + \frac {x^2}{6} + \frac{x^3}{24} + \dots \\
+        \end{aligned}$ \\~\\
+    h.  &   $a_0, a_1, \dots = 1, 2, 3, 4, \dots$ \begin{multline*} \text{Focus on } \textit{powers} \text{ of } x. \\ \rightarrow \text{Use first derivative!} \end{multline*}&
+        $\begin{aligned}[t]
+            f(x)    &=  1 + 2x + 3x^2 + \dots \\
+            \frac{1}{1-x} &= 1 + x + x^2 + \dots \\
+            \frac{d}{dx} \left( \frac{1}{1-x} \right) &= 1 + 2x + 3x^2 + \dots \\
+            &= f(x) = \frac{1}{(1-x)^2}
+        \end{aligned}$ \\~\\
+    i.  &   $a_0, a_1, \dots = 2, 6, 12, 20, 30, \dots$ \begin{multline*} n(n-1) \\ \rightarrow \text{second derivative!} \end{multline*} &
+        $\begin{aligned}[t]
+            \frac{1}{1-x} &= \sum x^k \\
+            \frac{1}{(1-x)^2} &= \sum_{k=0}^{\infty} k x^{k-1} = \sum_{k=0}^{\infty} (k+1)x^k \\
+                &= 1 + 2x + 3x^2 + \dots \\
+            \frac{2}{(1-x)^3} &= \sum_{k=0}^{\infty} k(k-1)x^{k-2} = \sum_{k=0}^{\infty} (k+2)(k+1)x^k \\
+                &= 2 + 6x + 12x^2 + \dots
+        \end{aligned}$ \\~\\
+    j.  &   $a_0, a_1, \dots = 0, 1, 4, 9, 16, \dots$ &
+        $\begin{aligned}[t]
+            k^2     &=  \underline{1}(k+2)(k+1) + \underline{-3}(k+1) + \underline{1} \\
+            \sum_{k=0}^{\infty} k^2 x^k &= \frac{2}{(1-x)^3} - \frac{3}{(1-x)^2} + \frac{1}{1-x} \\
+                &= \frac{x + x^2}{(1-x)^3}
+        \end{aligned}$\\
+        &Note: the values $(k+2)(k+1)$ refer to the $\big(\binom{2}{k}\big)$ and so on
+\end{longtable}
+
+\par\noindent\rule{\textwidth}{0.4pt}
+
+\paragraph{Example.}
+	How many ways can you fill a bag with $n$ fruits given the following conditions:
+	\begin{itemize}
+	    \item the number of apples is even
+	    \item the number of bananas is a multiple of 5
+	    \item the number of oranges is $\leq 4$
+	    \item the number of pears is $\leq 1$
+	\end{itemize}
+
+\paragraph{Solution.} Use a generating function:
+\begin{align*}
+    f(x)    &=  
+    \underbrace{(1 + x^2 + x^4 + \dots)}_\text{apples} + 
+    \underbrace{(1 + x^5 + x^{10} + \dots)}_\text{bananas} + 
+    \underbrace{(1 + x + x^2 + x^3 + x^4)}_\text{oranges} + 
+    \underbrace{(1 + x)}_\text{pears}\\
+            &= \left(\frac{1}{1-x^2}\right) \left(\frac{1}{1-x^5}\right)
+            \left(\frac{1-x^5}{1-x}\right)
+            \left(\frac{1+x}{1}\right) = \frac{1}{(1-x)^2} \\
+            &= \text{fundamental generating function (h)}
+            =  \sum_{k=0}^{\infty} (k+1)x^k
+\end{align*}
+$\therefore \text{There are \boxed{$n+1$} ways to pack $n$ fruits.}$
+
+\end{document}

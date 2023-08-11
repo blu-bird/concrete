@@ -1,0 +1,182 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \documentclass[11pt,twosided]{article}
+% \input{concrete-header.tex}
+
+% %%%% add package inclusions here, if any
+
+% %%%%% Define your custom functions and macros here, if any
+
+% %%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \def\titlestring{Day 4: More Counting}
+% \def\scribestring{Caroline Jin}
+% \def\datestring{Tuesday, February, 5 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \lhead{\titlestring}
+% \rhead{Page \thepage}
+% \cfoot{Concrete Math -- White -- TJHSST}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{document}
+% \thispagestyle{plain}  %% no headers on this page
+
+% %%%% Do not change these lines %%%%%
+% \noindent
+% {\LARGE \textbf{\titlestring}}\\\\
+% %
+% {\Large Scribe: \scribestring}\\ \\
+% {\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Partitions}
+    A \textit{partition} of a set $S$ is a subset of $S_1, ... S_k$ such that
+\begin{enumerate}[(i)]
+        \item $\bigcup\limits_{i=1}^{k} S_{i}$. The subsets `cover' the set $S$
+        \item $S_i 	\cap S_j = \varnothing$. The subsets are pairwise disjoint.
+        \item $S_i \neq \varnothing$
+\end{enumerate}
+
+\begin{problem}
+    1 Let $S$ be the set of all integers composed of digits in $\{1, 3, 5, 7\}$ at most one.
+    
+    \begin{enumerate}[(i)]
+        \item Find $|S|$
+        \item $\sum\limits_{x \in S} x$
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[(i)]
+        \item Let $S = S_1 \cup S_2 \cup S_3 \cup S_4$ where $S_1$ is the number of one digit numbers, $S_2$ is the number of two-digit numbers, and so on. \\
+            \[|S_1| = \Perm{4}{1} = 4\]
+            \[|S_2| = \Perm{4}{2} = 12\]
+            \[|S_3| = \Perm{4}{3} = 24\]
+            \[|S_4| = \Perm{4}{4} = 24\]
+            \[|S| = |S_1| + |S_2| + |S_3| + |S_4| = \boxed{64}\]
+        \item Let $\alpha = \alpha_1 + 10\alpha_2 + 100\alpha_3 + 1000\alpha_4$ where $\alpha_1$ is the sum of all units digits of all numbers in $S$, $\alpha_2$ is the sum of all the tens digits of all the numbers, and so on. We will find the value of $\alpha_1$ using the following: 
+        \begin{align*}
+            &S_1 \rightarrow s_1 = (1+3+5+7)\\
+            &S_2 \rightarrow s_2 = (1+3+5+7)\times (3)\\
+            &S_3 \rightarrow s_3 = (1+3+5+7)\times (3\times2)\\
+            &S_4 \rightarrow s_4 = (1+3+5+7)\times (3\times2\times1)\\
+            \hline
+            &\alpha_1 = 16 \times (1+3+6+6) = 256
+        \end{align*}
+        Note that $\alpha_2$ is the sum of the same values, excluding $s_1$ as $S_1$ is the set of only one digit numbers. $\alpha_3$ is the sum of the same values as $\alpha_2$, excluding $s_2$ as $S_2$ is the set of only two digit numbers, and so on.
+        \begin{align*}
+            &\alpha_2 = \alpha_1 - s_1 = 240\\
+            &\alpha_3 = \alpha_2 - s_2 = 192\\
+            &\alpha_4 = \alpha_3 - s_3 = 96\\
+        \end{align*}
+        Thus, $\alpha = \alpha_1 + 10\alpha_2 + 100\alpha_3 + 1000\alpha_4 = \boxed{117,856}$
+        \\\\
+        An easier solution is the following:
+        \begin{align*}
+            &1 + 3 + 5 + 7 = (1 + 7) + (3 + 5) = 8(\frac{4}{2}) = 16\\
+            &13 + ... + 75 = (13 + 75) + ... + (35 + 53) = 88(\frac{12}{2}) = 528\\
+            &\text{etc}
+        \end{align*}
+        Since each $x \in S_i$ pairs with $ \bar{x} \in S_i$ to sum to $88...8$. We find $\alpha = 8\frac{|S_1|}{2} + 88\frac{|S_2|}{2} + 888\frac{|S_3|}{2} + 8888\frac{|S_4|}{2} = \boxed{117,856}$
+    \end{enumerate}
+    
+\end{solution}
+
+\section{Cyclic Permutation}
+
+Consider the set $T$ of 3 permutations of $(s_1, s_2, s_3, s_4)$ or $(1, 2, 3, 4)$. We know that $T = \{ 123, 132, 234, 214, ... \}$ and $|T| = P(4, 3) = 24$.\\
+
+We define $x \cong y \iff x + y $ are cyclically equivalently 
+
+\begin{problem}
+    1 Given $123 \cong x$, how many solutions are there for $x \in T$?
+\end{problem}
+
+\begin{solution}
+    The $x$ values are 123, 231, 312, so there are \boxed{3} solutions. Thus, we see any sequence of length $n \cong n$ sequences
+\end{solution}
+
+\begin{theorem}
+    If $Q(n, r)$ is the number of cyclic permutations of length $r$ from a set of $n$ elements, $Q(n, r) = \frac{P(n, r)}{r}$.
+\end{theorem}
+
+\begin{theorem}
+    There are (n-1)! ways to seat n people around a round table.
+\end{theorem}
+
+\begin{proof}
+    Each ordering $\cong n$ orderings. Thus, $\frac{n!}{n} = (n-1)!$
+\end{proof}
+
+\begin{problem}
+    2 There are 5 boys and 3 girls seated around a round table.
+    \begin{enumerate}[(i)]
+        \item There are no restrictions.
+        \item $B_1$ and $G_1$ are not adjacent
+        \item No girls are adjacent to other girls
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \begin{enumerate}[(i)]
+        \item Using theorem 2.1, there are \boxed{7!} ways.
+        \item We first place $B_1$ in any of the 7 seats and set $B_1$ as our reference point. There are then 5 places for $G_1$ to sit not adjacent to $B_1$ and 6! ways for the remaining 6 people to sit. The total number of ways if $\boxed{6! \cdot 5}$. We can also consider the number of ways for $B_1$ and $G_1$ to sit next to each other, which is $2 \cdot 6!$. Subtracting that from arranging without restrictions, the total number of ways is $\boxed{7! - 2 \cdot 6!}$ 
+        \item We first arrange all the 5 boys, which is $4!$ ways. There are 5 spaces between each boy, so we can choose 3 of the seats and then arrange the 3 girls, $\binom{5}{3} \cdot 3!$. The total number of ways is $\boxed{4! \cdot \binom{5}{3} \cdot 3!}$
+    \end{enumerate}
+\end{solution}
+\section{Recursion}
+\begin{exercise}
+    1 Find the recursive definition of $P(n,r)$.
+\end{exercise}
+
+\begin{solution}
+    We know that the closed form of $P(n,r) = \frac{n!}{(n-r)!}$. Our goal is to define $P(n, r) = f(P(<n, <r))$.\\
+    Let $S = \{s_1, ..., s_n\}$, r be given $0 \leq r \leq n$, and $T$ be the set of all r-permutations of $S$.
+    \noindent
+    We can partition $T$ into $T = T_1 \cup T_2$ where
+    \begin{align*}
+        &t = T_1 \Leftrightarrow s_1 \notin t \text{ (no $s_1$)}\\
+        &t = T_2 \Leftrightarrow s_1 \in t \text{ (yes $s_1$)}
+    \end{align*}
+    We can find the $|T_1|$ in terms of $P(\leq n, \leq r)$
+    \begin{align*}
+        &|T_1| = P(n-1, r)\\
+        &|T_2| = r \cdot P(n-1, r-1) 
+    \end{align*}
+    For $|T_2|$, we can order $r-1$ elements from $\{s_2, ..., s_n \}$ and place $s_1$ in any of the $r$ locations. Thus, $\boxed{P(n,r) = P(n-1,r) + r \cdot P(n-1, r-1)}$
+\end{solution}
+
+\begin{exercise}
+    2 Find a recursive definition of $C(n, r)$
+\end{exercise}
+
+\begin{solution}
+    Again, let $T$ be the subset of $S = \{s_1, ... , s_n\}$ of size $r$.\\
+    To find $|T|$, let $T = T_1 \cup T_2$ where $T_1$ has no set containing $s_1$ and $T_2$ has every set containing $s_1$.
+    \begin{align*}
+        &|T_1| = C(n-1, r) \text{ we can choose $r$ from $s_2, ... s_n$}\\
+        &|T_2| = C(n-1, r-1) \text{ we choose $r-1$ from $s_2, ... s_n$ and add in $s_1$}
+    \end{align*}
+    Thus, $\boxed{C(n, r) = C(n-1, r) + C(n-1, r-1)}$
+\end{solution}
+
+\begin{problem}
+    1 Given $2n$ tennis players. How many ways are there to arrange $n$ games/pairings?
+\end{problem}
+
+\begin{solution}
+    There are several solutions to this problem:
+    \begin{enumerate}
+        \item We can match $P_1$ with another $2n - 1$ players. For the next player $P_2$ who hasn't been matched, we can choose $2n - 3$ players, and so on. The solution is just $(2n-1)(2n-3)...(1) = \boxed{(2n-1)!!}$
+        \item We can choose each pair and divide by $n!$ to remove the ordering of the pairs. There are $\boxed{\frac{\binom{2n}{n}\binom{2n-2}{2} ... \binom{2}{2}}{n!}}$ ways. 
+        \item We can permute all $2n$ players and divide by $n!$ (the number of ways to order the game doesn't matter) and $2^n$ (the order of the partners doesn't matter). There are $\boxed{\frac{(2n)!}{n!2^n}}$
+    \end{enumerate}
+
+\end{solution}
+% \end{document}

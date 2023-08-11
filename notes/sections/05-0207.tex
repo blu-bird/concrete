@@ -1,0 +1,202 @@
+% %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+% %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \documentclass[11pt,twosided]{article}
+% \input{concrete-header.tex}
+
+% %%%% add package inclusions here, if any
+% \usepackage{amsmath, amssymb, amsthm, amsfonts}
+% \usepackage{mathtools}
+% \usepackage{nccmath}
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \def\titlestring{Combinations, Multisets, Binomial Expansions}
+% \def\scribestring{Bryan Lu}
+% \def\datestring{February 7, 2019}
+
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \lhead{\titlestring}
+% \rhead{Page \thepage}
+% \cfoot{Concrete Math -- White -- TJHSST}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{document}
+% \thispagestyle{plain}  %% no headers on this page
+
+% %%%% Do not change these lines %%%%%
+% \noindent
+% {\LARGE \textbf{\titlestring}}\\\\
+% %
+% {\Large Scribe: \scribestring}\\ \\
+% {\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+% \noindent
+
+\section{Revisiting Cyclic Permutations}
+\begin{problem}{1}
+How many ways are there to arrange 5 boys and 3 girls around a table such that no girls are adjacent?
+\end{problem}
+Consider the following "bogus solution":
+\begin{solution}
+	Arrange the boys in a line in 5! ways, choose three of the boys to put girls to the left of, and arrange the girls in 3! ways. \textit{We then divide by 8 in order to account for the cyclicity of the table.}
+\end{solution}
+\newline
+Recall, however, the \textbf{reason} we divided by $8$ to begin with is to divide by the size of each of the equivalence groups in the original problem when arranging people around the table. There are \textbf{not} $8$ elements in each of these equivalence groups - cyclical arrangements with a girl on the very right is not part of set that we counted. In fact, there are only $5$. 
+
+
+\section{Points in the Plane}
+Here is a difficult but interesting problem from the International Mathematical Olympiad that uses the counting techniques we have encountered thus far, but in a creative manner:
+\begin{problem}{1} 
+\textbf{(IMO 1989/3)} Given $n, k \in \Z^+$, let $S$ be a set of $n$ points in the plane such that no three points of $S$ are collinear, and for any point $P$ of $S$ there are at least $k$ points of $S$ equidistant from $P$. Prove that 
+\[
+	k < \frac{1}{2} + \sqrt{2n}
+\]
+\end{problem}
+
+\begin{proof}
+We will count the edges between all pairs of points. One way to do so is simply choose any two of the points, which can be done in $\binom{n}{2}$ ways. \\
+	The other way we can do so is by counting edges among the points equidistant from a point $P$. We can compute all pairs of edges between these equidistant points, which gives at least $\binom{k}{2}$ edges. Across all points, this gives at least $n\binom{k}{2}$. However, we have overcounted - notice that each edge can represent at a maximum one intersection between the two circles representing equidistant sets of points around each point. If this edge was the intersection of three or more of these circles, this would give at least three points in $S$ as collinear, which is forbidden. This means that we have overcounted by at most $\binom{n}{2}$. This method of counting may not have accounted for all the edges, so all in all we obtain the inequality 
+\[
+	\binom{n}{2} \geq n\binom{k}{2} - \binom{n}{2}
+\]
+Expanding, we have: 
+\[
+	2\cdot \frac{n(n-1)}{2} \geq \frac{nk(k-1)}{2}
+\] 
+\[
+	n - 1 \geq \frac{k^2 - k}{2}
+\]
+\[
+	n \geq 1 + \frac{4k^2 - 4k}{8} > \frac{4k^2 - 4k + 1}{8}
+\]	
+\[
+	8n > (2k-1)^2
+\]
+\[
+	2\sqrt{2n} > 2k - 1
+\]
+\[
+	k < \half + \sqrt{2n}
+\]
+as desired.
+\end{proof}
+
+\section{Binomial Coefficients}
+Recall we derived a recursive definition of combinations (ie. binomial coefficients) in the last lecture: 
+\[
+	\binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}
+\]
+This is also known as \textbf{Pascal's Identity}.\\
+We now prove the famed \textbf{Binomial Theorem}: 
+\[
+	(x+y)^n = \sum_{k=0}^n \binom{n}{k} x^k y^{n-k}
+\]
+While proving this fact, we will extend the definition of the combination (or binomial coefficient) as follows:
+\[
+	\binom{n}{k} = \begin{cases} 
+      \frac{\ff{n}{k}}{k!} & 0 \leq k \leq n \\
+      0 & k > n, k < 0
+   \end{cases}
+\]
+We will prove this in two ways - first by induction and then by a simple combinatorial argument. 
+\begin{proof}[Proof 1.]
+	First, let us consider the trivial base case for $n=0$, for which $(x+y)^0 = 1$ which is easily true, as $\binom{0}{0} = 1$.  \\
+	For the inductive step, we can consider $(x+y)^{n+1}$ as $(x+y)(x+y)^n$, and apply the Binomial Theorem to the $(x+y)^n$ term. We expand: 
+\begin{align*}
+(x+y)(x+y)^n &= (x+y) \sum_{k=0}^n \binom{n}{k} x^k y^{n-k} \\
+&= \sum_{k=0}^n \binom{n}{k} x^{k+1} y^{n-k} + \sum_{k=0}^n \binom{n}{k} x^k y^{n+1-k} \\
+&= \sum_{k=1}^{n+1} \binom{n}{k-1} x^{k} y^{n+1-k} + \sum_{k=0}^n \binom{n}{k} x^k y^{n+1-k} 
+\end{align*}
+where we shift the indices of the first sum back so the exponents of the $x$ and $y$ terms match up. We will now extend the bounds of each of the sums by one in order to combine them together into one sum - this is legal, as the terms that we are adding are zero by our extended definition of the binomial coefficient. 
+\[
+	\sum_{k=0}^{n+1} \binom{n}{k-1} x^{k} y^{n+1-k} + \sum_{k=0}^{n+1} \binom{n}{k} x^k y^{n+1-k} 
+\]
+Now we finish using Pascal's Identity:
+\[
+	\sum_{k=0}^{n+1} \left(\binom{n}{k-1} + \binom{n}{k}\right) x^{k} y^{n-k} = \sum_{k=0}^{n+1} \binom{n+1}{k} x^{k} y^{n-k} 
+\]
+\end{proof}
+\begin{proof}[Proof 2.]
+	We can write the product $(x+y)^n$ out explicitly:
+\[
+	(x+y)^n = \overbrace{(x+y)(x+y)\ldots (x+y)}^n
+\]
+Notice that the term $x^k y^{n-k}$ appears $\binom{n}{k}$ times, which immediately implies the desired as we sum over all possible $k$. 
+\end{proof}
+\begin{reflection}{A}
+Notice how much cleaner the combinatorial argument was! We will appeal to such arguments again and again as the course progresses.
+\end{reflection}
+What if we want to expand something like $(1-x)^{\frac{1}{2}}$ binomially? This forces us to define binomial coefficients when the top argument is a real $\alpha$ - and furthermore, we have to define them in such a way so that it doesn't involve factorials of $\alpha$ (which aren't well defined). We can define as follows for $\binom{\alpha}{n}$ if $n$ is an integer, but $\alpha$ can be any real: 
+\[
+	\binom{\alpha}{n} =  \frac{\alpha (\alpha - 1) (\alpha - 2) \ldots (\alpha - n + 1)}{n! } = \frac{\ff{\alpha}{n}}{n!}
+\]
+Once this is done, we can simply apply the Binomial Theorem, which turns out still to be true with this definition, except the sum does not terminate (left to the reader as an exercise): 
+\begin{align*}
+(1-x)^{\frac{1}{2}} &= \sum_{k=0}^{\infty} \binom{\half}{k} (-x)^k \\
+&= 1 + \frac{\half}{1!}(-x)^1 + \frac{\half \left(-\half \right)}{2!} (-x)^2 + \frac{\half \left(-\half \right) \left(-\frac{3}{2} \right)}{3!} (-x)^3  + \ldots 
+\end{align*}
+\[
+\implies (1-x)^{\frac{1}{2}} = 1 - \sum_{n=0}^{\infty} \frac{(2n-1)!!}{(n+1)!2^{n+1}} x^{n+1}	
+\]
+where we define $(-1)!! = 1$. \\
+Recall we had this double factorial last class, and in fact we showed that $(2n-1)!! = \frac{(2n)!}{2^n n!}$ by solving the same combinatorial problem of creating games in a tournament. Applying this, we obtain
+\begin{align*}
+(1-x)^{\frac{1}{2}} &= 1 - \sum_{n=0}^{\infty} \frac{(2n)!}{(n!)(n+1)!2^{n+1}2^n} x^{n+1}	\\
+&= 1 - \frac{1}{2}\sum_{n=0}^{\infty} \frac{(2n)!}{(n!)(n+1)! 4^{n}} x^{n+1} \\
+&= 1 - \frac{1}{2}\sum_{n=0}^{\infty} \frac{(2n)!}{(n!)^2(n+1) 4^{n}} x^{n+1}\\
+&=  1 - \frac{1}{2}\sum_{n=0}^{\infty} \binom{2n}{n} \frac{1}{n+1}\cdot \frac{1}{4^n} x^{n+1}
+\end{align*}
+\begin{remark}
+The term $\binom{2n}{n} \frac{1}{n+1}$ is the $n$th \textbf{Catalan number}. We will see these numbers again in the near future. 
+\end{remark}
+
+
+\section{Multisets and Problems with Repetition}
+We will now start to look at problems where we can have repetition of elements. Consider the following problems: 
+\begin{problem}{2}
+Given the elements of the set $\set{a, b, c, d}$, how many ways are there to construct a sequence of length 7 with repetition allowed?  
+\end{problem}
+\begin{proof}[Solution.]
+For each element in the sequence, we can choose any element in the set, giving $\boxed{4^7}$ possibilities.
+\end{proof}
+\begin{problem}{3}
+Given the multiset $\set{ 3\cdot a, 2\cdot b, 5 \cdot c }$, how many unique sequences are there that use all the letters once?
+\end{problem}
+\begin{proof}[Solution.]
+If we first label the $a$s, $b$s, and $c$s so that they are distinguishable, we can arrange all the letters in $10!$ ways to begin with. However, since all of the $a$s are indistinguishable, permuting the order of the labeled $a$s produces an equivalent arrangement - so we must divide by a factor of $3!$. We must do the same thing for the $b$s and $c$s, giving $\boxed{\frac{10!}{3! 2! 5!}}$ sequences. 
+\end{proof}
+\begin{problem}{4}
+Given the multiset $\set{ \infty \cdot a, \infty \cdot b, \infty \cdot c, \infty \cdot d }$, how many ways can one choose a sub-multiset of size $7$? 
+\end{problem}
+\begin{proof}[Solution.]
+Notice that we only care about the quantities of each of the letters $a, b, c, d$, so we can consider the equivalent problem of finding the number of positive-integer solutions to the equation $w + x + y + z = 7$. This can be counted by considering the isomorphic problem of counting binary strings of length 10 with three 1s. To see why this problem is the same as counting solutions to the equation, notice that for every such binary string, we can let the number of $0$s to the left of the first 1 be the value of $w$, the number of $0$s between the first and second 1s be the value of $x$, etc. This uniquely maps this binary string to a solution to this Diophantine equation, and similarly every solution to the equation gives a binary string. We can count the strings easily - there are  $\boxed{\binom{10}{3}}$ of these strings, which is the answer to the original problem as well.
+\end{proof}
+\newline
+We can generalize this last problem: with the same reasoning, we find the number of ways to build a size-$r$ multiset from $n$ possible elements is $\binom{n-1+r}{n-1} = \binom{n-1+r}{r}$. \\
+We now define some additional notation for these kinds of problems: 
+\begin{itemize}
+\item We denote the number of multisets into a sequence as a \textit{multinomial coefficient}:
+\[
+	\binom{n}{r_1, r_2, \ldots r_k} = \frac{n!}{r_1! r_2! \ldots r_k!}
+\]
+where $n = \sum_i r_i$. 
+\item The number of multisets of length $r$ constructed from $n$ possible elements (colloquially known as the \textit{stars and bars} problem) is denoted as 
+\[
+	\snb{n}{r} = \binom{n-1+r}{n-1} = \binom{n-1+r}{r}
+\]
+For example, $\snb{3}{7} = \binom{3-1+7}{2} = \binom{9}{2} = 36$. Note that unlike binomial coeffients, $n$ need not be less than $r$! 
+\end{itemize}
+
+
+
+
+
+
+% \end{document}

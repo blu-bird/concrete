@@ -1,0 +1,83 @@
+%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twosided]{article}
+\input{concrete-header.tex}
+
+%%%% add package inclusions here, if any
+
+%%%%% Define your custom functions and macros here, if any
+
+%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\titlestring{Indeterminate Coefficients + Inhomogeneity}
+\def\scribestring{Yoseph Mak}
+\def\datestring{26 Mar 2019}
+\def\multiset#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{\titlestring}
+\rhead{Page \thepage}
+\cfoot{Concrete Math -- White -- TJHSST}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{plain}  %% no headers on this page
+
+%%%% Do not change these lines %%%%%
+\noindent
+{\LARGE \textbf{\titlestring}}\\\\
+%
+{\Large Scribe: \scribestring}\\ \\
+{\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+\section{Recursive Problems}
+
+\problem{1} We draw $n$ lines in the plane. How many regions can we create?
+
+\solution We can solve this with recursion. Obviously, $a_0=1,$ but consider the $a_{n-1}$ case. If we add another line, consider every place it can intersect. There are $n-1$ lines to intersect with, and if we have $n-1$ arbitrary lines, putting a line through them adds $n$ regions to the total (imagine that the lines are all parallel since their intersections have nothing to do with the new line). Thus, we write $a_n=a_{n-1}+n$ with $a_0=1,$ giving us $$a_n=a_0+\sum_{k=1}^{\infty}k=1+\frac{k}{k+1}{2}=\boxed{\multiset{3}{n-1}+1}.$$
+
+\problem{2} How many sequences of length $n$ using $0-3$ contain an even number of zeroes?
+
+\solution Since we're using sequences, we need to consider even and odd zeros. Construct two sequences $O_n$ and $E_n$ where $O_0=0$ and $E_0=1.$ Then, we have $E_{n+1}=3E_n+O_n.$ We also have $O_n+E_n=4^n$ since every sequence consists of an odd or even number of zeroes and there are four choices per digit in the sequence.
+
+Thus, we write $E_{n+1}=3E_n+(4^n-E_n)=2E_n+4^n.$ If we instead write this as $E_n=2E_{n-1}+4^{n-1},$ we can solve for our generating function as follows: $$(1-2x)g(x)=1+\frac{x}{1-4x}=\frac{1-3x}{1-4x}$$
+$$\rightarrow g(x)=\frac{1-3x}{(1-2x)(1-4x)}=\frac{1/2}{1-2x}+\frac{1/2}{1-4x}$$
+so we have $E_n=\boxed{\frac{2^n+4^n}{2}}=2^{2n-1}+2^{n-1}.$
+
+\section{Extra Terms}
+
+\textbf{Definition.} \textit{Say we have $\sum_{i=0}^{n}c_ia_i=f$ for some function $f.$ Then $f$ is the \textbf{forcing function} or \textbf{inhomogeneity} of the recursion.}
+
+\textbf{Definition.} \textit{If we have $\sum_{i=0}^{n}c_ia_i=f$ as before, then the solution to the equation $\sum_{i=0}^{n}c_ia_i=0$ is called the \textbf{homogeneous} solution to the equation while the solution to the original equation is called the \textbf{particular} solution. Note that neither uses the initial conditions.}
+
+We'll need both solutions to solve recurrences in general since the real solution will be a linear combination of what we have because initial conditions are annoying. Specifically, our particular solution cannot change, but we can always add a multiple of the homogeneous solution to get our final answer based on the initial equations. If $p(n)$ is our particular solution and $h(n)$ is our homogeneous, the solution will always be of the form $p(n)+c\cdot h(n)$ for some constant c.
+
+\problem{3} Given $a_n+2a_{n-1}=n+3, a_0=3,$ solve for $a_n.$
+
+\solution The homogeneous solution is $(-2)^n$ (or a nonzero constant multiple of that) because our characteristic equation is $x^2+2x=0$ and $0$ clearly doesn't work.
+
+Let's look for the particular solution now. Consider that the inhomogeneity is linear. We agree that $a_n=Bn+D$ by the \textbf{Method of Undetermined Coefficients,} which is essentially a way of "guessing" what the solution will look like. We have $$a_n+2a_{n-1}=Bn+D+2(B(n-1)+D)=3nB+3D-2B=n+3,$$ so we have $B=\frac{1}{3}$ and $3D-2B=3D-\frac{2}{3}=3\rightarrow D=\frac{3+2/3}{3}=\frac{11}{9}.$ Thus, our particular solution is $a_n=\frac{1}{3}n+\frac{11}{9}$.
+
+Finally, let's combine the two. At $n=0,$ our particular says $\frac{11}{9},$ but our homogeneous says $1.$ Thus, we have $\frac{11}{9}+c\cdot 1=3$ since the solution is of the form $p(n)+c\cdot h(n).$ Thus, $c=\frac{16}{9}.$ This gives us the solution
+$$a_n=\boxed{\frac{1}{3}n+\frac{11}{9}+\frac{16}{9}(-2)^n}.$$
+
+Let's now look at the original two problems again.
+
+\problem{2 (revisit)} Let $a_n=4^{n-1}+2a_{n-1}.$ Solve for $a_n.$
+
+\solution The homogeneous is clearly $2^n,$ but the particular is less clear-cut. Writing $a_n=c4^n,$ we have $c(4^n-2\cdot 4^{n-1})=4^{n-1}$ which gives $c=\frac{1}{2}.$ If we then write $a_n=\frac{1}{2}4^n+d\cdot 2^n$ and use $a_1=3,$ we have $a_1=2+d\cdot 2=3\rightarrow d=\frac{1}{2},$ so we get $a_n=\frac{4^n+2^n}{2}$ as before.
+
+\problem{1 (revisit)} Let $a_n=a_{n-1}+n.$ Solve for $a_n.$
+
+\solution The homogeneous for $a_n=a_{n-1}+n$ is literally $1$. However, to find the particular here, the Method of Undetermined Coefficients says that we must use a quadratic since a linear term will cancel if we set $a_n-a_{n-1}=n.$ (In more specific terms, if we write $a_n=Bn+D,$ we find that $a_n-a_{n-1}=Bn+D-B(n-1)+D=B,$ leaving us with no information.)
+
+Thus, write $a_n=An^2+Bn+C.$ Using $a_0=1, a_1=2, a_2=4,$ we have $C=1, A+B+C=2,$ and $4A+2B+C=4.$ This gives $A=\frac{1}{2}, B=\frac{1}{2}, C=1.$ Thus, our final solution is $a_n=\frac{1}{2}n^2+\frac{1}{2}n+1+d,$ where $d$ is the coefficient on the homogeneous solution. Taking $a_0=1$ again, we get $d=0,$ so the answer is just the particular: $a_n=\boxed{\frac{1}{2}n^2+\frac{1}{2}n+1}$ which equals our original answer.
+\end{document}
