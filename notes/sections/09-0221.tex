@@ -1,3 +1,4 @@
+\label{09-0221}
 %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
 %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -36,7 +37,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
 
-\section{Stirling's Approximation}
+\section{Interlude: Stirling's Approximation}
 We intend to examine different ways that we may approximate the value of $n!$. The first of these methods is Stirling's Approximation.\\
 \begin{theorem}
     (Stirling's Approximation) $\lim_{n\to\infty} \frac{n!}{(\frac{n}{e})^n * \sqrt{2\pi n}} = 1$
@@ -89,7 +90,7 @@ Now that we have an approximation for $n!$, we can look to write an expression t
 $\binom{2n}n*\frac{1}{n+1} = \frac{(2n)!}{n!n!} = \frac{(2n)!}{[(\frac{n}{e})^n * \sqrt{2\pi n}]^2}$\\
 $= \frac{\frac{2n}{e}^{2n}}{\frac{n}{e}^{2n}} * \frac{\sqrt{4\pi n}}{2\pi n * (n+1)} = \frac{2^{2n}*\sqrt{\pi n}}{\pi n(n+1)} = \frac{4^n}{\sqrt{\pi n}(n+1)}$
 
-\section{Gamma Function}
+\subsection{Gamma Function}
 Gamma functions are an extension of factorials, such that the arguments are shifted down by one. In other words, $\Gamma(2) = 1!$, $\Gamma(3) = 2!$, etc. We intend to prove that $\Gamma(n+1) = n!$. To do this, we first begin by defining our gamma function.\\
 \begin{definition}
     $\Gamma(z+1)=\int_{0}^{\infty} {x^{z}e^{-x}}$

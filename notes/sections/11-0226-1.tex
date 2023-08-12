@@ -1,0 +1,21 @@
+\label{11-0226-1}
+\subsection{Triangulating Polygons (Review of Catalan Number Proof)}
+\begin{proof}
+The number of ways to triangulate a hexagon, $T_6$, can be found by recursion through dividing the interior of the hexagon with a triangle. After picking the triangle in one of 4 ways, the number of ways to triangulate the remaining area is either $T_5T_2$ or $T_4T_3$, depending on the triangle picked. This means we can say $T_6=T_5T_2+T_4T_3+T_3T_4+T_2T_5$. We can shift the indices here to get the recursive definition of Catalan numbers using the following:
+\newline
+$T_{n+1}=T_2T_n+T_3T_{n-1}+...T_nT_2$
+\newline
+$T_{n+1}=\sum_{j=2}^{n} {T_jT_{n+2-j}}$
+\newline
+Let $T_{n+1}=C_n$
+\newline
+$T_{n+2}=\sum_{j=2}^{n+1} {T_jT_{n+3-j}}$
+\newline
+$C_n=\sum_{j=2}^{n+1} {C_{j-2}C_{n+1-j}}$
+\newline
+$C_{n+1}=\sum_{j=2}^{n+1} {C_{j-2}C_{n+2-j}}$
+\newline
+%%IRIS UWU I'M KINDA UNSURE ABT THIS SO CHECK PLS
+$C_{n+1}=\sum_{j=1}^{n} {C_{j}C_{n-j}}$
+This is the recursive definition of Catalan numbers, so we can conclude that there are $C_n$ ways to triangulate an n+2-gon. 
+\end{proof}

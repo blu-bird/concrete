@@ -1,0 +1,89 @@
+\label{06-0211}
+\subsection{Partitions and Stirling Numbers}
+\begin{problem}{1}
+How many ways can a set of 4 elements be partitioned into 2 non-empty sets? 
+\end{problem}
+\begin{proof}[Solution:]
+We perform casework. Here are the ways: 
+\[
+    1 \mid 2 \, 3 \, 4 \quad 
+    2 \mid 1 \, 3 \, 4 \quad 
+    3 \mid 1 \, 2 \, 4 \quad 
+    4 \mid 1\, 2 \, 3 \quad 
+\]
+\[
+    1 \, 2 \mid 3 \, 4 \quad 
+    1 \, 3 \mid 2 \, 4 \quad 
+    1 \, 4 \mid 2 \, 3
+\]
+\end{proof}
+
+\begin{definition}
+    The number of ways to partition a set of $n$ elements into $k$ non-empty subsets is the \textbf{Stirling Number of the second kind} $S(n, k)$ 
+    or $\dstirii{n}{k}$.
+\end{definition}
+
+Let's construct a few base cases: 
+\begin{align*}
+	&S(1, 1) = 1 \\
+	&S(n, 1) = 1 \\
+	&S(n, n) = 1 \\
+	&S(0, 0) = 1 \text{\quad (defined as such)} \\
+	&S(n, 2) = 2^{n-1} - 1 \\
+    &S(n, n-1) = \binom n 2
+\end{align*}
+The first four of these are fairly trivial to see, but the last two are not. 
+\begin{proposition}{A}
+$S(n, 2) = 2^{n-1} - 1$ 
+\end{proposition}
+\begin{proof}
+Consider $A = \{ 0, 1 \}^n$. This will be the characteristic function of membership in the two sets $S_0$, $S_1$. Note that $|A| = 2^n$, but $1^n$ and $0^n$ are not valid partitions (since they have an empty set). So we have $|A| = 2^n - 2$ valid mappings. However, since we are double counting because the identity of the subsets are irrelevant, we divide by 2 to yield $2^{n-1} - 1$. 
+\end{proof}
+\begin{proposition}{B}
+$S(n, n-1) = \binom{n}{2}$. 
+\end{proposition}
+\begin{proof}
+Choose two elements from the $n$ that will be in the same set, and each of the rest of the elements must be in its own set. 
+\end{proof}
+
+With these base cases in mind, we can look at constructing a recursive formula for $S(n, k)$. We can start by looking at the partitions of an $n-1$-element set into $k-1$ elements - and the $n$th element must go into a new set by itself. Alternatively, we can consider $S(n-1, k)$, or the partitions of an $n-1$-element set into $k$-elements, and we must pick which one of the sets the last element must go into in $k$ ways. This gives us the recursive formula
+\[
+	S(n, k) = S(n-1, k-1) + kS(n-1, k)
+\]
+We can now begin computing values of the Stirling numbers of the second kind: 
+\begin{center}
+\begin{tabular}{c | c c c c c c c}
+$n \backslash k$ & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline 
+1 & 1 & 0 & 0 & 0 & 0 & 0 \\
+2 & 1 & 1 & 0 & 0 & 0 & 0 \\
+3 & 1 & 3 & 1 & 0 & 0 & 0\\
+4 & 1 & 7 & 6 & 1 & 0 & 0\\
+5 & 1 & 15& 25& 10& 1 & 0\\
+6 & 1 & 31& 90& 65& 15& 1\\
+\end{tabular}
+\end{center}
+
+\subsection{Revisiting Balls and Urns}
+We actually now have most of the information we need to understand the 
+twelvefold way! If we have $b$ balls and $u$ urns, here are the number of ways 
+to put the balls in the urns (subject to either no restrictions, or putting 
+at least 1 in each/at most 1 in each):
+\begin{center}
+\begin{tabular}{c c c c c c}
+B & U & $\varnothing$ & $\leq 1$ per & $\geq 1$ per \\ \hline 
+labeled & labeled & $u^b$ & $u\fallingfactorial{b}$ & $u! \stirii{b}{u}$ \\
+unlabeled & labeled & $\snb u b$ & $\binom u b$ & $\snb u {b-u}$ \\
+labeled & unlabeled & $\sum_{n=1}^u \stirii b n$ & $[b \leq u]$ & $\stirii b u$ \\
+unlabeled & unlabeled & ? & $[b \leq u]$ & ?  \\
+\end{tabular}
+\end{center}
+
+A few notes on some of these cases: 
+\begin{itemize}
+    \item unlabeled balls into labeled urns, $\geq 1$ per: fill the urns with at 
+    least one ball each first, then do the multisets. This also has the name of 
+    a ``composition of $b$ into $u$ parts.''
+    \item $[P]$ means 1 if $P$ is true, and 0 otherwise. This appears for 
+    labeled balls unto unlabeled urns, $\leq 1$ per urn -- either we can 
+    do it, or there are no ways to do it. Same with unlabeled balls into unlabeled urns. 
+\end{itemize}

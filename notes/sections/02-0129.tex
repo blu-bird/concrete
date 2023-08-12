@@ -105,21 +105,23 @@ How many passwords with only capital letters or digits contain 8 characters and 
 \emph{Answer:} $5^4 * 36^4$
 \end{problem}
 
+\input{sections/03-0131.tex}
+
 \subsection{Quotient Sets}
 \begin{problem}\\
-Let us count the number of permutations of ``ABCD". There are 24 permutations of this string of length 4 (e.g. ABCD, ABDC, ...). There are also 24 permutations of length 3 (e.g. ABC, ABD, ...) Let define equivalence relationship $p_1 \cong p_2$ if they contain the same letters (e.g. ACB $\cong$ ABC). Define an \emph{equivalence group} $G$ to be such that $p_1, p_2 \in G \implies p_1 \cong p_2$.
-How many equivalence groups are there out of the 24 permutations of length 3?
+Let us count the number of permutations of ``ABCD". There are 24 permutations of this string of length 4 (e.g. ABCD, ABDC, ...). There are also 24 permutations of length 3 (e.g. ABC, ABD, ...) Let define equivalence relationship $p_1 \cong p_2$ if they contain the same letters (e.g. ACB $\cong$ ABC). Define an \emph{equivalence class} $C$ to be such that $p_1, p_2 \in C \implies p_1 \cong p_2$.
+How many equivalence classes are there out of the 24 permutations of length 3?
 \end{problem}
 \begin{solution}
-There are 4 equivalence groups. Note the following:
+There are 4 equivalence classes. Note the following:
 \begin{enumerate}
-    \item All equivalence groups are of the size same size, 3!
-    \item Different equivalence groups are disjoint
-    \item The set of all equivalence groups forms a partition of the set of all $4^{\underline{3}}$ permutations of length 3.
+    \item All equivalence classes are of the size same size, 3!
+    \item Different equivalence classes are disjoint
+    \item The set of all equivalence classes forms a partition of the set of all $4^{\underline{3}}$ permutations of length 3.
 \end{enumerate}
-Thus, there are $4^{\underline{3}}/3!$ equivalence groups.
+Thus, there are $4^{\underline{3}}/3!$ equivalence classes.
 \end{solution} \\ \\
-By noticing that equivalence groups are of size $r!$, we can now count \emph{combinations}.
+By noticing that equivalence classes are of size $r!$, we can now count \emph{combinations}.
 \[
 \prescript{}{n}{C_r} = \frac{\prescript{}{n}{P_r}}{r!}
 \]

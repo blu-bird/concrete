@@ -1,3 +1,4 @@
+\label{04-0205}
 %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
 %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -35,7 +36,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Partitions}
+\subsection{Partitions}
     A \textit{partition} of a set $S$ is a subset of $S_1, ... S_k$ such that
 \begin{enumerate}[(i)]
         \item $\bigcup\limits_{i=1}^{k} S_{i}$. The subsets `cover' the set $S$
@@ -88,7 +89,7 @@
     
 \end{solution}
 
-\section{Cyclic Permutation}
+\subsection{Cyclic Permutation}
 
 Consider the set $T$ of 3 permutations of $(s_1, s_2, s_3, s_4)$ or $(1, 2, 3, 4)$. We know that $T = \{ 123, 132, 234, 214, ... \}$ and $|T| = P(4, 3) = 24$.\\
 
@@ -130,7 +131,13 @@ We define $x \cong y \iff x + y $ are cyclically equivalently
         \item We first arrange all the 5 boys, which is $4!$ ways. There are 5 spaces between each boy, so we can choose 3 of the seats and then arrange the 3 girls, $\binom{5}{3} \cdot 3!$. The total number of ways is $\boxed{4! \cdot \binom{5}{3} \cdot 3!}$
     \end{enumerate}
 \end{solution}
-\section{Recursion}
+
+\input{sections/05-0207-1.tex}
+
+\subsection{Recursion}
+Another way to count a set is to recursively generate it from smaller cases. 
+This is a very useful general strategy to compute a quantity. 
+
 \begin{exercise}
     1 Find the recursive definition of $P(n,r)$.
 \end{exercise}

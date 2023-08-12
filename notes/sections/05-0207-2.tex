@@ -1,3 +1,4 @@
+\label{05-0207-2}
 % %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
 % %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -39,20 +40,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
 % \noindent
 
-\section{Revisiting Cyclic Permutations}
-\begin{problem}{1}
-How many ways are there to arrange 5 boys and 3 girls around a table such that no girls are adjacent?
-\end{problem}
-Consider the following "bogus solution":
-\begin{solution}
-	Arrange the boys in a line in 5! ways, choose three of the boys to put girls to the left of, and arrange the girls in 3! ways. \textit{We then divide by 8 in order to account for the cyclicity of the table.}
-\end{solution}
-\newline
-Recall, however, the \textbf{reason} we divided by $8$ to begin with is to divide by the size of each of the equivalence groups in the original problem when arranging people around the table. There are \textbf{not} $8$ elements in each of these equivalence groups - cyclical arrangements with a girl on the very right is not part of set that we counted. In fact, there are only $5$. 
-
-
-\section{Points in the Plane}
+\subsection{Interlude: Points in the Plane}
 Here is a difficult but interesting problem from the International Mathematical Olympiad that uses the counting techniques we have encountered thus far, but in a creative manner:
+
 \begin{problem}{1} 
 \textbf{(IMO 1989/3)} Given $n, k \in \Z^+$, let $S$ be a set of $n$ points in the plane such that no three points of $S$ are collinear, and for any point $P$ of $S$ there are at least $k$ points of $S$ equidistant from $P$. Prove that 
 \[
@@ -61,8 +51,20 @@ Here is a difficult but interesting problem from the International Mathematical 
 \end{problem}
 
 \begin{proof}
-We will count the edges between all pairs of points. One way to do so is simply choose any two of the points, which can be done in $\binom{n}{2}$ ways. \\
-	The other way we can do so is by counting edges among the points equidistant from a point $P$. We can compute all pairs of edges between these equidistant points, which gives at least $\binom{k}{2}$ edges. Across all points, this gives at least $n\binom{k}{2}$. However, we have overcounted - notice that each edge can represent at a maximum one intersection between the two circles representing equidistant sets of points around each point. If this edge was the intersection of three or more of these circles, this would give at least three points in $S$ as collinear, which is forbidden. This means that we have overcounted by at most $\binom{n}{2}$. This method of counting may not have accounted for all the edges, so all in all we obtain the inequality 
+Draw an edge between points $P$ and $Q$ if $P$ and $Q$ are one of the $k$ points 
+that are equidistant from another point $O$. We will count all such edges between all 
+pairs of points. One way to do so is simply choose any two of the points
+as an upper bound, which can be done in $\binom{n}{2}$ ways. \\
+The other way we can do so is by counting edges among the points equidistant
+from a point $P$. We can compute all pairs of edges between these equidistant
+points, which gives at least $\binom{k}{2}$ edges. Across all points, this gives at 
+least $n\binom{k}{2}$. However, we have overcounted - notice that at a maximum,
+each edge can represent an intersection between two circles representing 
+equidistant sets of points around each point. If this edge was the intersection 
+of three or more of these circles, this would give at least three points in $S$ 
+as collinear, which is forbidden. This means that we have overcounted by at most
+$\binom{n}{2}$. This method of counting may not have accounted for all the edges
+(i.e. it's a lower bound). Combining these two gives the inequality 
 \[
 	\binom{n}{2} \geq n\binom{k}{2} - \binom{n}{2}
 \]
@@ -88,7 +90,8 @@ Expanding, we have:
 as desired.
 \end{proof}
 
-\section{Binomial Coefficients}
+\section{Combinatorial Sequences}
+\subsection{Binomial Coefficients}
 Recall we derived a recursive definition of combinations (ie. binomial coefficients) in the last lecture: 
 \[
 	\binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}
@@ -158,7 +161,7 @@ The term $\binom{2n}{n} \frac{1}{n+1}$ is the $n$th \textbf{Catalan number}. We 
 \end{remark}
 
 
-\section{Multisets and Problems with Repetition}
+\subsection{Multisets and Problems with Repetition}
 We will now start to look at problems where we can have repetition of elements. Consider the following problems: 
 \begin{problem}{2}
 Given the elements of the set $\set{a, b, c, d}$, how many ways are there to construct a sequence of length 7 with repetition allowed?  

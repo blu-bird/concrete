@@ -1,3 +1,4 @@
+\label{11-0226-2}
 %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
 %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -36,71 +37,70 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
 
-\section{Triangulating Polygons (Review of Catalan Number Proof)}
-\begin{proof}
-The number of ways to triangulate a hexagon, $T_6$, can be found by recursion through dividing the interior of the hexagon with a triangle. After picking the triangle in one of 4 ways, the number of ways to triangulate the remaining area is either $T_5T_2$ or $T_4T_3$, depending on the triangle picked. This means we can say $T_6=T_5T_2+T_4T_3+T_3T_4+T_2T_5$. We can shift the indices here to get the recursive definition of Catalan numbers using the following:
-\newline
-$T_{n+1}=T_2T_n+T_3T_{n-1}+...T_nT_2$
-\newline
-$T_{n+1}=\sum_{j=2}^{n} {T_jT_{n+2-j}}$
-\newline
-Let $T_{n+1}=C_n$
-\newline
-$T_{n+2}=\sum_{j=2}^{n+1} {T_jT_{n+3-j}}$
-\newline
-$C_n=\sum_{j=2}^{n+1} {C_{j-2}C_{n+1-j}}$
-\newline
-$C_{n+1}=\sum_{j=2}^{n+1} {C_{j-2}C_{n+2-j}}$
-\newline
-%%IRIS UWU I'M KINDA UNSURE ABT THIS SO CHECK PLS
-$C_{n+1}=\sum_{j=1}^{n} {C_{j}C_{n-j}}$
-This is the recursive definition of Catalan numbers, so we can conclude that there are $C_n$ ways to triangulate an n+2-gon. 
-\end{proof}
-\section{PS 2 Review}
 
+\section{Problems and Examples}
+
+\subsection{Homework Problems (Problem Set 2)}
 %%% Question 1
 
-\subsection{In how many ways may we write n as a sum of an ordered list of k positive numbers? Such a list is called a composition of n into k parts.}
-We can split n into n identical 1's. Then the problem becomes about dividing identical objects into k distinguishable piles with at least one in each pile to form ordered pairs of numbers which sum to n. That makes this stars and bars where we have k-1 bars (to divide the set into k-1 groups) and n-1 possible spaces (we want at least one 1 in each group). There are $\binom{n-1}{k-1}$ ways to do this.
+\begin{problem}{1}
+    In how many ways may we write n as a sum of an ordered list of k positive numbers? Such a list is called a composition of n into k parts.
+\end{problem}
+\begin{solution}
+    We can split n into n identical 1's. Then the problem becomes about dividing identical objects into k distinguishable piles with at least one in each pile to form ordered pairs of numbers which sum to n. That makes this stars and bars where we have k-1 bars (to divide the set into k-1 groups) and n-1 possible spaces (we want at least one 1 in each group). There are $\binom{n-1}{k-1}$ ways to do this.
+\end{solution}
 
 %%% Question 2
 
-\subsection{What is the total number of compositions of n (into any number of parts).}
-In this question, we have n-1 spaces between each 1 that we can make a "bar" that creates a new group. We have two groups that n-1 things can fall in, so our total number of ways to do that is \(2^{n-1}\). Alternatively, we could recognize that the total number of ways to do this is the sum of our answer from question one where k goes from 1 to n-1 (\(\sum^{n-1}_{k=1}\binom{n-1}{k}\)) matches the form of the sum in the binomial theorem (\((a+b)^{j} = \sum^{j}_{k=0}\binom{j}{k}a^{j-k}b^{k}\)). In this case, a and b would both be 1 and j would be n-1, which would give us \(2^{n-1}\).
+\begin{problem} 2
+    What is the total number of compositions of n (into any number of parts).
+\end{problem}
+\begin{solution}
+    In this question, we have n-1 spaces between each 1 that we can make a "bar" that creates a new group. We have two groups that n-1 things can fall in, so our total number of ways to do that is \(2^{n-1}\). Alternatively, we could recognize that the total number of ways to do this is the sum of our answer from question one where k goes from 1 to n-1 (\(\sum^{n-1}_{k=1}\binom{n-1}{k}\)) matches the form of the sum in the binomial theorem (\((a+b)^{j} = \sum^{j}_{k=0}\binom{j}{k}a^{j-k}b^{k}\)). In this case, a and b would both be 1 and j would be n-1, which would give us \(2^{n-1}\).
+\end{solution}
 
 %%% Question 3
 
-\subsection{A Grey Code is an ordering of n-digit binary strings such that each string differs from the previous in precisely one digit.}
+\begin{problem} 3
+    A Grey Code is an ordering of n-digit binary strings such that each string differs from the previous in precisely one digit.
+\end{problem}
+
+
 
 %%% Question 3.1
-
-\subsubsection{Write one Grey Code for n=4.}
+\begin{problem}{3.1}
+    {Write one Grey Code for n=4.}
+\end{problem}
 1111, 1110, 1100, 1000, 0000, 0001, 0011, 0111, 0101, 1101, 1001, 1011, 1010, 0010, 0110, 0100.
 
 %%% Question 3.2
 
-\subsubsection{Prove by induction that Grey Codes exist for all $n \geq{4}$.}
+\begin{problem}{3.2}{Prove by induction that Grey Codes exist for all $n \geq{4}$.}\end{problem}
 Let n=4 be the base case. Starting with a Grey Code for n=4, to create one for n=5, we can duplicate all the numbers in the Grey Code while keeping the same order and alternate between adding 1's and 0's in the front using the following pattern: 1, 0, 0, 1, 1, 0... This maintains the one-digit difference while listing all the 5-digit binary numbers (because each number listed is unique, since the list of 4-digit numbers was unique and either 0 or 1 is added only once to each number, and there are twice as many numbers in the list, just like there are twice as many 5 digit binary numbers as 4-digit ones). For example, using the earlier Grey Code, we get (11111, 01111, 01110, 11110...). This procedure can be repeated for 6-digit numbers, 7-digit numbers, and so on.
 
 %%% Question 3.3
 
-\subsubsection{Prove that the number of even-sized subsets of an n-element set equals the number of odd-sized subsets of an n-element set.}
-The subsets of an n-element set can be mapped one-to-one to the strings in a Grey Code for n=n by having the 0's and 1's indicate whether or not to include each element of the original set. Since each string in a Grey Code differs from the previous string by exactly 1 digit, the strings must alternate between having even and odd numbers of 1's, indicating even or odd sized subsets. Since there are $2^n$ binary strings of length n, there are an even number of strings in each Grey Code, so the alternation between odd and even sized subsets must produce equal numbers of both. 
+\begin{problem}{3.3}{Prove that the number of even-sized subsets of an n-element set equals the number of odd-sized subsets of an n-element set.}
+\end{problem}
+    The subsets of an n-element set can be mapped one-to-one to the strings in a Grey Code for n=n by having the 0's and 1's indicate whether or not to include each element of the original set. Since each string in a Grey Code differs from the previous string by exactly 1 digit, the strings must alternate between having even and odd numbers of 1's, indicating even or odd sized subsets. Since there are $2^n$ binary strings of length n, there are an even number of strings in each Grey Code, so the alternation between odd and even sized subsets must produce equal numbers of both. 
 
 %%% Question 4
 
-\subsection{A list of parentheses is said to be balanced if there are the same number of left parentheses as right, and as we count from left to right we always find at least as many left parentheses as right parentheses. For example, (((()()))()) is balanced and ((()) and (()()))(() are not. How many balanced lists of n left and n right parentheses are there?}
-This is equivalent to the problem of counting the number of paths from (0, 0) to (2n, 0) using only northeast (1, 1) and southeast (1, -1) steps without crossing the x-axis. Adding left parentheses translates to moving northeast, and adding right parentheses translates to moving southeast. Their numbers must be equal in the end, and not crossing the x-axis ensures that the number of left parentheses is always at least as many as the number of right parentheses. To count the number of paths, we use complementary counting: there are $\binom{2n}n$ paths altogether, and $\binom{2n}{n+1}$ paths that cross the x-axis (which we can count by reflecting them across the line y=-1 to form paths from (0, -2) to (2n, 0)). This results in \(\frac{\binom{2n}{n}}{n+1}\) acceptable paths and acceptable lists. 
+\begin{problem} 4 {A list of parentheses is said to be balanced if there are the same number of left parentheses as right, and as we count from left to right we always find at least as many left parentheses as right parentheses. For example, (((()()))()) is balanced and ((()) and (()()))(() are not. How many balanced lists of n left and n right parentheses are there?}
+\end{problem}
+    This is equivalent to the problem of counting the number of paths from (0, 0) to (2n, 0) using only northeast (1, 1) and southeast (1, -1) steps without crossing the x-axis. Adding left parentheses translates to moving northeast, and adding right parentheses translates to moving southeast. Their numbers must be equal in the end, and not crossing the x-axis ensures that the number of left parentheses is always at least as many as the number of right parentheses. To count the number of paths, we use complementary counting: there are $\binom{2n}n$ paths altogether, and $\binom{2n}{n+1}$ paths that cross the x-axis (which we can count by reflecting them across the line y=-1 to form paths from (0, -2) to (2n, 0)). This results in \(\frac{\binom{2n}{n}}{n+1}\) acceptable paths and acceptable lists. 
 
 %%% Question 5
 
-\subsection{A tennis club has 4n members. To specify a doubles match, we choose two teams of two people. In how many ways may we arrange the members into doubles matches so that each player is in one doubles match? In how many ways may we do it if we specify in addition who serves first on each team?}
-We can start by arranging the 4n people into a line, which can be done in (4n)! ways. We can then assign them to courts by taking the first 4 people for the first court, the next 4 for the second, and so on. Since the order of the courts doesn't matter, we must divide by n!. Then, we must account for another overcounting issue: we have 8 different ways to specify the same set of 2 teams for each court. To account for this issue, we must divide by $2^{(3n)}$, since there are n courts. Altogether, this gives us \(\frac{(4n)!}{n! \times 2^{3n}}\) ways.
+\begin{problem} 5 {A tennis club has 4n members. To specify a doubles match, we choose two teams of two people. In how many ways may we arrange the members into doubles matches so that each player is in one doubles match? In how many ways may we do it if we specify in addition who serves first on each team?}
+\end{problem}
+    We can start by arranging the 4n people into a line, which can be done in (4n)! ways. We can then assign them to courts by taking the first 4 people for the first court, the next 4 for the second, and so on. Since the order of the courts doesn't matter, we must divide by n!. Then, we must account for another overcounting issue: we have 8 different ways to specify the same set of 2 teams for each court. To account for this issue, we must divide by $2^{(3n)}$, since there are n courts. Altogether, this gives us \(\frac{(4n)!}{n! \times 2^{3n}}\) ways.
 
 %%% Question 6
 
-\subsection{A town has n streetlights running along the north side of main street. The poles on which they are mounted need to be painted so that they do not rust. In how many ways may they be painted with red, white, blue, and green if an even number of them are to be painted green?}
-We can start by picking an even number of the n poles to be green: there are $\binom{n}{2k}$ ways to do this, where k ranges from 0 to ${\lfloor {n/2} \rfloor}$ There are 3 ways to color each of the remaining n-2k poles, meaning $3^{n-2k}$ ways altogether. This means the total number of ways to color these streetlights is $\sum_{k=0}^{\lfloor{n/2} \rfloor} {\binom{n}{2k} * 3^{n-2k}}$. We can get the closed form of this by adding the binomial expansions of $(3+1)^n$ and $(3-1)^n$ and dividing by 2 to get the sum. This gives $2^{2n-1}+2^{n-1}$. 
+\begin{problem} 6 {A town has n streetlights running along the north side of main street. The poles on which they are mounted need to be painted so that they do not rust. In how many ways may they be painted with red, white, blue, and green if an even number of them are to be painted green?}
+\end{problem}
+    We can start by picking an even number of the n poles to be green: there are $\binom{n}{2k}$ ways to do this, where k ranges from 0 to ${\lfloor {n/2} \rfloor}$ There are 3 ways to color each of the remaining n-2k poles, meaning $3^{n-2k}$ ways altogether. This means the total number of ways to color these streetlights is $\sum_{k=0}^{\lfloor{n/2} \rfloor} {\binom{n}{2k} * 3^{n-2k}}$. We can get the closed form of this by adding the binomial expansions of $(3+1)^n$ and $(3-1)^n$ and dividing by 2 to get the sum. This gives $2^{2n-1}+2^{n-1}$. 
 \newline
 Alternatively...
 \newline
@@ -110,31 +110,37 @@ Let $E_n$=number of ways to color n poles with an even number of greens, and $O_
 
 %%% Question 7
 
-\subsection{We have n identical ping pong balls. In how many ways may we paint them red, white, blue, and green if we use green paint on an even number of them?}
+\begin{problem} 7 {We have n identical ping pong balls. In how many ways may we paint them red, white, blue, and green if we use green paint on an even number of them?}
 %%IRIS CAN YOU READ OVER THIS AND ALSO PUT IN THE MULTISET THING BC I AM HORRIBLE AT LATEX
+\end{problem}
 There must be 2k balls painted green, where k ranges from 0 to ${\lfloor n/2 \rfloor}$ in order to ensure that the number of green balls is even. There are 3 ways to color each of the remaining n-2k balls. We can imagine this as a multiset problem, where there are n copies of each of the 3 colors. This means there are \(\sum_{k=0}^{\lfloor n/2 \rfloor} \multiset{3}{n-2k}\) ways to color the balls altogether. 
 
 %%% Question 8
 
-\subsection{A boolean function $ f: {(0, 1)}^n $  $\rightarrow $0, 1 is self-dual if replacing all 0s with 1s and 1s with 0s yields the same function. How many self-dual boolean functions are there as a function of n?}
+\begin{problem} 8 {A boolean function $ f: {(0, 1)}^n $  $\rightarrow $0, 1 is self-dual if replacing all 0s with 1s and 1s with 0s yields the same function. How many self-dual boolean functions are there as a function of n?}
+\end{problem}
+
 We can regard the function's inputs to be in pairs, where switching the 0s and 1s of one member of the pair results in the other member. To ensure that the function is self-dual, both members of a pair must give the same result when inputted into f, meaning that there are $2^n$/2 distinct inputs. Since each input can be mapped to 0 or 1, this means the number of possible functions is $2^{2^{n-1}}$.
 
 %%% Question 9
 
-\subsection{A boolean function $ f: {(0, 1)}^n $  $\rightarrow $0, 1 is symmetric if any permutation applied to the digits in the domain yields the same function. e.g. f(001)=f(010)=f(100). How many symmetric boolean functions are there as a function of n?}
-Again, we can group the function inputs based on which must give the same output. There will now be n input groups based on how many 1s are in the input, since inputs with the same number of 1s are just permutations of each other. This means there are n+1 distinct inputs which can each be mapped to 0 or 1, so the number of possible functions is $2^{n+1}$.
+\begin{problem} 9 {A boolean function $ f: {(0, 1)}^n $  $\rightarrow $0, 1 is symmetric if any permutation applied to the digits in the domain yields the same function. e.g. f(001)=f(010)=f(100). How many symmetric boolean functions are there as a function of n?}
+\end{problem}
+    Again, we can group the function inputs based on which must give the same output. There will now be n input groups based on how many 1s are in the input, since inputs with the same number of 1s are just permutations of each other. This means there are n+1 distinct inputs which can each be mapped to 0 or 1, so the number of possible functions is $2^{n+1}$.
 
 %%% Question 10
 
-\subsection{Prove $x^n$= $\sum_{k=0}^{n} {S(n, k)x^{\underline{k}}}$.}
-
+\begin{problem}{10}{Prove $x^n$= $\sum_{k=0}^{n} {S(n, k)x^{\underline{k}}}$.}
+\end{problem}
 The number of ways to assign n labeled balls to k labeled urns is k!S(n, k) if we want at least one ball in each urn. To assign n balls to k urns out of x potential urns, we must assign at least one ball to k urns and no balls to the other x-k. There are k!S(n, k)*$\binom x k$, or $S(n, k)x^{\underline{k}}$ ways to do this. k ranges from 0 to n, since we wanted at least one of the n balls in each of the urns. Summing all the possible values of k up, we get $\sum_{k=0}^{n} {S(n, k)x^{\underline{k}}}$. This is equivalent to the left side of the equation, which corresponds to assigning n labeled balls to x labeled urns with no restrictions. 
 
 %%% Question 11
 
-\subsection{Prove that $(1+x)^\alpha$=$\sum_{k=0}^{\infty} {\alpha^{\underline{k}}x^k/k!}$ for any real $ \alpha$.}
-The Taylor series for 1+x centered around 0 is $(1+x)^\alpha+\alpha*x/1!+\alpha*(\alpha-1)*x^2/2!$...which is equivalent to $\sum_{k=0}^{\infty}{\alpha^{\underline{k}}x^k/k!}$
-\section{Equivalence Relations}
+    \begin{problem}{11}{Prove that $(1+x)^\alpha$=$\sum_{k=0}^{\infty} {\alpha^{\underline{k}}x^k/k!}$ for any real $ \alpha$.}
+\end{problem}
+    The Taylor series for 1+x centered around 0 is $(1+x)^\alpha+\alpha*x/1!+\alpha*(\alpha-1)*x^2/2!$...which is equivalent to $\sum_{k=0}^{\infty}{\alpha^{\underline{k}}x^k/k!}$
+
+    \subsection{Equivalence Relations (Bell Numbers)}
 A relation on set A is a subset of AxA={(a, a), (a, b)...(b, a)...(d, d)}. An equivalence relation is defined as any relation that is symmetric, reflexive, and transitive. 
 \newline
 Definitions:
@@ -191,11 +197,11 @@ D &  &  &  & X \\
 \end{tabular}
 \end{center}
 How can we count how many possible relations are reflexive; reflexive and symmetric; and reflexive, symmetric, and transitive (given n rows and columns)?
-\subsection{How can we count the number of reflexive relations?}
+\begin{problem}1{How can we count the number of reflexive relations?}\end{problem}
 All reflexive relations must have the diagonal filled in. Without the diagonal, there are \(n^{2} - n\) spaces that can be filled in or left empty. Because each space can go two ways, our final answer is \(2^{n^{2}-n}\).
-\subsection{How can we count the number of reflexive and symmetric relations?}
+\begin{problem}2{How can we count the number of reflexive and symmetric relations?}\end{problem}
 We have to start with the diagonal we had last time in order to find this next answer. For the relation to be symmetric, if a box on one side of the diagonal is filled in, then the reflection of that box over the diagonal must be filled on. That means that we have the freedom to fill in boxes on only one side of the diagonal, or \(\frac{n^{2}-n}{2}\) boxes. Incidentally, \(\frac{n^{2}-n}{2}\) is also \(\binom{n}{2}\), which makes our final answer either \(2^{\frac{n^{2}-n}{2}}\) or \(2^{\binom{n}{2}}\).
-\subsection{How can we count the number of true equivalence relations?}
+\begin{problem}3{How can we count the number of true equivalence relations?}\end{problem}
 We can no longer consider the diagonal method we considered earlier. Now, we must realize that to be transitive, we must create subsets of elements that all relate to each other. For instance, if we had elements a, b, c, d, e, and f, we could separate the group into two subsets: {b, c, e, f} and {a, d}. If every element in that set related to every other element in that set (including itself), we would have a true equivalence relation. This example is shown in a Cayley table below.
 \begin{center}
 \begin{tabular} {c|c c c c c c}

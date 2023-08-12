@@ -1,3 +1,4 @@
+\label{08-0219}
 %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
 %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -38,7 +39,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
 % \noindent
 
-\section{Deriving the Numbers}
+\subsection{Triangulations (Catalan Numbers I)}
 Q: How many triangulations are there of a labeled hexagon? (This means that although two triangulations may be the same under rotation, which vertices they are attached to matter).\\
 Let us first examine the general case of an n-gon and look at the behavior of the first few \footnote{http://mathworld.wolfram.com/CatalanNumber.html}.\\
 \begin{figure}[h]
@@ -73,7 +74,9 @@ Note: The following graphics will be done in Microsoft Paint. I'm sorry in advan
     \end{figure}\\
 \end{proof}
 
-\section{Deriving the Numbers: Part 2}
+\input{sections/11-0226-1.tex}
+
+\subsection{Paths (Catalan Numbers II)}
 Q: How many paths are there between the points (0, 0) and (2n, 0), only moving with steps of either northeast (up one right one) or southeast (down one right one).\\ (Note: This is analogous to the question of paths between (0, 0) and (n, n) with only vertical and horizontal steps except the algebra works better in this one. However, the pictures I can find are using this interpretation of the problem, so unless we want more Microsoft Paint pictures, these will do. If at any point you get confused between what we did in class and the pictures I'm showing, turn your head $45^\circ$ to the left and it will make sense again.)\\
 A: $\binom{2n} n$. 
 \begin{proof}

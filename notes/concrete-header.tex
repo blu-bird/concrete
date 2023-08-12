@@ -49,6 +49,14 @@
 \newcommand{\set}[1]{\braces{#1}}
 \newcommand{\snb}[2]{\left(\binom{#1}{#2}\right)}
 \newcommand{\fallingfactorial}[1]{^{\underline{#1}}}
+\newcommand{\stirlingone}[2]{\genfrac[]{0pt}{1}{#1}{#2}}
+\newcommand{\stiri}[2]{\stirlingone{#1}{#2}}
+\newcommand{\dstirlingone}[2]{\genfrac[]{0pt}{0}{#1}{#2}}
+\newcommand{\dstiri}[2]{\dstirlingone{#1}{#2}}
+\newcommand{\stirlingtwo}[2]{\genfrac\{\}{0pt}{1}{#1}{#2}}
+\newcommand{\stirii}[2]{\stirlingtwo{#1}{#2}}
+\newcommand{\dstirlingtwo}[2]{\genfrac\{\}{0pt}{0}{#1}{#2}}
+\newcommand{\dstirii}[2]{\dstirlingtwo{#1}{#2}}
 %%%%%%%
 % book stuff
 %%%%%%%%%
@@ -109,4 +117,3 @@
 		\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
 \newenvironment{corollary}[2][Corollary]{\begin{trivlist}
 		\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
-

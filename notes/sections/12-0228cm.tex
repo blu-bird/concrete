@@ -1,3 +1,4 @@
+\label{12-0228}
 %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
 %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -40,7 +41,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
 
-\section{Trapezoid Problem}
+\subsection{Trapezoid Problem}
 \begin{problem}
 	1 We have $n$ rows of triangles as shown below. How many parallelograms can be formed in this figure?
 \end{problem}
@@ -61,7 +62,7 @@ We can observe that a parallelograms has four lines that can be extended out. If
 \end{figure}
 Thus, for each of the $n+2$ points on the level below the last one, we can choose four of them to get a unique parallelogram. Thus, in conclusion, the solution is \[3\cdot{n+2 \choose 4}\]
 \end{solution}
-\section{Hat Problem}
+\subsection{Hat Problem}
 \begin{problem}
 	2 n mathematicians walk into a bar. They each remove their hat and toss it in a pile as they arrive. Several hours later, they leave one by one, grabbing a hat at random to face the brutal March wind. What is the probability that none of the mathematicians receive their own hat?
 \end{problem}
@@ -71,7 +72,7 @@ Thus, for each of the $n+2$ points on the level below the last one, we can choos
 	We can approach this by counting the number of ways to get the desired outcome via complementary counting, and then to divide it through by the total number of arrangements to get the probability, as each configuration is equally likely. First, to count the number of ways in total that there can be reordered. This is just n!. However, in this, we have counted the number of ways that at least $0$ mathematicians receive their hat. Next, we must subtract out the cases that have at least $1$ mathematician getting back his or her hat. We can count this by choosing which mathematician gets his or her hat back, and then ordering the rest. Thus, the term is ${n\choose1}\left(n-1\right)!.$ However, this overcounts those configurations for which more than one mathematician receives their hat back; we can fix this problem by using the principle of inclusion/exclusion, to get that the total number of derangements is \[n!-{n\choose1}\left(n-1\right)!+{n\choose2}\left(n-2\right)!+\cdots+(-1)^n{n\choose n}\left(n-n\right)!.\]
 	This approaches $\frac{n!}{e}$ for sufficiently large $n$, as $e^x=1+x+x^2/2!+\cdots.$ Thus, by dividing the nth derangement number by $n!,$ we get the probability to be \[1-\frac{1}{1!}+\frac{1}{2!}+\cdots+\frac{(-1)^n}{n!}\approx e^{-1}\] for sufficiently large n.
 \end{solution}
-\section{"Coupon Collector"-esqe Problem}
+\subsection{"Coupon Collector"-esqe Problem}
 \begin{problem}
 	3 You have a bag containing $x$ numbered marbles. Draw $n$ marbles with replacement, where $n\leq x$. What is the probability that you drew exactly $k$ distinct marbles?
 \end{problem}
