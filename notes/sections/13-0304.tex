@@ -1,4 +1,4 @@
-\label{13-0304}
+\label{13-0304-2}
 % %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
 % %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -34,44 +34,10 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
-\noindent
 
-\section{Unit One: Counting}
+\section{Ordinary Generating Functions}
 
-\begin{center} * \end{center}
-\begin{center} *\space\space\space\space* \end{center}
-\begin{center} *\space\space\space\space*\space\space\space\space* \end{center}
-\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
-\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
-\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
-\newline \newline
-
-\begin{example}
-    1 We want to find a different way of counting the number of parallelograms that can be made by connecting the stars in the arrangement above.
-\end{example}
-\begin{solution} 
-    One method to do this would be to pick a diagonal. We can say that picking the diagonal is unique because only one parallelogram will have the certain segment as its longest diagonal. To determine the number of diagonals, we need to pick the number of line segments we can make using the points.\newline
-    \newline
-    This can be done by taking the total number of points and choosing 2. \newline
-    For a triangle of $n$ rows, the number of points is $\frac{(n)(n+1)}{2}$ or ${n+1 \choose 2}$ \newline
-    To choose two dots we do ${{n+1 \choose 2} \choose 2}$ \newline
-    \newline 
-    However, we have to remember that if two dots are on the same line, then they won't be able to form the longest diagonal of a parallelogram, and if both are on an edge, it wouldn't be relevant. Therefore, we have to subtract for the times when the two dots chosen are collinear. \newline
-    \newline
-    So the subtracted values would be $3* some value$ because we have three orientations of the triangle to account for. (Another way of looking at this would be to say that we have 3 sides of the triangle to account for).\newline
-    Now, to determine "some value". We realize that some value in one orientation is actually just the same as counting for each row, how many ways they can pick two points. \newline
-    \newline
-    This can actually be written as a summation: $\sum_{i=2}^{n}{i \choose 2}$ \newline
-    To explain, the sum. We know we must start at i=2, because a row with one dot cannot pick two dots that are collinear. We use the summation because in the i-th row there are i dots and we need to pick 2 of them. \newline
-    \newline
-    This therefore results in a final solution of ${{{n+1 \choose 2} \choose 2} - 3 * \sum_{i=2}^{n}{i \choose 2}}$ \newline
-    \newline
-    After some algebra, our final answer is
-    \fbox{$3$${n+1 \choose 4}$}
-\end{solution}    
-
-
-\section{Unit Two: Generating Functions}
+\subsection{Intro to Generating Functions}
 \begin{problem}
     1 Find the $nth$ term in the sequence if the the first term corresponds with $n=0$:
      \begin{center} 1, 2, 4, 8, 16, ...\end{center}
@@ -88,8 +54,7 @@ $a_{0} = 1$, $a_{1} = 2$, $a_{2} = 4$. It is clear from this pattern that $a_{n}
 In a generating function, the coefficients of each power correspond to each of the terms in the sequence. This sequence can thus be represented as $g(x) = 1*x^{0} + 2*x^{1} + 4*x^{2} + 8*x^{3} + 16*x^{4} + 32*x^{5} + ... = (2x)^0 + (2x)^1 + (2x)^2 + (2x)^3 + (2x)^4 + (2x)^5 + ...$. This resembles the the Taylor power series. Using 'reverse'-Taylor, we find that $g(x) = \frac{1}{1-2x}$. 
 \end{solution} \\
  
-
-\\From this example, we can see that $\frac{1}{1-ax}$ is the generating function for the sequence $1, a, a^2, a^3, ... = \{a^k\}_{k=0}$. Generally, from the generating function, to obtain the $nth$ value of the sequence, take the nth derivative of the function evaluated at 0.\newline
+From this example, we can see that $\frac{1}{1-ax}$ is the generating function for the sequence $1, a, a^2, a^3, ... = \{a^k\}_{k=0}$. Generally, from the generating function, to obtain the $nth$ value of the sequence, take the nth derivative of the function evaluated at 0.\newline
 
 \begin{problem}
     3 For the following sequence, find the generating function:

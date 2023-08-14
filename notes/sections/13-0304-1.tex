@@ -1,0 +1,35 @@
+\label{13-0304-1}
+
+\subsection{Parallelogram Problem (Alternate Solution)}
+
+\begin{center} * \end{center}
+\begin{center} *\space\space\space\space* \end{center}
+\begin{center} *\space\space\space\space*\space\space\space\space* \end{center}
+\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
+\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
+\begin{center} *\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space*\space\space\space\space* \end{center}
+
+
+\begin{example}
+    1 We want to find a different way of counting the number of parallelograms that can be made by connecting the stars in the arrangement above.
+\end{example}
+\begin{solution} 
+    One method to do this would be to pick a diagonal. We can say that picking the diagonal is unique because only one parallelogram will have the certain segment as its longest diagonal. To determine the number of diagonals, we need to pick the number of line segments we can make using the points.\newline
+    \newline
+    This can be done by taking the total number of points and choosing 2. \newline
+    For a triangle of $n$ rows, the number of points is $\frac{(n)(n+1)}{2}$ or $\binom{n+1} 2$ \newline
+    To choose two dots we do ${\binom{\binom{n+1} 2} 2}$ \newline
+    \newline 
+    However, we have to remember that if two dots are on the same line, then they won't be able to form the longest diagonal of a parallelogram, and if both are on an edge, it wouldn't be relevant. Therefore, we have to subtract for the times when the two dots chosen are collinear. \newline
+    \newline
+    So the subtracted values would be $3* some value$ because we have three orientations of the triangle to account for. (Another way of looking at this would be to say that we have 3 sides of the triangle to account for).\newline
+    Now, to determine "some value". We realize that some value in one orientation is actually just the same as counting for each row, how many ways they can pick two points. \newline
+    \newline
+    This can actually be written as a summation: $\sum_{i=2}^{n}\binom i 2$ \newline
+    To explain, the sum. We know we must start at i=2, because a row with one dot cannot pick two dots that are collinear. We use the summation because in the i-th row there are i dots and we need to pick 2 of them. \newline
+    \newline
+    This therefore results in a final solution of ${{\binom{\binom{n+1} 2} 2} - 3 * \sum_{i=2}^{n}\binom i 2}$ \newline
+    \newline
+    After some algebra, our final answer is
+    \fbox{$3$$\binom{n+1} 4$}
+\end{solution}    

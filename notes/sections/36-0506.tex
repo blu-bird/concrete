@@ -1,0 +1,33 @@
+% \title{
+% Orbit-Stabilizer Theorem
+% }
+
+% Scribe: Fred Zhang
+
+% Date: Monday, May 6, 2019
+
+\subsection{Orbits and Stabilizer}
+
+Given $s \in S$ and $G$ a permutation group acting on $S$.
+
+Definition. $\operatorname{orbit}(s)=\{\pi s \mid \pi \in G\}$
+
+Definition. stabilizer $(s)=\{\pi \in G \mid \pi s=s\}$
+
+Theorem 1.1. Orbit-Stabilizer Theorem: For all $s \in S$ and $G$ acting on $S$ $|\operatorname{orbit}(s)| \cdot \mid$ stabilizer $(s)|=| G \mid$
+
+stabilizer(s) is a subgroup of $G$, so by Lagrange's theorem, $\mid$ stabilizer $(s)|||G|$
+
+Lemma 1.1. If $\pi=s$ and $\pi \in \operatorname{stabilizer}(s)$, then $\pi^{-1} s=s$.
+
+Proof.
+
+$$
+\begin{aligned}
+s & =\pi s \\
+\pi^{-1} s & =\pi^{-1} \pi s \\
+\pi^{-1} s & =s
+\end{aligned}
+$$
+
+So now the orbit of $S$ forms cosets of stabilizer $(s)$ (there is a 1-1 corespondence). So $|\operatorname{orbit}(s)|=\#$ of cosets of stabilizer(s). Applying Lagrange's theorme gives the orbit-stabilizer theorem.

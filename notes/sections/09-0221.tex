@@ -56,14 +56,14 @@ To do this proof, we also want to make note of an important summation remark:
 \begin{proof}
 To do the actual proof, we will consider the function $y=ln(x)$. From here we intend to make two Riemann-style approximations for the integral $\int_{i}^{n}{ln(x)dx}$. For our proof, both approximations will be trapezoidal approximations. \\
 
-% \includegraphics[width=20\baselineskip]{trapezoidal_under.png}\\
+\includegraphics[width=20\baselineskip]{figures/trapezoidal_under.png}\\
 Approach one is two use a trapezoid whose bases are at the integers themselves.\\
 
 Area of the trapezoids is $\frac{1}{2}\sum_{i=1}^{n-1}{[ln(i)+ln(i+1)]}$\\
 $=\frac{1}{2}ln(1)+\sum_{i=2}^{n-1}{[ln(i)+ln(i+1)]}+\frac{1}{2}ln(n)$\\
 $=ln(n!)-\frac{1}{2}ln(n)$\\
 
-% \includegraphics[width=20\baselineskip]{trapezoidal_over.png}\\
+\includegraphics[width=20\baselineskip]{figures/trapezoidal_over.png}\\
 Approach two is two use a trapezoid whose bases are at the midpoints between integers. Notice that we don't care about the area before $x=\frac{1}{2}$ in our calculations.\\ 
 
 Area = $ln(2)+ln(3)+ln(4)\dots+ln(n-1)+\frac{1}{2}ln(n)$, which comes out to be the same as above.  Notice that this is an overestimate however, and the previous approach was an underestimate.\\

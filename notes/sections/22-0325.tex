@@ -1,0 +1,131 @@
+\label{22-0325}
+
+% Sharath Byakod, Wenbo Wu
+\subsection{Method of Undetermined Coefficients}
+\subsubsection*{General Setup}
+Given a recursive function defined as $a_n + A a_{n-1} + B a_{n-2} = 0$, 
+we can see that $\sum_{n=2}^{\infty} (a_n + A a_{n-1} + B a_{n-2}) = 0$. 
+
+If we decompose this summation, we notice that, if we define 
+$g(x) = \sum_{n=0}^\infty a_n x^n$ to be the OGF of the recurrence relationship:
+\begin{align*}
+    &\sum_{n=2}^\infty a_n x^n = g(x) - a_0 - a_1 x \\ 
+    &\sum_{n=2}^\infty A a_{n-1} x^n = Ax(g(x) - a_0) \\ 
+    &\sum_{n=2}^\infty Ba_{n-2} x^n = Bx^2 g(x) 
+\end{align*}
+Therefore, $(g(x) - a_0 - a_1 x) + A x (g(x) - a_0) + B x^2 g(x) = 0$. 
+Rearranging and factoring $g(x)$ out of the expression, we get 
+$(1 + Ax + Bx^2) g(x) = (a_1 + Aa_0)x + a_0 = Cx + D$ for appropriately-
+defined constants $C$ and $D$. 
+
+Then, if we define $r_1$ and $r_2$ such that $(1 - r_1x)(1-r_2x) = 1 + Ax + Bx^2$:
+\[
+    g(x) = \frac{Cx + D}{1 + Ax + Bx^2} = \frac E {1-r_1x} + \frac F{1-r_2x}
+\]
+\subsubsection*{Case One: $r_1 \neq r_2$}
+If we rearrange the equation $(1 - r_1x)(1 - r_2 x) = 1 + Ax + Bx^2$
+(divide both sides by $x^2$ and replace $1/x$ wih $x$), we obtain 
+$(x - r_1)(x-r_2) = x^2 + Ax + B$. Then, using this result, we can rewrite
+$g(x) = E \sum_{n=0}^\infty r_1^n x^n + F \sum_{n=0}^\infty r_2^n x^n$. 
+Then, because we defined $g(x)$ as the OGF of the recurrence relationship,
+the generalized $a_n = E r_1^n + F r_2^n$, where we can solve for the arbitrary
+$E$ and $F$. 
+
+\begin{remark}
+    As a general method, we can follow the below steps to determine a 
+    generalized closed form for a recursion given by $a_n + Aa_{n-1} + Ba_{n-2} = 0$: 
+    
+    \qquad \textbf{Step 1:} Solve $(x - r_1) (x - r_2) = x^2 + Ax + B$. 
+    
+    \qquad \textbf{Step 2:} Write $a_n = C_1 r_1^n + C_2 r_2^n$ (which correspond
+    to $E$ and $F$ from before). 
+    
+    \qquad \textbf{Step 3:} Use initial conditions (most often given as $a_0$ and $a_1$)
+    to solve $C_1$ and $C_2$.
+\end{remark}
+
+\begin{example}{}
+    Determine a closed form for $a_n$ given the recursion $a_n = 7a_{n-1} - 10a_{n-2}$; $a_0 = 0, a_1 = 7$. 
+\end{example}
+
+\begin{solution}
+
+\textit{Step 1:} Moving everything to the LHS, we get $a_n - 7a_{n-1} + 10 a_{n-2} = 0$. 
+Then, $x^2 - 7x + 10 = (x-5)(x-2) = 0$. Therefore, $r_1 = 5$ and $r_2 = 2$ \\
+
+\textit{Step 2:} We can write the general $a_n = C_1 5^n + C_2 2^n$. \\
+
+\textit{Step 3:} We will now plug in the two base cases:
+
+\qquad $a_0 = 0 = C_1 + C_2$
+
+\qquad $a_1 = 7 = 5 C_1 + C_2$
+\newline 
+
+\textit{Step 4:} Solving, we obtain $C_1 = \frac 73$ and $C_2 = - \frac 73$\\
+
+\textit{Step 5:} Putting this all together, we obtain $\boxed{a_n = \frac 73 5^n - \frac 73 2^n}$. 
+
+\end{solution}
+
+\subsubsection*{Case Two: $r_1 = r_2 = r$}
+Taking the definition of $r_1$ and $r_2$ such that $(1 - r_1x)(1-r_2x) = 1 + Ax + Bx^2$: 
+\[
+  g(x) = \frac{Cx + D}{1 + Ax + Bx^2} = \frac E{1-r_1 x} + \frac F {1-r_2x}
+\]
+we replace $r_1$ and $r_2$ with $r$ since they are all equal, resulting in:
+\begin{align*}
+    g(x) &= \frac{Cx+D}{1 + Ax + Bx^2} = \frac{Cx + D}{(1-rx)^2} = \frac E{1-rx} + \frac F{(1-rx)^2}\\
+    &= E \sum_{n=0}^\infty r^n x^n + F \sum_{n=0}^\infty \snb 2 n r^n x^n
+\end{align*}
+thus giving us: 
+\begin{align*}
+    a_n &= Er^n + F(n+1)r^n \\ &= E' r^n + F' nr^n
+\end{align*}
+which is the Standard form for a quadratic with a repeated root. 
+\begin{remark}
+    If $r_i$ has multiplicity 3 or more $\rightarrow$ $a_n = E r^n + F n r^n + G n^2 r^n + \dots$
+\end{remark}
+
+\begin{example}{}
+    Determine a closed form for $a_n$ given the recursion $a_n = -6a_{n-1} - 9a_{n-2}$; $a_1 = 1, a_2 = 2$. 
+\end{example}
+
+\begin{remark}
+    Initial conditions do not always have to be $a_0$ and $a_1$. 
+\end{remark}
+
+\begin{solution}
+    \textit{Step 1:} Moving everything to the LHS, we get $a_n + 6a_{n-1} + 9 a_{n-2} = 0$. 
+    Then, $x^2 + 6x + 9 = (x+3)^2 = 0$. Therefore, $r_1 = r_2 = -3$ \\
+    
+    \textit{Step 2:} We can write the general $a_n = C_1 (-3)^n + C_2 n(-3)^n$. \\
+    
+    \textit{Step 3:} We will now plug in the two base cases:
+    
+    \qquad $a_1 = 1 = 3C_1 + 3C_2$
+    
+    \qquad $a_2 = 2 = 9 C_1 + 18C_2$
+    \newline 
+    
+    \textit{Step 4:} Solving, we obtain $C_1 = -\frac 89$ and $C_2 = \frac 59$\\
+    
+    \textit{Step 5:} Putting this all together, we obtain $\boxed{a_n = -\frac 89 (-3)^n + \frac 59 n(-3)^n}$. 
+    
+\end{solution}
+
+\subsubsection*{Recurrence Problems Classwork}
+\begin{example}1
+    $a_n = 2a_{n-1} + n - 1$; $a_0 = 1$
+\end{example}
+\begin{solution}
+\begin{align*}
+    g(x) &= 1 + 2xg(x) + \sum_{n=1}^\infty nx^n - \sum_{n=1}^\infty x^n \\
+    g(x) (1-2x) &= 1 + \sum_{n=1}^\infty nx^n - \sum_{n=1}^\infty x^n \\
+    &= 1 + \frac x{(1-x)^2} - \left( \frac 1{1-x} - 1\right) \\ 
+    &= 2 + \frac x{(1-x)^2} - \frac 1{(1-x)} \\
+    &= 2 + \frac{2x - 1}{(1-x)^2} \\
+    g(x) &= \frac 2{1-2x} - \frac x{(1-x)^2} \\
+    \rightarrow &\boxed{a_n = 2(2)^n - \snb 2 n}
+\end{align*}
+\end{solution}

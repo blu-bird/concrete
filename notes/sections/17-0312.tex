@@ -1,41 +1,42 @@
-%%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
-%%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{17-0312}
+% %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+% %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[11pt,twosided]{article}
-\input{concrete-header.tex}
+% \documentclass[11pt,twosided]{article}
+% \input{concrete-header.tex}
 
-%%%% add package inclusions here, if any
-\usepackage{amsfonts, amssymb, amsmath, enumitem}
-%%%%% Define your custom functions and macros here, if any
+% %%%% add package inclusions here, if any
+% \usepackage{amsfonts, amssymb, amsmath, enumitem}
+% %%%%% Define your custom functions and macros here, if any
 
-%%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\titlestring{Basic Operations on Generating Functions}
-\def\scribestring{Jongwan Kim and Jun Chong}
-\def\datestring{Tuesday, March 12, 2019}
-\def\multiset#1#2{\left(\!\!\left({#1\atopwithdelims..#2}\right)\!\!\right)}
+% %%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \def\titlestring{Basic Operations on Generating Functions}
+% \def\scribestring{Jongwan Kim and Jun Chong}
+% \def\datestring{Tuesday, March 12, 2019}
+% \def\multiset#1#2{\left(\!\!\left({#1\atopwithdelims..#2}\right)\!\!\right)}
 
-\newcommand{\stirlingii}[2]{\genfrac{\{}{\}}{0pt}{}{#1}{#2}}
-\newcommand{\stirlingi}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
+% \newcommand{\stirlingii}[2]{\genfrac{\{}{\}}{0pt}{}{#1}{#2}}
+% \newcommand{\stirlingi}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
 
-%%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\lhead{\titlestring}
-\rhead{Page \thepage}
-\cfoot{Concrete Math -- White -- TJHSST}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
+% %%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \lhead{\titlestring}
+% \rhead{Page \thepage}
+% \cfoot{Concrete Math -- White -- TJHSST}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}
 
-%%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{document}
-\thispagestyle{plain}  %% no headers on this page
+% %%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{document}
+% \thispagestyle{plain}  %% no headers on this page
 
-%%%% Do not change these lines %%%%%
-\noindent
-{\LARGE \textbf{\titlestring}}\\\\
-%
-{\Large Scribe: \scribestring}\\ \\
-{\textbf{Date}: \datestring}
+% %%%% Do not change these lines %%%%%
+% \noindent
+% {\LARGE \textbf{\titlestring}}\\\\
+% %
+% {\Large Scribe: \scribestring}\\ \\
+% {\textbf{Date}: \datestring}
 
-\begin{section}{Practice with Generating Functions}
+\begin{subsection}{Practice with Generating Functions}
 Here's some practice turning sequences to generating functions:
 \begin{enumerate}[a]
 \item $\langle 1, 1, 1, 1 \ldots \rangle = \frac{1}{1-x}$
@@ -57,8 +58,8 @@ $$k^2 = 1(k+2)(k+1) - 3(k+1) + 1$$ where the coefficients are Stirling numbers o
 \end{align*}
 This gives us our answer $\frac{2}{(1-x)^3} - \frac{3}{(1-x)^2} + \frac{1}{1-x} = \frac{x + x^2}{(1-x)^3}$
 \end{enumerate}
-\end{section}
-\begin{section}{Multiplication of Generating Functions}
+\end{subsection}
+\begin{subsection}{Multiplication of Generating Functions}
 Let
 \begin{align*}
     A(x) &= a_0 x^0 + a_1 x^1 + a_2 x^2 + \ldots = \sum_{i\geq 0} a_i x_i \\
@@ -85,21 +86,21 @@ $$\sum \frac{1}{(1-x)^n} = \sum_{k=0}^\infty \multiset{n}{k}x^k$$
 \begin{align*}
     C(x) &= \langle 1, 2, 3, 4, 5, \ldots \rangle \\
     \frac{1}{(1-x)^2} &= \sum_{k=0}^\infty \multiset{2}{k} x^k \\
-    &= \sum {{k+1}\choose k} x^k \\
+    &= \sum \binom{k+1} k x^k \\
     &= \sum (k+1) x^k
 \end{align*}
 Now let us consider $B(x)\cdot C(x)$
 \begin{align*}
     \langle 1, 3, 6, \ldots \rangle &= \frac{1}{(1-x)^3} \\
     &= \sum_{k=0}^\infty \multiset{3}{k}x^k \\
-    &= \sum_{k=0}^\infty {k + 2 \choose 2} x^k \\
+    &= \sum_{k=0}^\infty \binom{k+2}2 x^k \\
     &= \sum_{k=1}^\infty \frac{k(k+1)}{2} x^{k-1}
 \end{align*}
 This gives us the formula for the triangular numbers. We can go further and get the formula for the tetrahedral numbers.
 \begin{align*}
     D(x) &= \frac{x}{(1-x)^3} = 0 + x + 3x^2 + 6x^3 + 10x^4 + \ldots = \sum_{k = 0}^{n}\frac{k(k+1)}{2}x^k \\
     E(x) &= D(x)\cdot B(x) = \frac{x}{(1-x)^4} + x\cdot \sum_{k=0}^\infty \multiset{4}{k}x^k \\
-    &= \sum_{k=0}^\infty {{k+3}\choose 3} x^{k+1} = \sum_{k=1}^\infty \frac{k(k+1)(k+2)}{6}x^k
+    &= \sum_{k=0}^\infty \binom{k+3} 3 x^{k+1} = \sum_{k=1}^\infty \frac{k(k+1)(k+2)}{6}x^k
 \end{align*}
 Now it seems that, by extending this process of computing generating functions for hypertetrahedral numbers and equation coefficients. 
 $$\sum_{k=1}^n k^{\overline{m}} = \frac{n^{\overline{m+1}}}{m+1}$$
@@ -112,11 +113,13 @@ Find $\sum_{i=1}^n i^2$
 We can write $i^2 = i^{\overline{2}} - i^{\overline{1}}$, and we also know
 $\sum_{i=1}^n i^{\overline{1}} = \frac{n(n+1)}{2}$ and $\sum_{i=1}^n i^{\overline{2}} = \frac{n(n+1)(n+2)}{3}$, so we can subtract and simplify, getting $\frac{n(n+1)(2n+1)}{6}$.
 \end{solution} \\
-\\
+\begin{problem}2
+    Find $\sum_{i=1}^n i^3$. 
+\end{problem}
 \begin{solution}
 Start by expanding the rising factorial in terms of power.
 $$\sum i^3 = \sum i^{\overline{3}} - 3\sum i^2 - 2\sum i = \frac{n^{\overline{4}}}{4} - \frac{n(n+1)(2n+1)}{2} - n(n+1)$$
 \end{solution}
 
-\end{section}
-\end{document}
+\end{subsection}
+% \end{document}

@@ -1,0 +1,25 @@
+\label{20-0319-1}
+%Do proof
+\begin{problem} 1 Prove $\sum_{j = 0}^n \stirii{n}{k}\stiri j k = \delta(n,k)$ \end{problem}
+
+\begin{solution}
+We are given:
+
+1. $x^n = \sum_{j = 0}^n \stirii{n}{j} x^{\underline{j}}$
+% \nextline
+
+2. $x^{\underline{j}} = \sum_{k = 0}^j \stiri j k x^k = \sum_{k = 0}^n \stiri j k x^k$ 
+\newline
+For this second part, we can increase the upper bound because all values for which $n > j$ are just equal to 0.
+\newline 
+Plugging Equation 2 into Equation 1, we get...
+\newline
+$x^n$ = $\sum_{j = 0}^n \stirii{n}{j} \sum_{k = 0}^n \stiri j k x^k$
+\newline
+Because j is independent of the inner sum, we can actually switch the order and move both sums to encapsulate the entire expression.
+\newline
+$x^n$ = $\sum_{j = 0}^n \sum_{k = 0}^n \stirii{n}{j} \stiri j k x^k$
+\newline
+The sum basically represents adding the rows of a matrix vs adding the columns of a matrix, which basically proves the statement and we get...
+$\sum_{j = 0}^n \stirii{n}{k} \stiri j k = \delta(n,k)$ 
+\end{solution}

@@ -1,0 +1,208 @@
+% \title{
+% Structures and Exponential Generating Functions
+% }
+
+% \author{
+% Scribe: Sohom Paul
+% }
+
+% Date: Tuesday, April 2, 2019
+
+\section{Exponential Generating Functions}
+
+Definition. A structure is a particular organization of the elements of a set or sets.
+
+For example, some structures include a set, a non-empty set, an even-sized set, a permutation, an increasing permutation, or a function from $A$ into $B$
+
+Definition. The exponential generating function for a sequence $f_{0}, f_{1}, f_{2}, f_{3} \ldots$ is
+
+$$
+F(x)=\sum_{k=0}^{\infty} f_{n} \frac{x^{n}}{n !}
+$$
+
+Definition. $[n]$ is the set $1,2, \ldots, n$, orthe set of $n$ elements.
+
+Theorem 1.1. If $f_{n}$ counts the number of $F$-structures on $[n]$, then
+
+$$
+F(x)=\sum_{n=0}^{\infty} f_{n} \frac{x^{n}}{n !}
+$$
+
+is the exponential generating function for the structure $F$.
+
+Let's look at some examples of exponential generating functions.
+
+- $\frac{1}{1-x}$ is the exponential generating function of $n$ !
+
+- $e^{a x}$ is the exponential generating function of $a^{n}$
+
+Exponential generating functions add as expected, which corresponds combinatorially to $O R$, or disjoint union. Multiplication of exponential generating function is more involved. Let $A(x)=\sum_{p} a_{p} \frac{x^{p}}{p !}$ and $B(x)=\sum_{q} a_{q} b_{q} \frac{x^{q}}{q !}$. Then
+
+$$
+\begin{aligned}
+A(x) B(x) & =\sum_{p, q} a_{p} b_{q} \frac{x^{p+q}}{p ! q !} \\
+& =\sum_{n} \sum_{p} \frac{a_{p} b_{n-p} n !}{p !(n-p) !} \frac{x^{n}}{n !} \\
+& =\sum_{n} \sum_{p}\left(\begin{array}{l}
+n \\
+p
+\end{array}\right) a_{p} b_{n-p} \frac{x^{n}}{n !}
+\end{aligned}
+$$
+
+Thus, if $C(x)=A(x) B(x)=\sum C_{n} \frac{x^{n}}{n !}$, then
+
+$$
+C_{n}=\sum_{p}\left(\begin{array}{l}
+n \\
+p
+\end{array}\right) a_{p} b_{n-p}
+$$
+
+Recall that the Bell numbers obey recurrence
+
+$$
+B_{n+1}=\sum\left(\begin{array}{l}
+n \\
+k
+\end{array}\right) B_{n-k}
+$$
+
+Let $b(x)=\sum B_{n} \frac{x^{n}}{n !}$ and let $a(x)=e^{x}$, the exponential generating function for $(1,1,1, \ldots)$. Plugging into the recurrence,
+
+$$
+\begin{aligned}
+\sum_{n=0}^{\infty} B_{n+1} \frac{x^{n}}{n !} & =\sum_{n=0}^{\infty} \sum_{k=0}^{\infty}\left(\begin{array}{l}
+n \\
+k
+\end{array}\right) B_{n-k} \frac{x^{n}}{n !} \\
+b^{\prime}(x) & =b(x) e^{x} \\
+b(x)=e^{e^{x}-1} &
+\end{aligned}
+$$
+
+where we use the initial condition $b(0)=1$. Now, notice
+
+$$
+b(x)=\frac{1}{e} \sum_{k=0}^{\infty} \frac{\left(e^{x}\right)^{k}}{k !}=\frac{1}{e} \sum_{k=0}^{\infty} \sum_{n=0}^{\infty} \frac{1}{k !} \frac{(k x)^{n}}{n !}
+$$
+
+We can pull out our coefficient
+
+$$
+B_{n}=\frac{1}{e} \sum_{k=0}^{\infty} \frac{k^{n}}{k !}
+$$
+
+\subsection{Exponential Generating Functions for Structures}
+
+Let's consider some structures on sets. Consider some trivial structures:
+
+- a set on $[n]$ is $f_{n}=1$, so $F(x)=e^{x}$
+
+- a non-empty set on $[n]$ is $f_{n}=1-\delta_{0 n}$, so $F(x)=e^{x}-1$
+
+- an empty set on $[n]$ is $f_{n}=\delta_{0 n}$, so $F(x)=1$
+
+- a singleton set on $[n]$ is $f_{n}=\delta_{1 n}$, so $F(x)=x$
+
+- a 2-element set on $[n]$ is $f_{n}=\delta_{2 n}$, so $F(x)=\frac{1}{2} x^{2}$
+
+- an even length set on $[n]$ has $F(x)=\cosh x$
+
+$$
+\text { Concrete Math - White - TJHSST }
+$$
+
+- an odd length set on $[n]$ has $F(x)=\sinh x$
+
+Theorem 2.1. Addition Property: If $G$ and $H$ are exponential generating functions of structures, then $F=G+H$ is the exponential generating functions of the union of the structures
+
+To see the above theorem in action, notice that the exponential generating function for empty sets, 1 , added to the exponential generating function for non-empty set, $e^{x}-1$, gives the exponential generating function for all sets, $e^{x}$
+
+Theorem 2.2. Multiplication Property: Let $g$ and $h$ be structures on sets and let fbe a gh structure. For set $A$, if we partition $A$ into disjoint sets $A_{1} \cup A_{2}$, put all elements in $A_{1}$ into a $g$-structure and $A_{2}$ into a $h$-structure, then the exponential generating function of $f$ is $F(x)=G(X) H(x)$
+
+Example 1. Let us count subsets of $A=[n]$. Partition $A$ into a set and another set (the complement). The number of ways to do this is given by the coefficient
+
+$$
+f(x)=g(x) h(x)=e^{x} e^{x}=e^{2 x}=\sum 2^{n} \frac{x^{n}}{n !}
+$$
+
+Thus a set of size $n$ has $2^{n}$ different subsets.
+
+Example 2. Let us count non-empty subsets of $A=[n]$. Analogous to above, partition $A$ in $g$-structure representing non-empty sets and $h$-structure representing sets. This gives
+
+$$
+f(x)=g(x) h(x)=\left(e^{x}-1\right)\left(e^{x}\right)=\sum_{n=0}^{\infty}\left(2^{n}-1\right) \frac{x^{n}}{n !}
+$$
+
+Thus a set of size $n$ has $2^{n}-1$ non-empty subsets.
+
+Example 3. Let us count functions from $[n] \rightarrow[k]$. Let $A=A_{1} \cup A_{2} \cup \ldots A_{k}$ where $A_{i}$ is the preimage of $i$ in $[n]$, so
+
+$$
+f(x)=\left(e^{x}\right)^{k}=\sum_{n=0}^{\infty} k^{n} \frac{x^{n}}{n !}
+$$
+
+Thus we have $k^{n}$ functions from $[n] \rightarrow[k]$
+
+Example 4. Let us count surjective functions from $[n] \rightarrow[k]$. By analogy to above problem, we have to let each of sets $A_{i}$ be nonempty, so we have
+
+$$
+f(x)=\left(e^{x}-1\right)^{k}=\sum k ! S(n, k) \frac{x^{n}}{n !}
+$$
+
+where we appeal to the 12-fold table. Thus, the exponential generating function of the Stirling numbers of the second kind is
+
+$$
+\sum_{n=0}^{\infty} S(n, k) \frac{x^{n}}{n !}=\frac{\left(e^{x}-1\right)^{k}}{k !}
+$$
+
+$$
+\text { Concrete Math - White - TJHSST }
+$$
+
+Let's continue the derivation of the exponential generating function of the Stirling numbers of the second kind.
+
+$$
+\begin{aligned}
+\sum_{n=0}^{\infty} S(n, k) \frac{x^{n}}{n !} & =\frac{1}{k !}\left(e^{x}-1\right)^{k} \\
+& =\frac{1}{k !} \sum_{t=0}^{k}\left(\begin{array}{l}
+k \\
+t
+\end{array}\right) e^{t x}(-1)^{k-t} \\
+& =\frac{1}{k !} \sum_{t=0}^{k}\left(\begin{array}{l}
+k \\
+t
+\end{array}\right) \sum_{n=0}^{\infty} \frac{(t x)^{n}}{n !}(-1)^{k-t} \\
+& =\frac{1}{k !} \sum_{n=0}^{\infty}\left(\sum_{t=0}^{k}\left(\begin{array}{l}
+k \\
+t
+\end{array}\right)(-1)^{k-t} t^{n}\right) \frac{x^{n}}{n !}
+\end{aligned}
+$$
+
+This gives
+
+$$
+S(n, k)=\frac{1}{k !} \sum_{t=0}^{k}\left(\begin{array}{l}
+k \\
+t
+\end{array}\right)(-1)^{k-t} t^{n}
+$$
+
+which we had derived earlier by using Principle of Inclusion and Exclusion
+
+Theorem 2.3. Composition Property: Let $g, h$ be structures on sets and let $f=g \circ h$, the structure by
+
+- partitioning $A$ into an arbitrary number of blocks $A_{1} \cup A_{2} \cup \ldots A_{k}$
+
+- giving each $A_{i}$ an h-structure
+
+- and giving the partition itself a g-structure
+
+The exponential generating function obeys $F(x)=G(H(X))$
+
+Example 5. Let us count the number of ways to partition a set. Each of our partitions of $A$ must be non-empty sets, but the structure for the partitions is merely a set, so our exponential generating function is $e^{e^{x}-1}$. This gives again our exponential generating function for the Bell numbers.
+
+Example 6. Let us count the number of ways to partition a set into subsets with at least two elements. Our exponential generating function is $e^{e^{x}-1-x}$
+
+Example 7. Let us count the number of ways to partition a set into subsets with even number of elements. The exponential generating function is $e^{\cosh x}$

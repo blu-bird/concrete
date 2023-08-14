@@ -1,0 +1,94 @@
+% calkin-wilf
+
+\section{Interlude: Calkin-Wilf Tree}
+
+\subsection{Hyperbinaries}
+\begin{example}1
+    What is the 23rd positive rational number?
+\end{example}
+
+\begin{solution}
+    We need an enumeration of the rational numbers! 
+\end{solution}
+
+We introduce the hyperbinary numbers, where we write binary numbers, but
+allow for multiple representation of numbers by also letting us use the number 2.
+For example,
+\begin{align*}
+    4 &= 100 \\ &= 20 \\ &= 12
+\end{align*}
+Let us count the number of ways we can write integer $n$ in hyperbinary, $b(n)$. If
+we sum $b(n)$, restarting every time we hit a 1, we get powers of 3 because it’s just
+showing the number of strings of 3 different digits. To ﬁnd a recurrence for $b(n)$,
+let's casework on the last digit:
+\begin{itemize}
+    \item The only way to make an odd number is to take a number and append a 1:
+    $b(2n + 1) = b(n)$
+    \item The only ways to make an even number is to take a number and append a 0
+    (which doubles it) or a 2 (which doubles it and adds 2): $b(2n+2) = b(n+1)+b(n)$
+\end{itemize}
+Donald Knuth called this recurrence $fusc(n)$ (fusc for ``obfuscate''). Let's return to
+our original problem of ﬁnding the 23rd rational positive number. Deﬁne the $n$th
+rational number to be $b(n)/b(n + 1)$. This list contains every rational in reduced
+form exactly once.
+
+Let's deﬁne the \textit{Calkin-Wilf tree} to be a complete binary tree that has as node $n$ the
+rational $b_n/b_{n+1}$. Notice that each node that contains $b_n/b_{n+1}$ has as its left child
+$b_{2n+1}/b_{2n+2}$ and right child $b_{2n+2}/b_{2n+3}$. Notice that applying the recurrence that
+we had earlier yields relations
+\begin{align*}
+    \frac{b_{2n+1}}{b_{2n+2}} &= \frac{b_n}{b_n + b_{n+1}}\\
+    \frac{b_{2n+2}}{b_{2n+3}} &= \frac{b_n + b_{n+1}}{b_{n+1}}
+\end{align*}
+
+Thus the parent of any node containing $x / y$ is either $x / (y-x)$ or $(x-y) / x$ depend-
+ing on whether it is a left or right child. However, only one of these numbers is
+positive, so we can deduce the parent of any node.
+
+We know make the following claims:
+\begin{theorem}
+    $\frac x y \in T, \frac xy \neq \frac 1 1 \Longrightarrow \gcd(x, y) = 1$
+\end{theorem}
+\begin{proof}
+    Assume that $\gcd(x, y) = k > 1$ for at least one $\frac x y \in T$. 
+    Let $\frac{k x'}{k y'}$ be the highest node in the tree. However, 
+    by our algorithm for finding the parent of any node, we know the parent
+    must have greatest common divisor at least equal to $k$ because it is 
+    $\frac{kx'}{k(y' - x')}$ or $\frac{k(x' - y')}{ky'}$. This contradicts our assmption.
+\end{proof}
+
+\begin{theorem}
+    $\frac x y \in \Q^+, \gcd(x, y)= 1 \Longrightarrow \frac x y \in T$
+\end{theorem}
+\begin{proof}
+    Let $S$ be the set of all rationals not in the tree. Let $y$ be the smallest denominator in $S$
+    and let $x$ be minimal numerator of a number in $S$ with denominator
+$y$. If $x > y$, then $\frac{x-y} y$ could not be in the tree because it would have child 
+$\frac x y$ which, by assumption, isn't in the tree. But $\frac{x-y}y$ can't be in $S$ because
+the way we choose our $x$ and $y$ Otherwise, if $x < y$, consider instead $\frac x{y-x}$. 
+
+\end{proof}
+\begin{theorem}
+    Every rational that appears in the tree appears at most once. 
+\end{theorem}
+\begin{proof}
+    Using the same rules as the previous proof, we ﬁnd the ”smallest” x/y
+that appears twice in the tree. However, it must have its parent appear twice,
+which would be yet ``smaller''.
+\end{proof}
+
+\begin{theorem}
+   The Calkin-Wilf tree contains every reduced positive rational exactly once.
+\end{theorem}
+
+\subsubsection*{A nice theorem}
+\begin{definition}
+    A \emph{runlength encoding} takes a number applies the ”look-and-say” rule: see
+the length of each block of repeated digit, then write down its length and the digit. 
+$444411002 \rightarrow 44212012$
+\end{definition}
+\begin{theorem}
+    Consider, starting from the least significant digit of the binary representation of any positive integer $n$, the length of each run. Letting this be the continued fraction
+representation of a rational, this gives the $n$th rational under the ordering given by the
+Calkin-Wilf tree.
+\end{theorem}

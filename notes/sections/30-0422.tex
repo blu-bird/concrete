@@ -1,0 +1,78 @@
+% %%%%%%% Lecture Notes Style for Concrete Mathematics %%%%%%%%%%%%%
+% %%%%%%% Taught by Patrick White, TJHSST %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \documentclass[11pt,twosided]{article}
+% \input{concrete-header.tex}
+
+% %%%% add package inclusions here, if any
+% \usepackage{blubase}
+% %%%%% Define your custom functions and macros here, if any
+
+% %%%%%%%%%%%%%%%%%%%% Define the variables below %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \def\titlestring{The Lecture Title}
+% \def\scribestring{Your Name}
+% \def\datestring{Day, Mon, Date Year}
+
+
+% %%%%%%%%%%%%%%%%%%% Page Headers -- Do Not Change %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \lhead{\titlestring}
+% \rhead{Page \thepage}
+% \cfoot{Concrete Math -- White -- TJHSST}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}
+
+% %%%%%%%%%%%%%%%%% Begin the document %%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{document}
+% \thispagestyle{plain}  %% no headers on this page
+
+% %%%% Do not change these lines %%%%%
+% \noindent
+% {\LARGE \textbf{\titlestring}}\\\\
+% %
+% {\Large Scribe: \scribestring}\\ \\
+% {\textbf{Date}: \datestring}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% YOUR CONTENT GOES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+
+% \section{Unit 3 - Group Theory and Friends}
+\section{Group Theory}
+\subsection{Introduction to Groups}
+\textbf{Definition. } A \textbf{group} is a set $A$ and an binary operation $\cdot$ (we denote this $G = (A, \cdot)$) where the following four properties hold: 
+\begin{enumerate}
+\item \textit{Closure.} A is closed under $\cdot$, that is, if elements $a_1, a_2 \in A$ then $a_1 \cdot a_2 \in A$. 
+\item \textit{Associativity. } The operation $\cdot$ is associative, that is, if elements $a, b, c \in A$, then $a \cdot (b \cdot c) = (a \cdot b) \cdot c$. 
+\item \textit{Identity. } There exists an element $e \in A$ such that $e \cdot a = a \cdot e = a$. 
+\item \textit{Inverse. } There exists an element $a^{-1} \in A$ for any element $a$ such that $a \cdot a^{-1} = a^{-1} \cdot a = e$. 
+\end{enumerate}  
+Note that \textit{commutativity} is \textbf{NOT} a necessary property of a group. We call groups such that for elements $a, b \in A$ such that $a \cdot b = b \cdot a$ are \textit{abelian} or commutative.
+
+Here are some examples of sets that are groupsThis is a group. /not groups: 
+\begin{itemize}
+\item $G = (\mathbb{Z}, +)$. Yes! All these properties hold. 
+\item $G = (\Z, \times)$. No! $0$ does not have a multiplicative inverse, and in fact, no element has an inverse other than $\pm 1$. 
+\item $G = (\Q, \times)$. No! $0$ does not have a multiplicative iverse. 
+\item $G = (\R, +)$. Yes! Same reasons as the first group. 
+\item $G = (\{\text{set of all 2-by-2 matrices with integer elements} \}, \cdot)$ No! Not all of these matrices are invertible (have determinant zero). 
+\item $G = (\{\text{set of all 2-by-2 matrices with determinant 1} \}, \cdot)$. Yes! This is actually a special group, $SL(2)$. 
+\end{itemize}
+
+\textbf{Definition. } A \textbf{subgroup} $H$ of $G$ is $H = (B, \cdot)$ where $B \subseteq A$. These groups must have the same operation, and $H$ must also be a group. 
+
+An example of a subgroup: $(5\Z, +)$ is a subgroup of the group $(\Z, +)$, as it retains all the properties of $\Z$. 
+
+\textbf{Defintion. } A \textbf{coset} $a\cdot H$ of a subgroup $H$ is the set of elements $\{ a \cdot h | h \in H\}$ and $a \in G$. 
+
+For example, take the example $2 + 5\Z = \{2, 7, 12, 17, \ldots, -3, -8, -13 ,-18 \ldots \}$. These are the integers that are $\equiv 2 \mod 5$. Similarly, we can form three other unique cosets (that are 1, 3, and 4 mod 5). Note that cosets are \textbf{not} generally groups, as this coset is clearly not a group (no identity, not closed under addition, etc.) 
+
+Let's consider the following statements: 
+\begin{itemize}
+\item Cosets $a \cdot H \cap b \cdot H = \emptyset$ if $a \neq b$. This is not always true - as a counterexample, consider $2 + 5 \Z$ and $ 7 + 5 \Z$. 
+\item If $a \cdot H \cap b \cdot H \neq \emptyset$, then $a\cdot H = b \cdot H$. 
+\item If $H$ is finite, $|a\cdot H| = |H|$. This is true - 
+\item Every $g \in G$ is in $a \cdot H$ for some $a$. Obviously not always true, but if it were, we could actually solve for $a$. 
+\end{itemize}
+If ALL of these statements are true, then we can conclude that $|G|$ is divisble by $a\cdot H$, and furthermore, $|H| | |G|$. 
+
+% \end{document}

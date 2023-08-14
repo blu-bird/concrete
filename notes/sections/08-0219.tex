@@ -42,8 +42,8 @@
 \subsection{Triangulations (Catalan Numbers I)}
 Q: How many triangulations are there of a labeled hexagon? (This means that although two triangulations may be the same under rotation, which vertices they are attached to matter).\\
 Let us first examine the general case of an n-gon and look at the behavior of the first few \footnote{http://mathworld.wolfram.com/CatalanNumber.html}.\\
-\begin{figure}[h]
-%   \includegraphics[width=\linewidth]{polygons.JPG}
+\begin{figure}
+  \includegraphics[width=\linewidth]{figures/polygons.jpg}
   \caption{Triangulations for 4, 5, and 6 sided polygons.}
   \label{fig:triangs1}
 \end{figure}\\
@@ -57,18 +57,18 @@ Note: The following graphics will be done in Microsoft Paint. I'm sorry in advan
 	$$T_n = \sum_{k=2}^{n-1}T_{n-(k-1)}\cdot T_{k-1}$$
 \end{theorem}
 \begin{proof}
-	\textcolor{red}{WARNING: THIS WAS THE PROOF THAT WAS SHOW IN CLASS THAT HAD AN ERROR IN IT. I still think it is worth to look it over and see why it doesn't work. Just to clarify, although this proof does give the correct recursion, it is not correct. To my knowledge, it is nothing short of a miracle that this method accidentally over-counts and under-counts solutions in such a way to produce a correct recursion.}
-	\begin{figure}[h]
-        % \includegraphics[width=\linewidth]{T6Hexagons.jpg}
-        \caption{Recursion for a hexagon.}
+	\textcolor{red}{WARNING: THIS WAS THE PROOF THAT WAS SHOWN IN CLASS THAT HAD AN ERROR IN IT. I still think it is worth to look it over and see why it doesn't work. Just to clarify, although this proof does give the correct recursion, it is not correct. To my knowledge, it is nothing short of a miracle that this method accidentally over-counts and under-counts solutions in such a way to produce a correct recursion.}
+	\begin{figure}
+        \includegraphics[width=\linewidth]{figures/T6Hexagons.jpg}
+        \caption{(Incorrect) recursion for a hexagon.}
         \label{fig:hex1}
     \end{figure}\\
     This hexagon could be broken up into 3 different shapes like this, which would result in $T_6 = T_3\cdot T_5 + T_4\cdot T_4 + T_5\cdot T_3$. This obviously satisfies our original theorem, and all n-gons could be split like this, but this does over-count, because it does not account for when splitting up the remaining polygons you end up with the same triangulation. That is the reason why this proof does not work well for formulating the Catalan numbers.
 \end{proof}
 \begin{proof}
     Instead of splitting the polygon with a line, which allows for over-counting, if it is instead split with a triangle, we are guaranteed that each solution found is unique, and from looking at the diagram below, we see that the sum of each of these will give us the correct number.
-    \begin{figure}[h]
-        % \includegraphics[width=\linewidth]{correctHexagon.png}
+    \begin{figure}
+        \includegraphics[width=\linewidth]{figures/correctHexagon.png}
         \caption{Correct recursion for a hexagon.}
         \label{fig:hex2}
     \end{figure}\\
@@ -83,8 +83,8 @@ A: $\binom{2n} n$.
     There are 2n moves, n of them must be up, n must be down, so choose which n will go southeast and we are done.\\
 \end{proof}
 
-\begin{figure}[h]
-    % \includegraphics[width=\linewidth]{Catalan_number_exceedance_example.png}
+\begin{figure}
+    \includegraphics[width=\linewidth]{figures/Catalan_number_exceedance_example.png}
     \caption{An example of a path.}
      \label{fig:hex3}
 \end{figure}
@@ -98,8 +98,8 @@ This gives our total amount of good paths to be the following $$P = \binom{2n}{n
 $$= \frac{1}{n+1}\binom{2n} n$$
 Which is the Catalan numbers (note how by splitting up the original path problem into two smaller ones, we can also achieve the recursion relation for the Catalan numbers, like we did with the hexagons).
 
-\begin{figure}[h]
-    % \includegraphics[width=\linewidth]{CatalanAgain.png}
+\begin{figure}
+    \includegraphics[width=\linewidth]{figures/CatalanAgain.png}
     \caption{The transformation applied to all bad paths}
      \label{fig:hex4}
 \end{figure}

@@ -1,0 +1,233 @@
+\label{14-0305}
+% \title{
+% Applications of Ordinary Generating Functions
+% }
+
+% \author{
+% Scribes: Maguire Papay and Justin Gou
+% }
+
+% Date: Tuesday, March, 52019
+
+\subsection{Applications of Ordinary Generating Functions}
+
+\begin{example} 1
+    Given $\{a, b, c, d, e\}$ pick a multiset of size 3 where no 
+item may appear $>2$ times.
+
+\end{example}
+
+\begin{solution}
+    Simply count all possible ways, $\snb 5 3$, and subtract out 
+    the invalid ones, which is just the sets that have three of the same letter,
+    thus there are 5 invalid sets. Evaluate to get 30 ways.    
+\end{solution}
+
+\begin{example}2
+    18 items, between 3 and 5 each, select a total of 79 items.
+\end{example}
+
+\begin{definition}
+    \underline{Ordinary} generating function of a sequence is $a_{0}, a_{1}, a_{2}, \ldots$ 
+    is \[A(x)=\sum_{k=0}^{\infty} a_{k} x^{k}
+        \]
+\end{definition}
+  Remember this is just a series with the coefficients of the k'th power of x being the k'th element in the series.\\
+
+  Consider:
+\[
+    \binom n 0^2 + \binom n 1^2 + \binom n 2^2 + \dots + \binom n n^2 
+\]
+
+ \underline{\textbf{Evaluate two ways.}}
+
+\begin{enumerate}
+    \item Expand $(1+x)^{n}\left(1+\frac{1}{x}\right)^{n}$ (Note: This is not an obvious way to achieve this result, and to know to expand this to get the answer requires a lot of familiarity with the subject)
+    \begin{align*}
+        (1+x)^{n}\left(1+\frac{1}{x}\right)^{n} & =\sum_{k=0}^{n} \binom n k x^k \cdot \sum_{j=0}^n \binom n j x^{-j}\\
+        &= \sum_{k=0}^n \sum_{j=0}^n \binom n k \binom n j x^{k-j} \\
+        &= \sum_{k=0}^n \binom n k ^2 + \sum C_k x^k 
+    \end{align*}
+    Rewrite $(1+x)^{n}\left(1+\frac{1}{x}\right)^{n}$ as $(1+x)^{n}(1+x)^{n} x^{-n}$
+\begin{align*}
+    (1+x)^{n}(1+x)^{n} x^{-n} & =(1+x)^{2 n} x^{-n} \\
+& =x^{-n} \sum_{k=0}^{2 n} \binom{2n}k x^k \\ 
+&= \sum_{k=0}^{2n} \binom {2n}k x^{k-n}\\
+\text{Let } k = n&\\
+&= \binom{2n}n + \sum C_k x^k 
+\end{align*}
+  Therefore 
+\[ \sum_{k=0}^n \binom n k^2 = \binom{2n}n 
+    \]
+    This conclusion is reached be equating the powers of $x$ (in this case $\left.x^{0}\right)$ in both expansions. This technique is incredibly useful and will likely be leveraged in the future as well.
+\item  We have $n$ blue marbles and $n$ green marbles. Choose $n$ total marbles.
+\begin{align*}
+    \binom{2n} n &= \overset{G}{\binom n 0} \overset{B}{\binom n n}
+    + \overset{G}{\binom n 1} \overset{B}{\binom n {n-1}}
+    + \overset{G}{\binom n 2} \overset{B}{\binom n {n-2}} + \dots \\
+    &= \sum_{k=0}^n \binom n k ^2 \text{ because } \binom n r = \binom n {n-r}
+\end{align*}
+\qed
+\end{enumerate}
+
+ \textbf{Consider.}
+\[
+(1+a x)(1+b x)(1+c x)=1+(a+b+c) x+(a b+b c+a c) x^{2}+(a b c) x^{3}
+\]
+This is called the \underline{enumerator} for subsets of $\{a, b, c\}$. \\
+
+  As you can see, the k'th power of x has all of the possible k length subsets of a, b, c in it. \\
+
+  By letting $a=b=c=1$, then $\left(1+x^{3}\right)=1+3 x+3 x^{2}+x^{3}=\sum C_{k} x^{k}$ where $C_{k}$ is the number of subsets of size $k$. \\
+
+  So $(1+x)^{n}=\sum\binom n k x^{k}$ is the Ordinary Generating Function (OGF) for binomial coefficients.
+
+  This is the same as choosing $k$ items from a set of $\mathrm{n}$ where each item is chosen $\leq 1$ times.
+
+  \underline{\textbf{Equivalences}}
+
+  Given $(1+x)^n = \sum \binom n k x^k$ 
+
+  Plug in $x=1$ to get
+$$
+2^{n}=\sum_{k=0}^{n} \binom n k
+$$
+  Plug in $x=-1$ to get
+$$
+\begin{aligned}
+& 0=\sum_{k=0}^{n} \binom nk (-1)^{k} \\
+& \underset{k \text{ evens}}{\sum_{k=0}^n \binom n k}
+= \underset{k \text{ odds}}{\sum_{k=0}^n \binom n k}
+\end{aligned}
+$$
+
+  Note that the above relationship was also something we proved on the second pset theoretically using Grey Codes. \\
+
+  Take the derivative
+$$
+\begin{aligned}
+n(1+x)^{n-1} & =\sum_{k=0}^{n} \binom nk k x^{k-1} \\
+n \cdot 2^{n-1} & =\sum_{k=0}^{n} k \binom n k
+\end{aligned}
+$$
+
+  Now, let's select $k$ items from $n$, each $\leq 2$ times.
+
+$$
+\left(1+a x+a^{2} x^{2}\right)(1+b x)(1+c x)
+$$
+
+  By expanding this out, we would receive all possible subsets of $\{a, a, b, c\}$ (I suppose subsets isn't the correct word as sets are often thought to not have duplicates but I hope you get what we mean). Having an $a^{2}$ means that a was chosen twice. Having no $a^{\prime}$ s in a term would mean that $a$ was never chosen out of the objects. The power of $x$ the combination accompanies is how many items we chose.
+
+  Mathematica will even expand this for us and we can see all of the combinations:
+
+  $a^{2} b c x^{4}+a^{2} b x^{3}+a^{2} c x^{3}+a^{2} x^{2}+a b c x^{3}+a b x^{2}+a c x^{2}+a x+b c x^{2}+b x+c x+1$ With this knowledge, just like earlier, we will take $a, b$, and c equal to 1 in the expression
+$$
+\begin{gathered}
+\left(1+a x+a^{2} x^{2}\right)\left(1+b x+b^{2} x^{2}\right)\left(1+c x+c^{2} x^{2}\right) \\
+C_{k} x^{k}=\left(1+x+x^{2}\right)^{n}=\left(1+x+x^{2}\right)\left(1+x+x^{2}\right)\left(1+x+x^{2}\right) \ldots
+\end{gathered}
+$$
+
+$$
+\left(1+x+x^{2}\right)^{n}=\sum_{i+j+k=n} 1^{i} x^{j}\left(x^{2}\right)^{k}\left(\begin{array}{c}
+n \\
+i, j, k
+\end{array}\right)
+$$
+
+ \textbf{Recall.}
+$$
+\left(\begin{array}{c}
+n \\
+i, j, k
+\end{array}\right)=\frac{n !}{i ! \cdot j ! \cdot k !}
+$$
+
+  So
+$$
+\left(1+x+x^{2}\right)^{n}=\sum_{r=0}^{n} C_{r} x^{r}
+$$
+where the coefficient of $x^{j+2 k}$ is $\binom n {i, j, k}$
+
+Let us now solve the first example problem with this knowledge. In order to be able to choose $\leq 2$ of each object, we would represent that with $\left(1+a x+a^{2} x^{2}\right)$ or just $\left(1+x+x^{2}\right)$ after taking a=1. Since each object can be chosen like this, and there are n objects, we receive $\left(1+x+x^{2}\right)^{n}$. Since we are only choosing 3 objects, we want the power of x to equal 3.
+
+\begin{example}{}
+    Let $n=5, k=3$, each $\leq 2$ times. (Note: $k$ refers to the overall power of $x$, not the actual $k$ we are iterating over in the sum).
+\end{example}
+\begin{solution}
+    Find the coefficient of $x^{3}$ in $\left(1+x+x^{2}\right)^{n}$
+    $$
+    \begin{aligned}
+    x^{3}=x^{3+2 \cdot 0} \rightarrow j & =3, k=0, i=2 \\
+    x^{3}=x^{1+2 \cdot 1} \rightarrow j & =1, n=1, i=3 \\
+    \text { so the coefficient of } x^{3} & = \binom 5 {3,0,2}+ \binom 5 {1,1,3} \\
+    & =\frac{5 !}{3 ! \cdot 2 !}+\frac{5 !}{3 !} \\
+    & =\frac{120}{12}+\frac{120}{6}=\boxed{30}
+    \end{aligned}
+    $$
+\end{solution}
+
+Going back to \textbf{Example 2}, where $n=18, k=79$, each between 3 and 5 times.
+
+\begin{solution}
+    Find the coefficient of $x^{79}$ in $\left(x^{3}+x^{4}+x^{5}\right)^{18}=\sum_{k=0}^{n} C_{k} x^{k}$ Using Mathematica, we get 5895396.
+\end{solution}
+
+\begin{problem}{}
+    Given a set of $n$ elements, choose a multiset of size $r$.
+\end{problem}
+\begin{solution}
+    We have a notation for this: $\snb n r$
+\end{solution}
+
+\begin{solution}
+    As an alternate solution, expand out $\left(1+x+\ldots+x^{r}\right)^{n}$ and look for the coefficient of $x^{r}$. However, what happens if we don't stop at the $x^{r}$ term in our initial expression, which although it has no meaning in the context of the problem (it would be like choosing $r+1$ of one item when we only want $r$ total).
+
+    $$
+    \left(1+x+\ldots+x^{r}+\ldots\right)^{n}=\left(\frac{1}{1-x}\right)^{n}
+    $$
+    
+    This just comes from the Taylor series expansion of $\frac{1}{1-x}$.
+    
+    $$
+    (1-x)^{-n}=\sum_{k=0}^{\infty} \frac{(-n)^{\underline{k}}}{k !}(-x)^{k}
+    $$
+    
+    Negatives cancel out in each term and by simplifying to a choose statement:
+    
+    $$
+    \frac{(-n)^{\underline{k}}}{k !}(-x)^{k}=\binom{n+k-1}k x^{k}= \snb n k x^{k}
+    $$
+    This would make the coefficient of $x^{r}$ equal to $\snb n r$, which agrees with our previous answer.
+    
+    \end{solution}
+
+\begin{problem}{}
+    Given a set of $n$ elements choose a multiset of size $r$, every element must be chosen at least once.
+\end{problem}
+
+\begin{solution}
+    $$
+    \begin{gathered}
+    \left(x+x^{2}+\ldots\right)^{n}=x^{n} \cdot \frac{1}{(1-x)^{n}} \\
+    \sum_{k=0}^{\infty} \frac{(n)^{\underline{k}}}{k !}(x)^{k+n}=\sum_{k=0}^{\infty} \snb n r(x)^{k+n}
+    \end{gathered}
+    $$
+    
+    For the exponent to equal $r, k$ must equal $r-n$. Evaluating $\snb n {r-n}$ gives $\binom{r-1}{r-n}$    
+\end{solution}
+
+\begin{problem}{}
+    Find $C_{k}$ for $\left(1+x^{5}+x^{9}\right)^{1} 00$ for $k=23$
+\end{problem}
+
+\begin{solution}
+
+    $$
+    \sum_{i+j+k=100}(1)^{i} \cdot x^{5 j+9 k} \cdot\binom n {i,j,k}
+    $$
+    
+    The only combination of $j$ and $k$ that gives 23 is $j=1$ and $k=2$ giving us the answer $\binom{100}{2,1,97}$.    
+\end{solution}
+
