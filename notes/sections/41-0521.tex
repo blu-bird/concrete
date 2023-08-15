@@ -1,0 +1,161 @@
+\section{Turing Machines}
+Turing Machines are a fundamental model of computation postulated to be
+able to compute all computable problems.
+
+\subsection{Basics}
+\begin{definition}
+    An \emph{alphabet} is just a set of ``characters,'' or ``symbols.''
+\end{definition}
+\begin{definition}
+    A \emph{word} is just a string of characters from the alphabet.
+\end{definition}
+\begin{definition}
+    A \emph{language $\mathcal L$} is a subset of the set of all words
+\end{definition}
+\begin{example}1
+    All $\set{0, 1}^*$ strings with an even number of 0s form a language.
+\end{example}
+\begin{example}2
+    All sentences in $[a - z]^*$ including ``the'' form a language.
+\end{example}
+\begin{example}3
+    All $a, b, c, n$ such that $a^n + b^n = c^n, n > 2$ form a language.
+\end{example}
+
+\subsection{Push Down Automata}
+Push Down Automata are a type of automata that also contain something
+called the ``stack,'' which behaves like the stack we know from programming.
+
+Consider the language $\mathcal L = ww^R$, or the palindromes in $\set{0, 1}^*$.
+\begin{itemize}
+    \item Read a character from input
+    \item Push that character onto the ``stack''
+    \item Repeat OR go to the next step
+    \item Read a character and pop off the stack
+    \item Compare the next character to the one popped off the stack
+    \item Repeat previous two steps
+    \item If the stack is empty when we run out of input, we end in ACCEPT
+    state
+\end{itemize}
+
+This speciﬁc instance of a Push-Down Automata model is \textbf{Nondeterministic},
+ which means that it somehow always takes the path to an “ACCEPT”
+state if there is one.
+
+\subsection{Turing Machines}
+Turing Machines are even more robust.
+\begin{definition}
+    A Turing Machine has access to:
+    \begin{itemize}
+        \item Input, 
+        \item state, 
+        \item an inﬁnite ``tape,'' which can be read or written to.
+    \end{itemize}
+    And thus has the ability to perform these operations:
+    \begin{itemize}
+        \item  Read input OR tape
+        \item Write to tape
+        \item Move left OR right
+    \end{itemize}
+\end{definition}
+
+\begin{example}1
+    Add $x + y$ in unary, i.e. $7 + 3 = 10$ in unary is
+$$1111111 + 111 = 1111111111.$$
+We model the input as
+$$1111111\#111$$
+and the code(notated with the state on the left before the colon and the state moved
+to as after the semicolon,)
+$$0 : 1 \to write(1), right; 0 $$
+$$0 : \# \to nothing; 0$$
+\end{example}
+
+\begin{example}2
+    Multiplication in Unary
+We can take the input for multiplying 1111 and 111 to be 1111\#111 Using
+this, we can get our process to be this:
+\begin{itemize}
+    \item Copy input to tape
+    \item Read the ﬁrst 1 in the tape, and move right until the next blank
+    \item Copy the 1, and then change the ﬁrst 1 to a 0
+    \item Back up to the 0
+    \item Repeat copying the 1 and pasting and then converting to a 0 until we
+    hit the next string of digits.
+    \item Change that 1 to a 0
+    \item Change all 0s before back to a 1
+    \item Goto step 3
+    \item End at the string ``0\#1''
+\end{itemize}
+\end{example}
+
+\begin{example}3
+    Convert binary to unary
+$$001101 \to \ ?$$
+Code:
+
+$s_0: 0 \to$ nothing; $s_0$,
+
+$s_0 : 1 \to$ write 1; $s_1$,
+
+$s_1 : 0 \to$ double output string; $s_1$,
+
+$s_1 : 1 \to$ double output string, write 1; $s_1$
+
+double $x$:
+
+\qquad write $x\#x$
+
+\qquad add, as we previously reviewed
+\end{example}
+
+\begin{example}4
+    Dividing binary strings (integer division, not floating.)
+$$1001101//110011$$
+Procedure
+\begin{itemize}
+    \item Convert to unary
+    \item Subtract the $a-b$ (overwrite ones with zeros)
+    \item $Stop when b<a$
+\end{itemize}
+\end{example}
+
+Q: Does a multitape Turing Machine have more power than a single tape
+Turing Machine? 
+
+A: We can interweave the contents of both tapes onto one
+tape, and then Record the position of each multitape's position on the tape,
+like so:
+$$A_{-1}B_{-1}A_0B_0A_1B_1A_2B_2\dots\#P_A\#P_B.$$
+Because a multitape is simulatable in a single tape Turing Machine, it is not
+more powerful.
+
+\subsection{Non-determinism}
+$\mathcal L = $ \underline{composite numbers} in binary 
+
+We can determine membership either deterministically or non-deterministically:
+
+\subsubsection*{Deterministic Implementation}
+Simulate 4 Tapes: $x$, $D$, $S_1 = x\#D$, and $S_2 : x \mod D$ And we can use the
+code:\\
+
+Increment $D$ \\
+\quad if $x \mod D \equiv 0$, ACCEPT \\
+\quad Else $D$++ \\
+If $D=x$, REJECT \\
+
+This is $pO(divide)$, where $p$ is the smallest prime factor of $x$.
+This is an exponential time algorithm in binary length of input.
+
+\subsubsection*{Non-deterministic Implementation}
+Write $D$ OR $x$, \\
+\qquad Accept if $D\mid x$ and $D < x$.\\
+
+This is $O(divide) = O(n)$
+
+\subsubsection{The P-NP problem}
+The question is, then: Are non-deterministic Turing Machines necessarily
+faster than their deterministic counterparts? 
+In particular, is the set of languages computable by a non-deterministic Turing machine 
+larger than the set computable by a deterministic Turing machine? If we
+restrict each of these Turing machines to polynomial time, this is the famous
+open problem $P = NP$.

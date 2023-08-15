@@ -1,0 +1,28 @@
+\subsection{Permutations and Transpositions}
+
+Any permutation can be written as the product of transpositions, 
+or the permutation of two elements (ie. (1 2), which can become (2 1) by swapping
+the values). The order of the numbers transpositions does not matter. If your cyclic
+permutation is made of more than 2 numbers, then permute the ﬁrst number
+ with every other number in the permutation. \\
+
+For example, given (1 2 3 4), the product of transpositions will be (12)(13)(14).
+Given, (425), the transpositions will be (42)(45).\\
+
+Any permutation can be considered odd or even based on the number of
+transpositions involved in the permutation. If there are an odd number of
+transpositions, then the permutation is odd. If there is an even number,
+then the permutation is even.
+
+Below is a table ﬁlled in with examples using the information from
+above:
+\begin{center}
+    \begin{tabular}{ccc}
+        $\pi$ & Product of Transpositions & Type/Sign/Parity\\
+        (123)(45) & (12) (13) (45)  & odd\\
+(1234) & (12) (13) (14) & odd\\
+(13) (425) (67)&  (13) (67) (42) (45) & even\\
+(12345) & (12) (13) (14) (15)&  even
+    \end{tabular}
+\end{center}
+

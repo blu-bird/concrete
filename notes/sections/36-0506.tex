@@ -6,28 +6,35 @@
 
 % Date: Monday, May 6, 2019
 
-\subsection{Orbits and Stabilizer}
+\subsection{Orbits and Stabilizers}
 
 Given $s \in S$ and $G$ a permutation group acting on $S$.
 
-Definition. $\operatorname{orbit}(s)=\{\pi s \mid \pi \in G\}$
+\begin{definition}
+    $\text{orbit}(s) = \set{ \pi s \mid \pi \in G }$
+\end{definition}
 
-Definition. stabilizer $(s)=\{\pi \in G \mid \pi s=s\}$
+\begin{definition}
+    $\text{stabilizer}(s) = \set{ \pi \in G  \mid \pi s = s }$
+\end{definition}
 
-Theorem 1.1. Orbit-Stabilizer Theorem: For all $s \in S$ and $G$ acting on $S$ $|\operatorname{orbit}(s)| \cdot \mid$ stabilizer $(s)|=| G \mid$
+\begin{theorem}1
+    Orbit-Stabilizer Theorem: For all $s \in S$ and $G$ acting on $S$, $|\text{orbit}(s)| \cdot |\text{stabilizer}(s)| = |G|$
+\end{theorem}
 
-stabilizer(s) is a subgroup of $G$, so by Lagrange's theorem, $\mid$ stabilizer $(s)|||G|$
+$\text{stabilizer}(s)$ is a subgroup of $G$, so by Lagrange's theorem, $|\text{stabilizer}(s)| \mid |G|$
 
-Lemma 1.1. If $\pi=s$ and $\pi \in \operatorname{stabilizer}(s)$, then $\pi^{-1} s=s$.
+\begin{lemma}1
+    If $\pi \in G$ and $\pi \in \text{stabilizer}(s)$, then $\pi^{-1} s=s$.
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        s &= \pi s \\ 
+        \pi^{-1} s &= \pi^{-1} \pi s \\ 
+        \pi^{-1} s &= s
+    \end{align*}
+\end{proof}
 
-Proof.
-
-$$
-\begin{aligned}
-s & =\pi s \\
-\pi^{-1} s & =\pi^{-1} \pi s \\
-\pi^{-1} s & =s
-\end{aligned}
-$$
-
-So now the orbit of $S$ forms cosets of stabilizer $(s)$ (there is a 1-1 corespondence). So $|\operatorname{orbit}(s)|=\#$ of cosets of stabilizer(s). Applying Lagrange's theorme gives the orbit-stabilizer theorem.
+So now the orbit of $S$ forms cosets of $\text{stabilizer}(s)$ (there is a 1-1 corespondence). 
+So $|\text{orbit}(s)| = $ \# of cosets of $\text{stabilizer}(s)$. Applying Lagrange's theorem
+gives the orbit-stabilizer theorem.

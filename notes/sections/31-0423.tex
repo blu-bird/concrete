@@ -1,0 +1,177 @@
+
+\subsection{Finite Groups and Subgroups}
+Define $\Z/4\Z$ or ``$\Z \mod 4\Z$'' as the group of cosets of the latter in the former.
+These are obviously $\set{4\Z, 4\Z + 1, 4 \Z + 2, 4\Z+3}$. We'll refer to these as 
+$\set{\overline 0, \overline 1, \overline 2, \overline 3}$. The four is implied in context. 
+This is called a \textbf{quotient group}. 
+
+We can prove that this is a group under addition modulo 4, or $+_4$: 
+
+\begin{enumerate}
+    \item \textbf{Closure:} Let's make a \textbf{Cayley Table} for this group: 
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline 
+            $+_4$ & $\ol 0$ & $\ol 1$ & $\ol 2$ & $\ol 3$ \\ \hline 
+            $\ol 0$ & $\ol 0$ & $\ol 1$ & $\ol 2$ & $\ol 3$ \\ \hline 
+            $\ol 1$ & $\ol 1$ & $\ol 2$ & $\ol 3$ & $\ol 0$ \\ \hline 
+            $\ol 2$ & $\ol 2$ & $\ol 3$ & $\ol 0$ & $\ol 1$ \\ \hline 
+            $\ol 3$ & $\ol 3$ & $\ol 0$ & $\ol 1$ & $\ol 2$ \\ \hline 
+        \end{tabular}
+    \end{center}
+    This is a relatively ludicrous way of proving closure, but it works
+since every two elements under our operator give another element
+in the set.
+    \item \textbf{Associativity:} Addition is associative, so $+_4$ inherits this 
+    property. We can prove this more formally, but it's not really necessary. 
+    \item \textbf{Identity:} The zero element, $\ol 0$. Trivial. 
+    \item \textbf{Inverse:} We can look at the table and ﬁnd that every element has an
+    inverse.    
+\end{enumerate}
+There's nothing special about the 4, really; $\Z / n \Z$ is a group (for $n \geq 2$) by
+the same reasoning. This group is surprisingly common, so we'll call it $\Z_n$
+in general. (Note that $\Z_1 = \Z$).\\
+
+What if we try to make a 4-element group under multiplication? The quo-
+tient group clearly doesn't work under multiplication since we have a 0 in
+$\ol 0$. Even if we get rid of the $\ol 0$, $\ol 2$ doesn't have an inverse.
+
+Observe that this is the case because 4 is composite. If we take $\Z_5$ on the other hand, we
+can ﬁll out a Cayley table:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline 
+        $\times_5$ & $\ol 1$ & $\ol 2$ & $\ol 3$ & $\ol 4$ \\ \hline 
+        $\ol 1$ & $\ol 1$ & $\ol 2$ & $\ol 3$ & $\ol 4$ \\ \hline 
+        $\ol 2$ & $\ol 2$ & $\ol 4$ & $\ol 1$ & $\ol 3$ \\ \hline 
+        $\ol 3$ & $\ol 3$ & $\ol 1$ & $\ol 4$ & $\ol 2$ \\ \hline 
+        $\ol 4$ & $\ol 4$ & $\ol 3$ & $\ol 2$ & $\ol 1$ \\ \hline 
+    \end{tabular}
+\end{center}
+So this is closed. Alternatively, we can simply look at two arbitrary elements of the group
+$\ol a = \ol{5k+a}$ and $\ol b = \ol{5l+b}$ which gives 
+\begin{align*}
+    &\ol a \times_5 \ol b = (\ol{5k + a}) \times_5 (\ol{5l+b})  = 25kl + 5kb + 5la + ab\\
+    =&5(5kl + kb + la) + ab = 5t + ab \text{ where } t = 5kl + kb + la
+\end{align*}
+for some $t$ so $\ol a \times_5 \ol b$ is in the set. 
+
+\subsection{Group isomorphism}
+We deﬁne two groups as \textbf{isomorphic} if we can map the elements from one
+to the other such that every possibility remains the same.\\ 
+
+Can we map our two groups so far to each other? Well, we can try. Deﬁne
+the function $f$ to go from our ﬁrst group to our second group. Then, if we
+set $f(\ol 0) = \ol 1, f(\ol 1) = \ol 2, f(\ol 2) = \ol 4, f(\ol 3) = \ol 3$, things are equivalent. (We can
+also set $\ol 1, \ol 3, \ol 4, \ol 2$ for the four elements of $\Z_5^*$ in order and get an isomorphism.)\\ 
+
+To prove that this works, we can simply construct a Cayley table, but with
+the elements in a different order. There's nothing stopping us from doing
+this.
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline 
+        $\times_5$ & $\ol 1$ & $\ol 2$ & $\ol 4$ & $\ol 3$ \\ \hline 
+        $\ol 1$ & $\ol 1$ & $\ol 2$ & $\ol 4$ & $\ol 3$ \\ \hline 
+        $\ol 2$ & $\ol 2$ & $\ol 4$ & $\ol 3$ & $\ol 1$ \\ \hline 
+        $\ol 4$ & $\ol 4$ & $\ol 3$ & $\ol 1$ & $\ol 2$ \\ \hline 
+        $\ol 3$ & $\ol 3$ & $\ol 1$ & $\ol 2$ & $\ol 4$ \\ \hline 
+    \end{tabular}
+\end{center}
+This table is equivalent to the ﬁrst one.
+
+\subsection{More Subgroups}
+Does $(\Z_4, +_4)$ have subgroups? Yes, it has three: the trivial subgroup, the
+entire group, and $\set{\ol 0, \ol 2}$. \\
+
+There's an easy way to get this from the table, though. Obviously, all we really
+need to prove is closure because other properties are basically inherited
+besides inverses. If we take $\ol 0$ and $\ol 2$ in the table...\\
+
+...we clearly see that only these two elements come up in the ``mini-table'',
+and every element has an inverse since there's one $\ol 0$ in every row and column. \\
+
+As expected, the sizes of these groups are factors of 4.
+
+\subsection{Another Group Example}
+Can we make another different size-4 group that's not isomorphic to our
+ﬁrst group? Remember that both groups we found so far are isomorphic.
+Well, recall that each group we found so far has our ﬁrst element, which
+we'll call $a$, multiply to one of the other two elements $b$ and $c$ (excluding
+the identity). However, both of these were proven to be equal, and because
+every row and column must contain the entire set (think about why: if this
+weren't the case, we could have two inverses of element), we can't do this.
+Thus, we set $a \times a = e$. The only way to continue from here without contra-
+diction is to set $a \times b = c$ and $a \times c = b$ since we can't multiply the identity
+by itself. Now, we have the choice between $b \times b$ equals $e$ or $a$. As it turns
+out, the latter is isomorphic to both of the previous groups, so we go with
+the former and obtain the following table:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline 
+        $+_2$ & $[0,0]$ & $[0,1]$ & $[1,0]$ & $[1,1]$ \\ \hline 
+        $[0,0]$ & $[0,0]$ & $[0,1]$ & $[1,0]$ & $[1,1]$ \\ \hline 
+        $[0,1]$ & $[0,1]$ & $[0,0]$ & $[1,1]$ & $[1,0]$ \\ \hline 
+        $[1,0]$ & $[1,0]$ & $[1,1]$ & $[0,0]$ & $[0,1]$ \\ \hline 
+        $[1,1]$ & $[1,1]$ & $[1,0]$ & $[0,1]$ & $[0,0]$ \\ \hline 
+    \end{tabular}
+\end{center}
+This is the $\Z_2 \times \Z_2$ group.\\
+
+Next question: What's the symmetry group of a rectangle? Well, there are
+four things that we can obviously do that aren't unique: nothing (e), hor-
+izontal and vertical reﬂection (H and V), and rotation by 180 degrees (R),
+which we'll set clockwise WLOG.
+We have $H \times V = V \times H = R, V \times R = H,$ and so on, so this happens to be
+the same as $\Z_2 \times \Z_2$:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline 
+        $+_2$ & e & H & V & R \\ \hline 
+        e & e & H & V & R \\ \hline 
+        H & H & e & R & V \\ \hline 
+        V & V & R & e & H \\ \hline 
+        R & R & V & H & e \\ \hline 
+    \end{tabular}
+\end{center}
+We can prove that there are only two groups of order four. Proving that
+there are at most 2 is not possible for the scope of this course, but proving
+that there are at least 2 is easy because $x^2 = e$ for all $x$ in the rectangle group,
+but not all such $x$ are covered by one group based on our work earlier. (Plus,
+we've already found two groups anyway.)
+
+\subsection{Multiplicative Groups on Integers}
+Consider $\Z_5^*$. This is the official deﬁnition of our second group; it's the quotient 
+group without the zero under multiplication. In general, the $*$ means that we take out ev-
+erything without an inverse to make it an actual group for obvious reasons.\\
+
+For example, think of $\Z^*_6$. The identity under multiplication modulo 6 is
+still $\ol 1$, but the only two numbers modulo 6 that can have an inverse mod 6
+are 1 and 5, so our group would just be $\set{\ol 1, \ol 5}$. Speciﬁcally, \textbf{every number
+relatively prime to n} where we're looking for $\Z_n^*$ is in the group. \\
+
+The number of numbers less than a number relatively prime to the number
+can be found with \textbf{Euler's totient function} $\phi(n)$. For example, $\phi(p) = p - 1$
+for any prime $p$ since every number less than a prime is relatively prime to
+it.
+
+\subsection{Cyclic Groups}
+A \textbf{cyclic group} with generator $g$ is simply 
+$\langle g \rangle = \set{g^0, g^1, g^2, . . . , g^{n-1}}$. \\
+
+Examples of cyclic groups include $(Z^*_{13}, \times_{13})$ and $(\Z_{12}, +_{12})$. \\
+
+$(\Z_4, +_4)$ is also cyclic with generator $\ol 1$, giving $\langle \ol 1 \rangle = {\ol 0, \ol 1, \ol 2, \ol 3}$. We can also
+use $\ol 3$ to get $\ol 3 = \set{\ol 0, \ol 3, \ol 2, \ol 1}$. \\
+
+The rectangle group (aka $\Z_2 \times \Z_2$) isn't cyclic since every number is its own
+inverse. In light of this, we can deﬁne the \textbf{order} of any element $a$, or $\mathrm{ord}(a)$,
+to be the smallest number $n$ such that $a^n = e$. For example, the order of any
+element of the rectangle group besides the identity is 2 while the order of
+the identity is 1 (in general).\\
+
+Similarly, we can develop a cyclic subgroup of a group $G$ based on an ele-
+ment $h \in G$. For example, $\set{e, V}$ is a cyclic subgroup since $V^2 = e$.
+We also have a corollary of Lagrange's Theorem as a result: $|G| \, | \, \mathrm{ord}(h)$,
+aka the order of any element in the group is a factor of the cardinality of the
+group.
